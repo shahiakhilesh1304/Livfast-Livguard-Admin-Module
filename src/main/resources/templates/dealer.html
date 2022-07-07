@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header">
+</head>
+</head>
+<body >
+		<nav class="sidebar sidebar-offcanvas" id="sidebar"
+			th:replace="fragments/nav3"></nav>
+
+		<div class="col-lg-12 stretch-card">	
+				
+			<div class="card-body">
+				<center><h3><u>Add Dealer</u></h3><br><small>All fields are compulsory</small></center>		
+					<!-- Form Started -->
+								<form action="POST" th:action="@{/saveDealer}" th:object="${dealer}" method="post" >
+							
+								<!-- Name Field -->
+									<div class="form-group row">
+										<!-- Label -->						
+										<label for="first_name" class="col-sm-3 col-form-label">First Name</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" pattern="^[a-zA-Z\s]+$" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+										</div>
+									</div>
+								<!-- End of Name -->
+
+								<!-- Name Field -->
+									<div class="form-group row">
+										<!-- Label -->						
+										<label for="last_name" class="col-sm-3 col-form-label">Last Name</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" pattern="^[a-zA-Z\s]+$" class="form-control" id="last_name" name="last_name" placeholder="Last Name">
+										</div>
+									</div>
+								<!-- End of Name -->
+								
+								<!-- Email Input -->	
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="email" class="col-sm-3 col-form-label">Email</label>
+										<div class="col-sm-9">
+											<!-- Input Field -->
+											<input type="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" class="form-control" id="email" name="email" placeholder="Email" required>
+										</div>
+									</div>
+								<!-- End of Email -->
+
+
+								<!-- Mobile Number -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="phone" class="col-sm-3 col-form-label">Mobile Number</label>
+										<div class="col-sm-9">
+									<!-- Input Field -->
+											<input type="text" pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$" class="form-control" id="phone" name="phone" placeholder="Mobile Number" required>
+										</div>
+									</div>
+								<!-- End of Mobile Number -->
+
+
+										<!-- Address -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="address" class="col-sm-3 col-form-label">Address</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="address" name="address" placeholder="Address" required>
+										</div>
+									</div>
+								<!--Address -->
+
+										<!-- Area -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="area" class="col-sm-3 col-form-label">Area</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="area" name="area" placeholder="Area" required>
+										</div>
+									</div>
+								<!--Area -->
+
+										<!-- City -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="city" class="col-sm-3 col-form-label">City</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+										</div>
+									</div>
+								<!--City -->
+
+
+										<!-- District -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="district" class="col-sm-3 col-form-label">District</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="district" name="district" placeholder="District" required>
+										</div>
+									</div>
+								<!--District -->
+
+
+
+								<!-- sate -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="state" class="col-sm-3 col-form-label">State</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="state" name="state" placeholder="State" required>
+										</div>
+									</div>
+								<!--sate -->
+
+
+								<!-- Postal -->
+									<div class="form-group row">
+									<!-- Label -->
+										<label for="postal" class="col-sm-3 col-form-label">Postal</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="postal" name="postal" placeholder="Postal" required>
+										</div>
+									</div>
+								<!--Postal -->
+
+								<!--dist_name-->
+									<div class="form-group row">
+										<!-- Label -->						
+										<label for="dist_name" class="col-sm-3 col-form-label">Distributor Name</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" pattern="^[a-zA-Z\s]+$" class="form-control" id="dist_name" name="dist_name" placeholder="Distributor Name" required>
+										</div>
+									</div>
+								<!-- dist_name -->
+
+
+								<!--dist_code-->
+									<div class="form-group row">
+										<!-- Label -->						
+										<label for="dist_code" class="col-sm-3 col-form-label">Distributor Code</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" class="form-control" id="dist_code" name="dist_code" placeholder="Distributor Code" required>
+										</div>
+									</div>
+								<!-- dist_name -->
+
+
+								<!--Shop Name-->
+									<div class="form-group row">
+										<!-- Label -->						
+										<label for="shop_name" class="col-sm-3 col-form-label">Shop Name</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" pattern="^[a-zA-Z\s]+$" class="form-control" id="shop_name" name="shop_name" placeholder="Shop Name" required>
+										</div>
+									</div>
+								<!-- Shop Name -->
+
+
+								<!--Shop Profile-->
+									<div class="form-group row">
+										<!-- Label -->						
+										<label for="shop_profile" class="col-sm-3 col-form-label">Shop Profile</label>
+										<div class="col-sm-9">
+										<!-- Input Field -->
+											<input type="text" pattern="^[a-zA-Z\s]+$" class="form-control" id="shop_profile" name="shop_profile" placeholder="Shop Profile" required>
+										</div>
+									</div>
+								<!-- Shop Profile -->
+									<button type="submit" id="addsubmit" class="btn btn-primary mr-2">Submit</button>
+							</form>
+
+										
+			</div>
+		</div>
+
+		
+</body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+var response = /*[[${status}]]*/ "Insert correct Values";
+var message = "Insert Values";
+console.log(response);
+message = response.msg;
+if(response.status == "200")
+	{
+		alert("Success! The Dealer has been saved successfully");
+	}
+if(response.status == "409")
+	{
+		alert("While saving the dealer there is a "+response.msg);
+	}
+
+
+/*]]>*/
+
+</script>
+
+
+</html>

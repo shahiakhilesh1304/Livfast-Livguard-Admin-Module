@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<style type="text/css">
+.sizingdiv {
+	min-height: 400px !important;
+}
+</style>
+<body onload="userAnaSelect(); omitid(); selectSerailMonth();">
+
+	<!-- First Div -->
+	<div class="container-scroller" id="bannerClose">
+		<!-- Nav Bar -->
+		<nav class="sidebar sidebar-offcanvas" id="sidebar"
+			th:replace="fragments/nav1 :: nav1"></nav>
+		<nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">
+			<div class="navbar-menu-wrapper navbar-nav-right d-flex">
+				<ul class="navbar-nav mr-lg-2">
+					<li class="nav-item ml-0">
+						<h4 class="mb-0">Dashboard</h4>
+					</li>
+					<li class="nav-item">
+						<div class="d-flex align-items-baseline">
+							<p class="mb-0">Home</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Main Dashboard</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<button class="btn btn-success btn-lg" onclick="reportDownload();">Download Report</button>
+		</nav>
+		<!-- End of Nav Bar -->
+
+		<!-- start of dash board -->
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar"
+				th:replace="fragments/menu :: menu"></nav>
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">Status statistics</h5>
+							<!-- Status statistics -->
+							<div class="row">
+								<div class="col-md grid-margin stretch-card">
+									<div class="card">
+										<select class="form-select md-sm" id="uaselect"
+											style="float: right; border: none; min-width: 88.5%; border: none;"
+											onchange="userAnaSelect();">
+											<option value="Jan" selected>January</option>
+											<option value="Feb">February</option>
+											<option value="Mar">March</option>
+											<option value="Apr">April</option>
+											<option value="May">May</option>
+											<option value="Jun">June</option>
+											<option value="Jul">July</option>
+											<option value="Aug">August</option>
+											<option value="Sep">September</option>
+											<option value="Oct">October</option>
+											<option value="Nov">November</option>
+											<option value="Dec">December</option>
+										</select>
+										<div class="card">
+											<figure class="highcharts-figure">
+												<div id="userAnalysis"></div>
+											</figure>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--End of Status statistics -->
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">Active In-Active User</h5>
+							<div class="row">
+								<div class="col-md grid-margin stretch-card">
+									<div class="card">
+										<!-- 	<select class="form-select md-sm" id="uaselect" style="float:right;border: none; min-width: 88.5%;border: none;" onchange="userActInActSelect();">
+													<option value="Jan" selected>January</option>
+													<option value="Feb">February</option>
+													<option value="Mar">March</option>
+													<option value="Apr">April</option>
+													<option value="May">May</option>
+													<option value="Jun">June</option>
+													<option value="Jul">July</option>
+													<option value="Aug">August</option>
+													<option value="Sep">September</option>
+													<option value="Oct">October</option>
+													<option value="Nov">November</option>
+													<option value="Dec">December</option>
+											</select> -->
+
+										<div class="card">
+											<center>
+												<h5>
+													User Status of <span id="year">
+													<script type="text/javascript">
+													new Date().getFullYear();
+													</script></span>
+												</h5>
+											</center>
+											<figure class="highcharts-figure">
+												<div id="actinactuser" style="height: 100%"></div>
+											</figure>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!--__________________________________________________________________________________ -->
+					<hr>
+					<br>
+
+					<div class="row">
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">Serial Number Analysis</h5>
+							<!-- Status statistics -->
+							<div class="row">
+								<div class="col-md grid-margin stretch-card">
+									<div class="card sizingdiv">
+										<select class="form-select md-sm" id="serialselect"
+											style="float: right; border: none; min-width: 88.5%; border: none; height: inherit;"
+											onchange="selectSerailMonth();">
+											<option value="Jan" selected>January</option>
+											<option value="Feb">February</option>
+											<option value="Mar">March</option>
+											<option value="Apr">April</option>
+											<option value="May">May</option>
+											<option value="Jun">June</option>
+											<option value="Jul">July</option>
+											<option value="Aug">August</option>
+											<option value="Sep">September</option>
+											<option value="Oct">October</option>
+											<option value="Nov">November</option>
+											<option value="Dec">December</option>
+										</select>
+										<div class="card">
+											<figure class="highcharts-figure" style="height: 5 10px;">
+												<div id="serialnumberscanning" style="height: 510px;"></div>
+											</figure>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--End of Status statistics -->
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">Tertiary IB/UPS/ERICK</h5>
+							<div class="row">
+								<div class="col-md grid-margin stretch-card">
+									<div class="card sizingdiv"
+										style="padding-left: 15px; padding-right: 15px;">
+										<div
+											class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-3 mt-4">
+											<div
+												class="d-flex flex-column justify-content-center align-items-center">
+												<p class="text-muted">IB</p>
+												<h5 id="valueib">492</h5>
+												<p class="mb-0" id="ib">Tertiary</p>
+											</div>
+											<div
+												class="d-flex flex-column justify-content-center align-items-center">
+												<p class="text-muted">UPS</p>
+												<h5 id="valueups">87k</h5>
+												<p class="mb-0" id="ups">Tertiary</p>
+											</div>
+											<div
+												class="d-flex flex-column justify-content-center align-items-center">
+												<p class="text-muted">E-Rickshaw</p>
+												<h5 id="valueerick">882</h5>
+												<p class="mb-0" id="erick">Tertiary</p>
+											</div>
+										</div>
+										<figure class="highcharts-figure">
+											<div id="piechartwork"></div>
+										</figure>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- ______________________________________________________________ -->
+					<hr>
+
+					<div class="row">
+						<div class="col-md stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<div class="row h-100">
+										<div class="col-6 d-flex flex-column justify-content-between">
+											<p class="text-muted">
+												Secondary Scanned : <span id="secondaryData-Number">No
+													Value</span>
+											</p>
+											<h4 id="scondaryData">No Value</h4>
+
+										</div>
+										<div class="col-6 d-flex flex-column justify-content-between">
+											<p class="text-muted">
+												Tertiary Scanned : <span id="tertiaryData-Number">No
+													Value</span>
+											</p>
+											<h4 id="tertiaryData">No Value</h4>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- ___________________________________________________________________ -->
+					<br>
+					<hr>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+
+								<div class="table-responsive pt-3">
+									<h4 class="card-title" style="text-align: center;">Top 10
+										Performers</h4>
+									<table class="table table-striped project-orders-table">
+										<thead class="thead-dark">
+											<tr>
+
+												<th scope="col" class="th-sm">Sale Person Name</th>
+												<th scope="col" class="th-sm">Name</th>
+												<th scope="col" class="th-sm">Phone</th>
+												<th scope="col" class="th-sm">Dealer Code</th>
+												<th scope="col" class="th-sm">Total Loyalty Point</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="table-info" th:each="scheme : ${topTen}">
+												<td scope="row" th:text="${scheme.salesPersonName}">Sale
+													Person Name</td>
+												<td scope="row" th:text="${scheme.name}">Name</td>
+												<td scope="row" th:text="${scheme.phone}">Phone</td>
+												<td scope="row" th:text="${scheme.username}">Dealer
+													Code</td>
+												<td scope="row" th:text="${scheme.totalLoyalty}">Total
+													Loyalty Point</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- ___________________________________________________________________ -->
+					<hr>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+								<div class="col-lg" th:object="${batterySchemeID}"></div>
+								<div class="table-responsive pt-3">
+									<h4 class="card-title" style="text-align: center;">Monthly
+										offer slab</h4>
+									<select class="md-lg-6 form-control selectpicker"
+										id="selectbatteryschemeid" onchange="omitid();">
+										<option value="">Select Battery Scheme Id You Want to
+											check</option>
+										<option th:each="bs : ${batterySchemeID}" 
+											th:value="${bs.id}"
+											th:text="${bs.scheme_name}"></option>
+									</select>
+									<table class="table table-striped project-orders-table"
+										id="datatabel">
+										<thead class="thead-dark">
+											<tr>
+
+												<th scope="col" class="th-sm">Loyalty Point</th>
+												<th scope="col" class="th-sm">Battery Scheme Id</th>
+												<th scope="col" class="th-sm">Redeem Description</th>
+												<th scope="col" class="th-sm">Offer Users</th>
+
+											</tr>
+										</thead>
+										<tbody id="tbody">
+											<tr class="table-info">
+												<td scope="row" id="lp">No Value</td>
+												<td scope="row" id="bsi">No Value</td>
+												<td scope="row" id="of">No Value</td>
+												<th scope="row">No Value</th>
+
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+
+
+
+
+
+							</div>
+						</div>
+					</div>
+					<!-- _________________________________________________________________________________ -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Last Div -->
+
+
+	<div id="slabfallsaleperson" class="modal" style="margin-top: 200px;">
+		<div class="col-6" style="margin: auto;">
+			<div class="card" style="margin-bottom: 20px;">
+				<div class="card-body">
+					<div style="width: 100%; margin-bottom: 47px;">
+						<h3 class="card-title" style="float: left;">Eligibility List</h3>
+						<span class="close">&times;</span>
+					</div>
+					<hr>
+					<br>
+					<table class="table table-striped project-orders-table"
+						id="datatabelpopup">
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" class="th-sm">Sale Person Name</th>
+								<th scope="col" class="th-sm">Dealer Code</th>
+								<th scope="col" class="th-sm">Total Loyalty Point</th>
+							<tr>
+						</thead>
+						<tbody>
+							<tr class="table-info">
+								<td scope="row">No Data</td>
+								<td scope="row">No Data</td>
+								<td scope="row">No Data</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<br>
+					<hr>
+					<button class="btn btn-light" onclick="closeModel();">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+</body>
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+// Global Declarations
+var modal = document.getElementById("scannerModel");
+
+var whichweek = ["1st Week","2nd Week","3rd Week","4th Week"];
+var whichmonth = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var whicweekday = [""];
+var colorOfArea = "";
+//#FF5F1D -> for livfast
+//#f2372f -> for livguard
+
+// ____________________________Session Check color setting(id="")_______________________________
+var session = /*[[${session}]]*/ "NoValue";
+console.log(session);
+if(session.database == "Livfast")
+	{
+		colorOfArea = "#FF5F1D";
+	}else if(session.database == "Livguard")
+	{
+		colorOfArea =  "#f2372f";
+	}
+
+
+// ____________________________User Analysis(id=userAnalysis)____________________________________
+
+var userAnalysis = /*[[${registeredUserAnalysis}]]*/ "NoValue"; //Taking Value from backend
+console.log("User Registered details",userAnalysis);
+var userEntry_Date=[];
+var registeredUser=[]; 
+var date;
+var monthinnum = " ";
+var totuser = 0;
+//computing the backend value
+function userAnaSelect()
+{
+	var selectvalue = document.getElementById("uaselect").value;
+	console.log(selectvalue);
+	userEntry_Date = [];
+	registeredUser = [];
+	totuser = 0;
+	for(i=0;i<userAnalysis.length;i++)
+		{
+			date=userAnalysis[i].entry_date;
+			date = date.split('T')[0];
+			monthinnum = date.split('-')[1];
+			console.log(monthinnum);
+			month = whichmonth[monthinnum-1];
+			console.log("mnth",month);
+			if(month == selectvalue)
+			{
+				userEntry_Date.push((date.split("-")[2]+"/"+month));
+				registeredUser.push(userAnalysis[i].userNumber);
+				totuser = totuser + userAnalysis[i].userNumber;
+			}
+		}
+	if(month == selectvalue)
+		{
+			var limit = Math.max(registeredUser);
+		}
+	else
+		{
+			var limit = 0;
+		}
+
+//Creating hichart graph
+	$(function(){Highcharts.chart("userAnalysis",{
+			chart:{
+				type: 'area'
+			},
+			title:{
+				text:"Users"
+			},
+			xAxis:
+				{
+				categories: userEntry_Date,
+				crosshair: false
+				},
+			yAxis:
+				{
+				min:0,
+				max: totuser,
+					title:
+					{
+						text:'Users'
+					}
+				},
+			plotOptions:
+			{
+				column:
+				{
+					pointPadding: 0,
+					borderWidth:0
+				}
+			},
+			credits: {
+			    enabled: false
+			},
+			exporting: {
+			    enabled: false
+			},
+	    	series:
+			[{
+				name : "User Registered",
+				data : registeredUser,
+				color: colorOfArea
+			}] 
+		});
+	
+	});
+}
+//End of UserAnalysis Section
+
+
+// ____________________________Active inactive user(id=actinactuser)____________________________________
+
+
+var useractAna = /*[[${actInactUser}]]*/ "NoValue";
+var months=[];
+var active=[];
+var inactive=[];
+var totact = 0;
+var date  =  new Date().getFullYear();
+
+for(i=0;i<useractAna.length;i++)
+	{
+			months.push(useractAna[i].month);
+			active.push(useractAna[i].active);
+			inactive.push(useractAna[i].inActive);
+			totact = totact + useractAna[i].active; 
+	}
+var Heading = "Total Active Users: "+totact;
+var val = "Active User in Year "+date;
+document.getElementById("year").innerHTML = date;
+
+
+$(function(){
+Highcharts.chart("actinactuser", 
+		{
+		    chart: {
+		        type: 'areaspline'
+		    },
+		    title: {
+		        text: Heading
+		    },
+		    legend: {
+		        layout: 'vertical',
+		        align: 'left',
+		        verticalAlign: 'top',
+		        x: 10,
+		        y: -10,
+		        floating: true,
+		        borderWidth: 1,
+		        backgroundColor:
+		            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+		    },
+		    xAxis: {
+		        categories: months,
+		    },
+		    yAxis: {
+		    	min:0,
+				max: totact,
+		        title: 
+		        {
+		            text: 'Users'
+		        }
+		    },
+		    tooltip: {
+		        shared: true,
+		    },
+		    credits: {
+			    enabled: false
+			},
+			exporting: {
+			    enabled: false
+			},
+		    plotOptions: {
+		        areaspline: {
+		            fillOpacity: 0.5
+		        }
+		    },
+		    series: [{
+		        name: 'Active',
+		        data: active,
+		    }, {
+		        name: 'In Active',
+		        data: inactive,
+				color: colorOfArea
+		    }]
+		});
+	});
+
+// ____________________________Serial Number Scanning(id=serialnumberscanning)____________________________________
+
+var snAnalysis = /*[[${serialAnalysis}]]*/ "NoValue";
+var totalScanning = 0;
+var isWeeks = [];
+var month = "";
+var noofScans = [];
+var wee = '';
+var weekinnum = '';
+var maxnum = 0;
+console.log(snAnalysis);
+function selectSerailMonth()
+{
+
+		var selectmonth = document.getElementById("serialselect").value;
+		isWeeks = [];
+		noofScans = [];
+		totalScanning = 0;
+		 for(i=0;i<snAnalysis.length;i++)
+			{
+			 	weekinnum = snAnalysis[i].week;
+			 	wee = whichweek[weekinnum+1];
+			 	console.log("week",wee);
+			 	console.log("Monthdbin numb",snAnalysis[i].month);
+			 	console.log("Monthdbin str",whichmonth[snAnalysis[i].month - 1]);
+			 	month = whichmonth[snAnalysis[i].month - 1];
+			 	console.log("month",month);
+			 	console.log("Selected month",selectmonth);
+			 	if(month == selectmonth)
+			 	{
+					isWeeks.push(wee);
+					noofScans.push(snAnalysis[i].numberOfSerialNumber);
+					totalScanning = totalScanning + snAnalysis[i].numberOfSerialNumber;
+				}
+			}
+		maxnum = Math.max(noofScans);
+
+		 var Header = "Total Serial Number Scanning: " + totalScanning;
+		 console.log(isWeeks);
+		 
+			$(function()
+					{
+					Highcharts.chart("serialnumberscanning",
+						{
+							chart:{
+								type: 'line'
+							},
+							title:{
+								text:Header
+							},
+							xAxis:
+								{
+								categories: isWeeks,
+								crosshair: false
+								},
+							yAxis:
+								{
+								min:0,
+								max: totalScanning,
+									title:
+									{
+										text:'Serial Numbers'
+									}
+								},
+							plotOptions:
+							{
+								column:
+								{
+									pointPadding: 0,
+									borderWidth:0
+								}
+							},
+							credits: {
+							    enabled: false
+							},
+							exporting: {
+							    enabled: false
+							},
+					    	series:
+							[{
+								name : "Serial Number Scannned",
+								data : noofScans,
+								color: colorOfArea
+								
+							}] 
+						});
+					
+					});
+}
+
+
+// ____________________________IBUPSERICK PieChart(id=piechartwork)____________________________________
+
+var totalRec = /*[[${totRecordIBUPSERICK}]]*/ "NoValue";
+var ibRec = /*[[${totRecordIB}]]*/ "NoValue";
+var upsRec = /*[[${totRecordUPS}]]*/ "NoValue";
+var rerickRec = /*[[${totRecordERICK}]]*/ "NoValue";
+
+document.getElementById("valueib").innerHTML = ibRec;
+document.getElementById("valueups").innerHTML = upsRec;
+document.getElementById("valueerick").innerHTML = rerickRec;
+
+
+var perIb = ((ibRec / totalRec)*100);
+var perUPS = ((upsRec / totalRec)*100);
+var perErick = ((rerickRec / totalRec)*100);
+
+var text1 = perIb.toFixed(2)+"%";
+var text2 = perUPS.toFixed(2)+"%";
+var text3 = perErick.toFixed(2)+"%";
+
+document.getElementById("ib").innerHTML = text1;
+document.getElementById("ups").innerHTML = text2;
+document.getElementById("erick").innerHTML = text3;
+
+//Make monochrome colors
+var pieColors = (function () {
+    var colors = [],
+        base = colorOfArea;
+
+    for (i = 0; i < 10; i += 1) {
+        // Start out with a darkened base color (negative brighten), and end
+        // up with a much brighter color
+        colors.push(Highcharts.color(base).brighten((i - 3) / 7).get());
+    }
+    return colors;
+}());
+
+// Build the chart
+Highcharts.chart('piechartwork', {
+    chart: {
+        plotBackgroundColor: false,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',
+      	allowPointSelect: true,
+      	showInLegend: true
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            colors: pieColors,
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+           	    distance: -90,
+                filter: {
+                    property: 'percentage',
+                    operator: '>',
+                    value: 4
+                }
+            }
+        }
+    },
+    credits: {
+	    enabled: false
+	},
+	exporting: {
+	    enabled: false
+	},
+    series: [{
+        name: 'Registered',
+        data: [
+            { name: 'IB', y: ibRec },
+            { name: 'UPS', y: upsRec },
+            { name: 'ERickShaw', y: rerickRec }
+        ]
+    }]
+});
+
+
+// ____________________________Scheme Analysis(id=scondaryData,tertiaryData)____________________________________
+
+var schemeAnalysis = /*[[${schemeActiveAnalysis}]]*/ "NoValue";
+
+var totalSecondary = 0;
+var totalTertiary = 0;
+
+for(i=0;i<schemeAnalysis.length;i++)
+{
+	if(schemeAnalysis[i].schemeType == "tertiary scheme")
+		{
+			totalTertiary = totalTertiary + schemeAnalysis[i].numberOfScheme;
+		}
+	else if(schemeAnalysis[i].schemeType == "secondary scheme")
+		{
+			totalSecondary = totalSecondary + schemeAnalysis[i].numberOfScheme;
+		}
+}
+
+var total;
+	total = totalTertiary + totalSecondary;
+	
+var secondaryPer, TertiaryPer;
+	secondaryPer=((totalSecondary/total)*100);
+	TertiaryPer=((totalTertiary/total)*100);
+
+var text1 = TertiaryPer.toFixed(2);
+var text2 = secondaryPer.toFixed(2);
+
+document.getElementById("scondaryData").innerHTML = text2+"%";
+document.getElementById("tertiaryData").innerHTML = text1+"%";
+document.getElementById("secondaryData-Number").innerHTML = totalSecondary;
+document.getElementById("tertiaryData-Number").innerHTML = totalTertiary;
+
+
+// ____________________________Monthly Slab Table(id=scondaryData,tertiaryData)____________________________________
+
+var tabledata = /*[[${monthlySlabData}]]*/ "NoValue";
+var scannertotdata = /*[[${totalSchemeScan}]]*/ "NoValue";
+console.log("Scanner total data",scannertotdata);
+console.log("Table Data",tabledata);
+var searchId = 0;
+var allData = [];
+var limit = 0;
+function omitid()
+{
+	searchId = document.getElementById('selectbatteryschemeid').value;	
+	if(searchId == "")
+	{
+		 var rowCount = document.getElementById("datatabel").rows.length;
+	        for (var i = rowCount - 1; i > 0; i--) {
+	        	document.getElementById("datatabel").deleteRow(i);
+	        }
+		allData.push(tabledata);
+		for(i=0;i<tabledata.length;i++)
+		{
+			var tbodyRef = document.getElementById('datatabel').getElementsByTagName('tbody')[0];
+			// Insert a row at the end of table
+			var newRow = tbodyRef.insertRow();
+			// Insert a cell at the end of the row
+			var newCell1 = newRow.insertCell();
+			var newCell2 = newRow.insertCell();
+			var newCell3 = newRow.insertCell();
+			var newCell4 = newRow.insertCell();
+
+			
+			// Append a text node to the cell
+			var newText1 = document.createTextNode(tabledata[i].loyaltyPoint);
+			var newText2 = document.createTextNode(tabledata[i].batterySchemeId);
+			var newText3 = document.createTextNode(tabledata[i].redeemDesc);
+			var newText4 = document.createTextNode("Check Eligible List");
+			var link = document.createElement('button');
+			link.setAttribute("class","btn btn-primary btn-block btn-sm");
+			link.setAttribute("data-toggle","modal");
+			link.setAttribute("data-target","#myModal");
+			link.setAttribute("type","button")
+			link.setAttribute("id","dynabutton")
+			link.setAttribute('onclick', "modelShow("+tabledata[i].loyaltyPoint+")");
+			link.appendChild(newText4);
+			
+	
+
+			newCell1.appendChild(newText1);
+			newCell2.appendChild(newText2);
+			newCell3.appendChild(newText3);
+			newCell4.appendChild(link);
+
+			
+			limit = limit +1;
+			if(limit > 8)
+				{
+					break;
+				}
+
+		}
+	}else
+		{
+
+		 var rowCount = document.getElementById("datatabel").rows.length;
+	        for (var i = rowCount - 1; i > 0; i--) {
+	        	document.getElementById("datatabel").deleteRow(i);
+	        }
+		for(i=0;i<tabledata.length;i++)
+		{
+			if(tabledata[i].batterySchemeId == searchId)
+				{
+				var tbodyRef = document.getElementById('datatabel').getElementsByTagName('tbody')[0];
+				// Insert a row at the end of table
+				var newRow = tbodyRef.insertRow();
+				// Insert a cell at the end of the row
+				var newCell1 = newRow.insertCell();
+				var newCell2 = newRow.insertCell();
+				var newCell3 = newRow.insertCell();
+				var newCell4 = newRow.insertCell();
+				
+
+				// Append a text node to the cell
+				var newText1 = document.createTextNode(tabledata[i].loyaltyPoint);
+				var newText2 = document.createTextNode(tabledata[i].batterySchemeId);
+				var newText3 = document.createTextNode(tabledata[i].redeemDesc);
+				var newText4 = document.createTextNode("Check Eligible List");
+				var link = document.createElement('button');
+				link.setAttribute("class","btn btn-primary btn-block btn-sm");
+				link.setAttribute("data-toggle","modal");
+				link.setAttribute("data-target","#myModal");
+				link.setAttribute("type","button")
+				link.setAttribute("id","dynabutton")
+				link.setAttribute('onclick', "modelShow("+tabledata[i].loyaltyPoint+")");
+				link.appendChild(newText4);
+				
+				newCell1.appendChild(newText1);
+				newCell2.appendChild(newText2);
+				newCell3.appendChild(newText3);
+				newCell4.appendChild(link);
+				}
+		}
+
+		}
+}
+
+
+var scannertotdata = /*[[${totalSchemeScan}]]*/ "NoValue";
+
+
+
+//get the modal
+var modal = document.getElementById("slabfallsaleperson");
+
+//get the button
+var btn = document.getElementById("dynabutton");
+
+//Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
+//When the user clicks the button, open the modal 
+var datapure = "No Data" ;
+var j =0;
+function modelShow(lp)
+{
+	 var rowCount = document.getElementById("datatabelpopup").rows.length;
+     for (var i = rowCount - 1; i > 0; i--) {
+     	document.getElementById("datatabelpopup").deleteRow(i);
+     }
+	modal.style.display = "block";
+	for(i=0;i<scannertotdata.length;i++)
+		{
+			console.log("Loyalty Point",scannertotdata[i].totalLoyalty);
+				if(lp <= scannertotdata[i].totalLoyalty)
+					{
+						console.log("Loyalty Point -> ",scannertotdata[i].totalLoyalty);				
+						var tbodyRef = document.getElementById('datatabelpopup').getElementsByTagName('tbody')[0];
+						// Insert a row at the end of table
+						var newRow = tbodyRef.insertRow();
+						// Insert a cell at the end of the row
+						var newCell1 = newRow.insertCell();
+						var newCell2 = newRow.insertCell();
+						var newCell3 = newRow.insertCell();
+						
+						// Append a text node to the cell
+						var newText1 = document.createTextNode(scannertotdata[i].salesPersonName);
+						var newText2 = document.createTextNode(scannertotdata[i].username);
+						var newText3 = document.createTextNode(scannertotdata[i].totalLoyalty);
+					
+				
+
+						newCell1.appendChild(newText1);
+						newCell2.appendChild(newText2);
+						newCell3.appendChild(newText3);
+					
+					}
+
+		}
+}
+
+//When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+function closeModel()
+{
+	 modal.style.display = "none";
+}
+
+
+// ____________________________Downloading Report(id=scondaryData,tertiaryData)____________________________________
+
+var report = /*[[${report}]]*/ "NoValue";
+console.log(report);
+function reportDownload()
+	{    
+		// var csvFileData = report;
+		var reporting = [];
+		var header = " ,DB CODE,DB NAME,Category based on AOP TGT(IB/4w/Erick/2w/inv/Solar),Primary Volume Weightage,Primary Value Weightage,WOD Weightage,SED Appointment Weightage,Fin. Control Weightage,Focus Product Weightage,IB TGT Weightage,4W TGT Weightage,Eric TGT Weightage,Inv TGT Weightage,2W TGT Weightage,Solar  TGT Weightage,IB TGT,4W TGT,Eric TGT,Inv TGT,2W TGT,Solar TGT,IB ACH,IB ACH %,IB Score,4W ACH,4W ACH %,4W Score,Eric ACH,Eric ACH %,Eric Score,Inv ACH,Inv ACH %,Inv Score,2W ACH,2W ACH%,2W Score,Solar ACH,Solar ACH %,Solar Score,WOD  TGT,WOD ACH,WOD ACH%,WOD SCORE,SED Appointment TGT,SED Appointment ACH,SED ACH %,SED SCORE,FC Outstanding without Solar,FC Outstanding with Solar,Total Gross OS > 45 Days,FC ACH WITH SOLAR %,FC ACH WITH SOLAR SCORE,FC ACH WITHOUT SOLAR %,FC ACH WITHOUT SOLAR SCORE,Total Gross OS >30 Days as on QTR End,Focus Product IB TGT,Focus Product 4W TGT,Focus Product Solar Value,IB > 36M Volume,4W - 35 ah 80/90/100ah Volume,RT above 3.5KVA Value,Focus product ACH %,Focus Product ACH SCORE,Total Score\n";
+		 var tempHead = new Array();
+		var tempHead = header.split(",");
+		reporting.push(tempHead);
+		
+
+		for(i = 0;i<report.length;i++)
+		{  
+			       var arraysum = 0;
+			       if(isNaN(report[i].data.db_code))
+			       {
+			    	   	continue;
+			       }
+			       else
+			       {
+    		       var csv = report[i].data.db_code; //DB CODE
+    		       csv += ",";
+    		       csv += report[i].data.db_name; //DB NAME
+    		       csv += ",";   
+    		       csv += report[i].data.db_category; //Category based on AOP TGT(IB/4w/Erick/2w/inv/Solar)
+    		       csv += ",";
+    		       csv += report[i].data.DB_score_card_overall_weightage["Primary Volume"]; //Primary Volume Weightage
+    		       csv += ",";
+    		       csv += report[i].data.DB_score_card_overall_weightage["Primary Value"]; //Primary Value Weightage
+    		       csv += ",";
+    		       csv += report[i].data.DB_score_card_overall_weightage.WOD; //WOD Weightage
+    		       csv += ",";
+    		       csv += report[i].data.DB_score_card_overall_weightage["SED Appointment"]; //SED Appointment Weightage
+    		       csv += ",";
+    		       csv += report[i].data.DB_score_card_overall_weightage["Fin. Control"]; //Fin. Control Weightage
+    		       csv += ",";
+    		       csv += report[i].data.DB_score_card_overall_weightage["Focus Prod"]; //Focus Product Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.IB; //IB TGT Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["4W"]; //4W TGT Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Eric; //Eric TGT Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Inv; //Inv TGT Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["2W"]; //2W TGT Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["Solar "]; //Solar  TGT Weightage
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_TGT.IB; //IB TGT
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_TGT["4W"]; //4W TGT
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_TGT.Eric; //Eric TGT
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_TGT.Inv; //Inv TGT
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_TGT["2W"]; //2W TGT
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_TGT["Solar "]; //Solar TGT
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_ACH["IB"]; //IB ACH
+    		       csv += ",";
+    		       var ibper = 0;
+    		       if(!isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT.IB)) || !isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["IB"])))
+    	 			{
+    		    	   ibper = (parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["IB"])/parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT.IB)) * 100;
+    	 			}else
+    	 			{
+    	 				ibper = 0;	
+    	 			} //IB ach %
+    	 		   if(isNaN(parseInt(ibper)))
+    	 			  {
+    	 			   	ibper = 0;
+    	 			  }
+    	 		   csv += Math.ceil(ibper);
+    	 		   csv += "%";
+    		       csv += ",";
+    		       if(isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.IB)))
+    		    	   {
+    		    	   report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.IB =1;
+    		    	   }
+    		       var ibscore = (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.IB) * ibper) / 100;
+    		       if(isNaN(parseInt(ibscore)))
+    		    	   {
+    		       			ibscore = 0;
+    		    	   }
+    		       
+    		       
+    		       if(ibscore > (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.IB)*1.1))
+    		    	   {
+    		    	   		ibscore = parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.IB)*1.1;
+    		    	   }
+    		       
+    		       csv += Math.ceil(ibscore);
+   		       	   csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_ACH["4W"]; //4W ACH
+    		       csv += ",";
+    		       var fwper = 0;
+    		       	  if(!isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT["4W"])) || !isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["4W"])))
+    	 			  {
+    		    	    fwper = (parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["4W"])/parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT["4W"])) * 100;
+    	 			   }else
+    	 			   {
+    	 				   fwper = 0;
+    	 			   }
+    		       	if(isNaN(parseInt(fwper)))
+    		       		{
+							fwper = 0;    		       			
+    		       		}
+    	 		   csv += Math.ceil(fwper);
+    	 		   csv += "%";
+    	 		   csv += ",";
+    	 		   if(isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["4W"])))
+    	 			   {
+    	 			  report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["4W"] = 1;
+    	 			   }
+    	 		   var fwscore = (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["4W"]) * fwper) / 100;
+    	 		  if(isNaN(parseInt(fwscore)))
+    	 			  {
+    	 			  	fwscore = 0;
+    	 			  }
+    	 		  
+    	 		  if(fwscore > (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["4W"])*1.1))
+    	 			  {
+    	 			  	fwscore = parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["4W"])*1.1;
+    	 			  }
+    	 		  
+    	 		   csv += Math.ceil(fwscore);
+    	 			  
+    		       csv += ",";
+    		       
+    		       
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_ACH.Eric; //Eric ACH
+    		       csv += ",";
+    		       
+    		       
+    		       var ericper = 0;
+    		       if(!isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT.Eric)) || !isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH.Eric)))
+    		    	   {
+    		    	   		ericper = (parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH.Eric)/parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT.Eric)) * 100;
+    		    	   }else
+    		    			{
+    		    		   	ericper = 0;
+    		    		   }
+    		       
+    		       if(isNaN(parseInt(ericper)))
+    		    	   {
+    		    	   	ericper = 0;
+    		    	   }
+    		       csv += Math.ceil(ericper);
+    		       csv += "%";
+    		       csv += ",";
+    		       
+    		       
+    		       
+    		       if(isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Eric)))
+    		    	   {
+    		    	   report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Eric = 1;
+    		    	   }
+    		       var ericscore = (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Eric) * ericper) / 100;
+    		       if(isNaN(parseInt(ericscore)))
+    		    	   {
+    		    	   	ericscore = 0;
+    		    	   }
+    		       
+    		       if(ericscore > (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Eric)*1.1))
+    		    	   {
+    		    	   	 ericscore = parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Eric)*1.1;
+    		    	   }
+    		       
+    		       
+    		       csv += Math.ceil(ericscore);
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_ACH.Inv; //Inv ACH
+    		       csv += ",";
+    		       var invper = 0;
+    		       if(!isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT.Inv)) || !isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH.Inv)))
+    		    	   {
+    		    	   	invper = (parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH.Inv) / parseInt(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT.Inv))) * 100;
+ 	   		    	   }else{
+ 	   		    		   invper = 0;
+ 	   		    	   }
+    		       if(isNaN(parseInt(invper)))
+    		    	   {
+    		    	    invper = 0;
+    		    	   }
+    		       csv += Math.ceil(invper);
+    		       csv += "%";
+    		       csv += ",";
+    		       if(isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Inv)))
+    		    	   {
+    		    	   	report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Inv = 1;
+    		    	   }
+    		       var invscore = (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Inv) * invper) / 100;
+    		       if(isNaN(parseInt(invscore)))
+    		    	   {
+    		    	   	invscore = 0;
+    		    	   }
+    		       if(invscore > (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Inv)*1.1))
+    		    	   {
+    		    	   	invscore = parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage.Inv)*1.1;
+    		    	   }
+    		       csv += Math.ceil(invscore);
+    		       csv += ",";
+    		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_ACH["2W"]; //2W ACH
+    		       csv += ",";
+    		       var twper = 0;
+ 		       	  if(!isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT["2W"])) || !isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["2W"])))
+ 	 			  {
+ 		    	   twper = (parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["2W"])/parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT["2W"])) * 100;
+ 	 			   }else
+ 	 			   {
+ 	 				   twper = 0;
+ 	 			   }
+ 		       	  if(isNaN(parseInt(twper)))
+ 		       		  {
+ 		       		  	twper = 0;
+ 		       		  }
+ 	 		  	 csv += Math.ceil(twper);
+ 	 		   csv += "%";
+	 	 		   	csv += ",";
+	 	 		if(isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["2W"])))
+	 	 				{
+	 	 			report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["2W"] = 1;
+	 	 				}
+	 	 		   	var twscore = (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["2W"]) * twper) / 100;
+	 	 		   	if(isNaN(parseInt(twscore)))
+	 	 		   		{
+	 	 		   			twscore = 0;
+	 	 		   		}
+	 	 		   	if(twscore > (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["2W"])*1.1))
+	 	 		   		{
+	 	 		   			twscore =  parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["2W"])*1.1;
+	 	 		   		}
+	 	 		   	csv += Math.ceil(twscore);
+    		       csv += ",";
+      		       csv += report[i].data.PRIMARY_Volume_Value.Q_1_ACH["Solar "]; //Solar ACH
+    		       csv += ",";
+      		       var solarper = 0;
+      		       if(!isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT["Solar "])) || !isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["Solar "])))
+      		    	   {
+      		    	 solarper = (parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_ACH["Solar "])/parseInt(report[i].data.PRIMARY_Volume_Value.Q_1_TGT["Solar "])) * 100;
+      		    	   }
+      		       else
+      		    	   {
+      		    	 solarper = 0;
+      		    	   }
+      		       if(isNaN(parseInt(solarper)))
+      		    	   {
+      		    	   	solarper = 0;
+      		    	   }
+      		    	  csv += Math.ceil(solarper);
+      		    	  csv += "%";
+      		    	  csv += ",";
+      		    	  if(isNaN(parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["Solar "])))
+      		    		  {
+      		    				report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["Solar "] = 1;
+      		    		  }
+      		    	  var solarscore = (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["Solar "]) * solarper) / 100;
+      		    	  if(isNaN(parseInt(solarscore)))
+      		    		  {
+      		    		  	solarscore = 0;
+      		    		  }
+      		    	  if(solarscore > (parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["Solar "])*1.1))
+      		    		  {
+      		    		  	solarscore = parseInt(report[i].data.PRIMARY_Volume_Value.Primary_TGT_Weightage["Solar "])*1.1;
+      		    		  }
+      		    	 csv += Math.ceil(solarscore);
+      		    	 csv += ",";
+      		    	var wodtgt = 0;
+    		       jQuery.each(report[i].data.WOD.Q1_TGT, function(key,value){
+    		       if(!isNaN(parseInt(report[i].data.WOD.Q1_TGT[key])))
+    		    	{		   	
+    		    	   wodtgt += parseInt(report[i].data.WOD.Q1_TGT[key]) //WOD  TGT
+    		       	}
+    		       });
+    		       if(!isNaN(wodtgt))
+    		       {
+    		       		csv += wodtgt; //WOD  TGT
+    		       }else
+    		       {
+    		       		csv += " ";
+    		       }
+    		       csv += ",";
+    		       var wodach = 0;
+    		       jQuery.each(report[i].data.WOD.Q1_ACH, function(key,value){
+    		    	if(!isNaN(parseInt(report[i].data.WOD.Q1_ACH[key])))
+    		    	{	  
+    		    		wodach += parseInt(report[i].data.WOD.Q1_ACH[key]);
+    		    	}
+    		       });//WOD ACH
+    		       if(!isNaN(wodach))
+    		       {
+    		       		csv += wodach; //WOD ACH
+    		       }else
+    		       {
+    		       		csv += " ";
+    		       }
+    		       csv += ",";
+    		      
+    		       
+    		       
+    		       //wod ach %
+    		       var wodper = 0;
+    		       if(isNaN(parseInt(wodach)))
+    		    	   {
+    		    	   		wodach = 0;
+    		    	   }
+    		       if(wodtgt != 0)
+    		    	   {
+    		    	       wodper = (wodach/wodtgt)*100;
+    		    	   }else
+    		    	   	   {
+    		    		    	wodper = 0;
+    		    		   }
+    		       csv += Math.ceil(wodper);
+    		       csv += "%";
+    		       csv += ",";
+    		       
+    		       
+    		       
+    		      /*  wod ach score */
+    		      
+    		      if(isNaN(parseInt(report[i].data.DB_score_card_overall_weightage.WOD)))
+    		    	  {
+    		    	  	report[i].data.DB_score_card_overall_weightage.WOD = 1;
+    		    	  }
+    		      var wodscore = (parseInt(report[i].data.DB_score_card_overall_weightage.WOD)*wodper)/100;
+    		      if(wodscore > (parseInt(report[i].data.DB_score_card_overall_weightage.WOD)*1.1))
+    		    	  {
+    		    	  	wodscore = parseInt(report[i].data.DB_score_card_overall_weightage.WOD)*1.1;
+    		    	  }
+    		      csv += Math.ceil(wodscore);
+    		      csv += ",";
+    		      
+    		       
+    		       
+    		      var sedtgt = 0;
+    		       jQuery.each(report[i].data.SED_Appointment.Q1_TGT, function(key,value){
+    		    	   if(!isNaN(parseInt(report[i].data.SED_Appointment.Q1_TGT[key]))){
+    		    		   sedtgt += parseInt(report[i].data.SED_Appointment.Q1_TGT[key])}}); //SED Appointment TGT
+    		       if(!isNaN(sedtgt))
+    		       {
+    		       		csv += sedtgt; //SED Appointment TGT
+    		       }else{
+    		       	csv += " ";
+    		       }
+    		       csv += ",";
+    		       var sedach = 0;
+    		       jQuery.each(report[i].data.SED_Appointment.Q1_ACH, function(key,value){
+    		    	   if(!isNaN(parseInt(report[i].data.SED_Appointment.Q1_ACH[key])))
+    		    	   {
+    		    		   sedach += parseInt(report[i].data.SED_Appointment.Q1_ACH[key])
+    		    	    }
+    		    	  }
+    		       ); //SED Appointment ACH
+				   if(!isNaN(sedach))
+    		       {
+    		       		csv += sedach; //SED Appointment ACH
+    		       }else{
+    		       	csv += " ";
+    		       }
+				   csv += ",";
+				   
+				    /* SED Appointment ach% */
+				    var sedper = 0;
+				    if(isNaN(parseInt(sedtgt)))
+				    	{
+				    		sedtgt = 0;
+				    	}
+				    if(isNaN(parseInt(sedach)))
+				    	{
+				    		sedach = 0;
+				    	}
+				    if(sedtgt != 0)
+				    	{
+				    		sedper = (sedach / sedtgt)*100; 
+				    	}
+				    csv += Math.ceil(sedper);
+				    csv += "%";
+				    csv += ",";
+				    
+				    
+				    /* SED Appointment score */
+				  	if(isNaN(parseInt(report[i].data.DB_score_card_overall_weightage["SED Appointment"])))
+				  		{
+				  			report[i].data.DB_score_card_overall_weightage["SED Appointment"] = 1;
+				  		}
+				   
+				    var sedscore = (parseInt(report[i].data.DB_score_card_overall_weightage["SED Appointment"]) * sedper) / 100;
+				    if(sedscore > (parseInt(report[i].data.DB_score_card_overall_weightage["SED Appointment"])*1.1))
+				    	{
+				    		sedscore = parseInt(report[i].data.DB_score_card_overall_weightage["SED Appointment"])*1.1;
+				    	}
+				   csv += Math.ceil(sedscore);
+				   csv += ",";
+				   
+				   
+				   var nosolsum = 0;
+				   var solarsum = 0;
+				   var flag = 0;
+				   jQuery.each(report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April, function(key,value){
+					   if(key == "solar" || key == "Solar")
+						   {
+						   		flag = 1;
+						   }
+				   });
+				   console.log(flag);
+				   jQuery.each(report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April, function(key,value){
+				   if(flag == 0)
+				   {
+					   if(isNaN(parseInt(report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April[key])))
+						   {
+						  	 report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April[key] = 0;
+						   }
+					  	 nosolsum += parseInt(report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April[key]);
+				   }else if(flag == 1){
+						   if(isNaN(parseInt(report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April[key])))
+						   {
+						  	 report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April[key] = 0;
+						   }
+				   		solarsum += parseInt(report[i].data.Financial_Control.Total_Outstanding_as_on_1st_April[key]);
+				   }
+				   });
+				   if(isNaN(parseInt(nosolsum)))
+					   {
+					   nosolsum = 0;
+					   }
+				   csv += nosolsum //FC Outstanding without Solar
+				   csv += ",";
+				   if(isNaN(parseInt(solarsum)))
+					   {
+					   	solarsum = 0;
+					   }
+				   csv += solarsum //FC Outstanding with Solar
+				   csv += ",";
+				   arraysum = 0;
+				   var totgross = 0;
+    		       jQuery.each(report[i].data.Financial_Control["Total_Gross_OS>45_Days"], function(key,value){
+    		    	   if(isNaN(parseInt(report[i].data.Financial_Control["Total_Gross_OS>45_Days"][key])))
+    		    		   {
+    		    		   	report[i].data.Financial_Control["Total_Gross_OS>45_Days"][key] = 0;
+    		    		   }else{
+    		    			   totgross += parseInt(report[i].data.Financial_Control["Total_Gross_OS>45_Days"][key]) //Total Gross OS > 45 Days
+    		    		   }});
+				   csv += totgross + totgra2; //Total Gross OS > 45 Days
+				   csv += ",";
+				   totgross += totgra2;
+				   
+				   
+				   
+				  /*  FC with Solar ACH % */
+				  var wsolper = 0;
+				  if(totgross != 0)
+					  {
+					  if(solarsum != 0)
+						  {
+					  	if(isNaN(parseInt(solarsum)))
+					  		{
+					  			solarsum = 0;
+					  		}
+					  	wsolper = (totgross/solarsum) * 100;
+						  }
+					  }
+				  csv += Math.ceil(wsolper);
+				  csv += "%";
+				  csv += ",";
+				  
+				   
+				   
+				   
+				  /*  FC with Solar ACH score */
+				  var wsolscore = 0;
+				  if(isNaN(parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])))
+					  {
+					  report[i].data.DB_score_card_overall_weightage["Fin. Control"] = 0;
+					  }
+				  wsolscore = (parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])*wsolper)/100;
+				  if(wsolscore > (parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])*1.1))
+					  {
+					  	wsolscore = parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"]) * 1.1;
+					  }
+				  csv += Math.ceil(wsolscore);
+				  csv += ",";
+
+				  
+				 
+				  /*  FC without Solar ACH % */
+				  var nosolper = 0;
+				  if(totgross != 0)
+					  {
+					  if(nosolsum != 0)
+						  {
+					  	if(isNaN(parseInt(nosolsum)))
+					  		{
+					  		nosolsum = 0;
+					  		}
+					  	nosolper = (totgross/nosolsum) * 100;
+						  }
+					  }
+				  csv += Math.ceil(nosolper);
+				  csv += "%";
+				  csv += ",";
+				  
+				   
+				   
+				   
+				  /*  FC without Solar ACH score */
+				  var nosolscore = 0;
+				  if(isNaN(parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])))
+				  {
+					  report[i].data.DB_score_card_overall_weightage["Fin. Control"] = 0;
+				  }
+				  nosolscore = (parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])*nosolper)/100;
+				  if(nosolscore > (parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])*1.1))
+					  {
+					  	nosolscore = parseInt(report[i].data.DB_score_card_overall_weightage["Fin. Control"])*1.1;
+					  }
+			  	  csv += Math.ceil(nosolscore);
+			  	  csv += ",";
+				  
+				  
+				  
+
+				   
+				   arraysum = 0;
+				   var totgra2 = 0;
+    		       jQuery.each(report[i].data.Financial_Control["Total_Gross_OS>30_Days_as_on_QTR_End"], function(key,value){
+    		    	   if(isNaN(parseInt(report[i].data.Financial_Control["Total_Gross_OS>30_Days_as_on_QTR_End"][key])))
+    		    		   {
+    		    		   report[i].data.Financial_Control["Total_Gross_OS>30_Days_as_on_QTR_End"][key] =0;	   
+    		    		   }else
+    		    			   {
+    		    			   totgra2 += parseInt(report[i].data.Financial_Control["Total_Gross_OS>30_Days_as_on_QTR_End"][key]); //Total Gross OS >30 Days as on QTR End
+    		       }});
+    		       csv += totgra2; //Total Gross OS >30 Days as on QTR End
+				   csv += ",";
+    		       var fpibtgt = 0;
+    		       var fp4wtgt = 0;
+    		       var fpsolartgt = 0;
+				   jQuery.each(report[i].data.Focus_Product.Q1_TGT, function(key,value){
+					   	if(key.includes("IB"))
+					   	{
+					   		if (!isNaN(parseInt(report[i].data.Focus_Product.Q1_TGT[key]))) 
+					   		{
+					   			fpibtgt += report[i].data.Focus_Product.Q1_TGT[key]; //Focus Product IB TGT
+							}
+						}else if(key.includes("4W")){
+							if(!isNaN(parseInt(report[i].data.Focus_Product.Q1_TGT[key])))
+							{
+								fp4wtgt += report[i].data.Focus_Product.Q1_TGT[key]; //Focus Product 4W TGT
+							}
+						}else if(key.includes("solar") || key.includes("Solar"))
+						{
+							if(!isNaN(parseInt(report[i].data.Focus_Product.Q1_TGT[key])))
+							{
+								fpsolartgt += report[i].data.Focus_Product.Q1_TGT[key]; //Focus Product Solar Value
+						
+						   	}
+						}
+				   });
+				   if(isNaN(parseInt(fpibtgt)))
+					   {
+					    fpibtgt = " ";
+					   }
+				   csv += fpibtgt;
+				   csv += ",";
+				   if(isNaN(parseInt(fp4wtgt)))
+					   {
+					   fp4wtgt =  " ";
+					   }
+				   csv += fp4wtgt;
+				   csv += ",";
+				   if(isNaN(parseInt(fpsolartgt)))
+					   {
+					   fpsolartgt = " ";
+					   }
+				   csv += fpsolartgt;
+				   csv += ",";
+				   var fpibach = 0;
+    		       var fp4wach = 0;
+    		       var fpsolarach = 0;
+				   jQuery.each(report[i].data.Focus_Product.Q1_ACH,function(key,value){
+				   		if(key.includes("4W"))
+				   		{
+				   			if(isNaN(parseInt(report[i].data.Focus_Product.Q1_ACH[key])))
+				   				{
+				   				report[i].data.Focus_Product.Q1_ACH[key] = 0;
+				   				}
+				   			fp4wach = report[i].data.Focus_Product.Q1_ACH[key]; //4W - 35 ah 80/90/100ah Volume
+				   		}else if(key.includes("IB")){
+				   			if(isNaN(parseInt(report[i].data.Focus_Product.Q1_ACH[key])))
+			   				{
+			   				report[i].data.Focus_Product.Q1_ACH[key] = 0;
+			   				}
+				   			fpibach = report[i].data.Focus_Product.Q1_ACH[key];
+				   		}else if(key.includes("RT"))
+						   {
+							   	if(isNaN(parseInt(report[i].data.Focus_Product.Q1_ACH[key])))
+							   	{
+								   report[i].data.Focus_Product.Q1_ACH[key] = 0;
+								}
+							   	fpsolarach = report[i].data.Focus_Product.Q1_ACH["RT above 3.5KVA Value"]; // RT above 3.5KVA Value						   
+						   }
+				   });
+				   if(isNaN(parseInt(fpibach)))
+					   {
+					   fpibach = 0;
+					   }
+				   csv += fpibach;
+				   csv += ",";
+				   if(isNaN(parseInt(fp4wach)))
+				   {
+					   fp4wach = 0;
+				   }
+				   csv += fp4wach;
+				   csv += ",";
+				   if(isNaN(parseInt(fpsolarach)))
+				   {
+					   fpsolarach = 0;
+				   }
+				   csv += fpsolarach;
+				   csv += ",";
+				   //focus product ach%
+				   	//fptarget
+				   if(isNaN(parseInt(fpibtgt)))
+					   {
+					   fpibtgt = 0;
+					   }
+				   if(isNaN(parseInt(fp4wtgt)))
+					   {
+					   fp4wtgt= 0;
+					   }
+				   if(isNaN(parseInt(fpsolartgt)))
+					   {
+					   fpsolartgt = 0;
+					   }
+				   var fptgt = parseInt(fpibtgt) + parseInt(fp4wtgt) + parseInt(fpsolartgt);
+				   	//fpach
+				   if(isNaN(parseInt(fp4wach)))
+					   {
+					   fp4wach = 0;
+					   }
+				   	if(isNaN(parseInt(fpibach)))
+				   		{
+				   		fpibach = 0;
+				   		}
+				   	if(isNaN(parseInt(fpsolarach)))
+				   		{
+				   		fpsolarach = 0;
+				   		}
+				   	var fpach = parseInt(fpsolarach) + parseInt(fpibach) + parseInt(fp4wach);
+					var fpper = 0;
+				   	if(fptgt != 0)
+				   		{
+				   		fpper = (fpach / fptgt)*100;
+				   		}
+				   	csv += Math.ceil(fpper);
+				   	csv += ",";
+				   	
+				   
+				   
+				   
+				   
+				   //focus product score
+				   if(isNaN(parseInt(report[i].data.DB_score_card_overall_weightage["Focus Prod"])))
+					{
+					   report[i].data.DB_score_card_overall_weightage["Focus Prod"] = 0;
+					}
+				   if(isNaN(parseInt(fpper)))
+					   {
+					   fpper = 0;
+					   }
+				   var fpscore = (parseInt(report[i].data.DB_score_card_overall_weightage["Focus Prod"]) * fpper)/100;
+				   if(fpscore > (parseInt(report[i].data.DB_score_card_overall_weightage["Focus Prod"])*1.1))
+					   {
+					  	 fpscore = parseInt(report[i].data.DB_score_card_overall_weightage["Focus Prod"])*1.1;
+					   }
+				   csv += Math.ceil(fpscore);
+				   
+				   csv += ",";
+				   if(isNaN(parseInt(ibscore)))
+					   {
+					   ibscore = 0;
+					   }
+				   if(isNaN(parseInt(fwscore)))
+					   {
+					   fwscore = 0;
+					   }
+				   if(isNaN(parseInt(ericscore)))
+					   {
+					   ericscore = 0;
+					   }
+				   if(isNaN(parseInt(invscore)))
+					   {
+					   invscore = 0;
+					   }
+				   if(isNaN(parseInt(twscore)))
+					   {
+					   twscore = 0;
+					   }
+				   if(isNaN(parseInt(solarscore)))
+					   {
+					   solarscore = 0;
+					   }
+				   if(isNaN(parseInt(sedscore)))
+					   {
+					   sedscore = 0;
+					   }
+				   if(isNaN(parseInt(wodscore)))
+					   {
+					   wodscore = 0;
+					   }
+				   if(isNaN(parseInt(wsolscore)))
+					   {
+					   wsolscore = 0;
+					   }
+				   if(isNaN(parseInt(nosolscore)))
+					   {
+					   nosolscore = 0;
+					   }
+				   if(isNaN(parseInt(fpscore)))
+					   {
+					   fpscore = 0;
+					   }
+				   csv += Math.ceil((ibscore+fwscore+ericscore+invscore+twscore+solarscore+wodscore+sedscore+nosolscore+wsolscore+fpscore)); 
+				   csv += "\n";
+ 				   var temp = new Array();
+ 				   temp = csv.split(",");
+ 				   reporting.push(temp);
+ 				}  
+		}
+	    let csvFile = new Blob([reporting], { type: "text/csv" });
+	    var hiddenElement = document.createElement('a');
+		hiddenElement.href =  window.URL.createObjectURL(csvFile);
+		hiddenElement.target = '_blank';  
+		hiddenElement.download = 'report.csv';
+	    hiddenElement.click();
+	    alert("Report Downloaded! Please check your download folder");
+	    report = null;
+}
+
+ 
+ /*]]>*/
+
+</script>
+</html>

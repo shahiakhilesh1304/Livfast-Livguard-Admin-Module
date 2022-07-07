@@ -1,0 +1,47 @@
+{"properties": [
+  {
+    "name": "spring.thirddatasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.thirddatasource.jdbc-url'"
+  },
+  {
+    "name": "spring.seconddatasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.seconddatasource.jdbc-url'"
+  },
+  {
+    "name": "spring.thirddatasource.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.thirddatasource.username'"
+  },
+  {
+    "name": "spring.thirddatasource.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.thirddatasource.password'"
+  },
+  {
+    "name": "spring.thirddatasource.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.thirddatasource.driver-class-name'"
+  },
+  {
+    "name": "spring.datasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.jdbc-url'"
+  },
+  {
+    "name": "spring.seconddatasource.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.seconddatasource.username'"
+  },
+  {
+    "name": "spring.seconddatasource.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.seconddatasource.password'"
+  },
+  {
+    "name": "spring.seconddatasource.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.seconddatasource.driver-class-name'"
+  }
+]}

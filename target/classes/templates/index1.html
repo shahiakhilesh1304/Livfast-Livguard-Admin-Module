@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+
+<body onload = "omitid(); selectionChange();">
+
+
+
+	<div class="container-scroller" id="bannerClose">
+		<nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/nav1 :: nav1"></nav>
+    	<nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">    
+		    <div class="navbar-menu-wrapper navbar-nav-right d-flex">
+		     	<ul class="navbar-nav mr-lg-2">
+		        	<li class="nav-item ml-0">
+		          		<h4 class="mb-0">Dashboard</h4>
+		        	</li>
+		        	<li class="nav-item">
+		          		<div class="d-flex align-items-baseline">
+		            		<p class="mb-0">Home</p>
+		            		<i class="typcn typcn-chevron-right"></i>
+		            		<p class="mb-0">Main Dahboard</p>
+		          		</div>
+		        	</li>
+		      	</ul>
+		    </div>
+		 </nav>
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/menu :: menu"></nav>
+			<div class="main-panel">
+				<div class="content-wrapper">
+
+					<div class="row">
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">Status statistics</h5>
+							<div class="row">
+								<div class="col-md-6 grid-margin stretch-card">
+									<div class="card" style="height:400px;">									
+											<figure class="highcharts-figure" >
+												  <div id="userAnalysis" style="height:400px;"></div>
+											</figure>														
+									</div>
+								</div>
+								<div class="col-md-6 grid-margin stretch-card">
+									<div class="card" style="height:400px;">									
+											<figure class="highcharts-figure" >
+												  <div id="serialnumberscanning" style="height:400px;"></div>
+											</figure>														
+									</div>
+								</div>
+							</div>
+							<div class="row h-100">	
+								<div class="col-md stretch-card">
+									<div class="card">
+										<div class="card-body">
+											<div class="row h-100">
+												<div
+													class="col-6 d-flex flex-column justify-content-between">
+													<p class="text-muted">Secondary Scanned : <span id="secondaryData-Number"></span></p>
+													<h4 id="scondaryData"></h4>
+													
+												</div>
+												<div
+													class="col-6 d-flex flex-column justify-content-between">
+													<p class="text-muted">Tertiary Scanned : <span id="tertiaryData-Number"></span></p>
+													<h4 id="tertiaryData"></h4>
+													
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">User Active-InActive statistics</h5>
+							<div class="row h-100">
+								<div class="col-md-12 stretch-card">
+									<div class="card">
+										<div class="card-body">
+											<div class="d-flex justify-content-between align-items-start flex-wrap">
+												<div>
+													<p class="mb-3" id="totacthead">Total Active</p>
+													<h3 id="totact">0</h3>
+												</div>
+												<div id="income-chart-legend"
+													class="d-flex flex-wrap mt-1 mt-md-0"></div>
+											</div>
+												<figure class="highcharts-figure" >
+												  <div id="activeinactive" style="height:400px;"></div>
+											</figure>		
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xl-4 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body border-bottom">
+									<div
+										class="d-flex justify-content-between align-items-center flex-wrap">
+										<h6 class="mb-2 mb-md-0 text-uppercase font-weight-medium">Product category Record</h6>
+										<div class="dropdown">
+											
+										</div>
+									</div>
+								</div>
+								<div class="card-body">
+									<figure class="highcharts-figure" style="width:400px">
+													  <div id="piechartwork" style="height:400px;"></div>
+									</figure>	
+									<div
+										class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-3 mt-4">
+										<div
+											class="d-flex flex-column justify-content-center align-items-center">
+											<p class="text-muted">IB</p>
+											<h5 id="valueib">492</h5>
+											<p class="mb-0" id="ib">Tertiary</p>
+										</div>
+										<div
+											class="d-flex flex-column justify-content-center align-items-center">
+											<p class="text-muted">UPS</p>
+											<h5 id="valueups">87k</h5>
+											<p class="mb-0" id="ups">Tertiary</p>
+										</div>
+										<div
+											class="d-flex flex-column justify-content-center align-items-center">
+											<p class="text-muted" >E-Rickshaw</p>
+											<h5 id="valueerick">882</h5>
+											<p class="mb-0" id="erick">Tertiary</p>
+										</div>
+									</div>
+									<div class="d-flex justify-content-between align-items-center">
+										<p class="mb-0">Tertiary</p>
+									</div>
+								</div>
+							</div>
+						</div>
+				<!-- 		<div class="col-md-6 col-xl-4 grid-margin stretch-card">
+							<div class="row">
+								<div class="col-md-12 grid-margin stretch-card">
+									<div class="card newsletter-card bg-gradient-warning">
+										<div class="card-body">
+											<div
+												class="d-flex flex-column align-items-center justify-content-center h-100">
+												<h5 class="mb-3 text-white">Newsletter</h5>
+												<form
+													class="form d-flex flex-column align-items-center justify-content-between w-100">
+													<div class="form-group mb-2 w-100">
+														<input type="text" class="form-control"
+															placeholder="email address">
+													</div>
+													<button class="btn btn-danger btn-rounded mt-1"
+														type="submit">Subscribe</button>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 stretch-card">
+									<div class="card profile-card bg-gradient-primary">
+										<div class="card-body">
+										<div class="col-md">
+													<figure class="avatar mx-auto mb mb-md-0">
+														<img src="images/faces/face20.jpg"  onerror="this.onerror=null;document.getElementById('maxscanphoto').src='images/faces/face20.jpg';" id="maxscanphoto" alt="avatar">
+														
+													</figure>
+												</div>
+											<div class="row align-items-center h-100">
+												
+												<div class="col-md">
+													<h5 class="text-white text-center text-md-left" id="maxscanname">Phoebe
+														Kennedy</h5>
+													<p class="text-white text-center text-md-left" id="maxscanemail">kennedy@gmail.com</p>
+													<div
+														class="d-flex align-items-center justify-content-between info pt-2">
+														<div>
+															<p class="text-white font-weight-bold">Bat Code</p>
+															<p class="text-white font-weight-bold">Phone</p>
+														</div>
+														<div>
+															<p class="text-white" id="maxscanusername">16 Sep 2019</p>
+															<p class="text-white" id="maxscanphone">Netherlands</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div> -->
+						<div class="col-md-6 col-xl-4 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body border-bottom">
+									<div class="d-flex justify-content-between align-items-center flex-wrap">
+										<h6 class="mb-2 mb-md-0 mr-3 text-uppercase font-weight-medium">Scheme
+											Statistics</h6>
+											<select id="selectresultpart" class="form-select md-sm-6 mr-5" style="float:right;border: none;" onchange="selectionChange()">
+												<option value="Selected" selected>Select Scheme</option>
+												<option value="Tertiary">Tertiary</option>
+												<option value="Secondary">Secondary</option>
+											</select>
+										<div class="card-body" style="margin-left:-50px;margin-top: -6px;">									
+											<figure class="highcharts-figure" style="width:400px">
+													  <div id="schemeStats" style="height:600px"></div>
+											</figure>
+										</div>	
+									<div class="d-flex justify-content-between align-items-center">
+										<p class="mb-0" id="tottertdata"></p>
+									</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				
+			<!-- 				<div class="card">
+								<div class="card-body">
+									<div
+										class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+										<div>
+											<p class="mb-2 text-md-center text-lg-left">Total
+												Expenses</p>
+											<h1 class="mb-0">8742</h1>
+										</div>
+										<i class="typcn typcn-briefcase icon-xl text-secondary"></i>
+									</div>
+									<canvas id="expense-chart" height="80"></canvas>
+								</div>
+							</div> -->
+					<!--  <div class="col-md-4 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+										<div>
+											<p class="mb-2 text-md-center text-lg-left">Total Budget</p>
+											<h1 class="mb-0">47,840</h1>
+										</div>
+										<i class="typcn typcn-chart-pie icon-xl text-secondary"></i>
+									</div>
+									<canvas id="budget-chart" height="80"></canvas>
+								</div>
+							</div>
+						</div> -->
+				<!--  		
+						<div class="col-md-4 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<div
+										class="d-flex align-items-center justify-content-between justify-content-md-center justify-content-xl-between flex-wrap mb-4">
+										<div>
+											<p class="mb-2 text-md-center text-lg-left">Total Balance</p>
+											<h1 class="mb-0">$7,243</h1>
+										</div>
+										<i class="typcn typcn-clipboard icon-xl text-secondary"></i>
+									</div>
+									<canvas id="balance-chart" height="80"></canvas>
+								</div>
+							</div>
+						</div>
+					</div> -->
+					
+						<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+							
+								<div class="table-responsive pt-3">
+								<h4 class="card-title" style="text-align:center;">Top 10 Scanned</h4>
+									<table class="table table-striped project-orders-table">
+										<thead  class="thead-dark">
+												<tr>
+												
+													<th scope="col" class="th-sm">Sale Person Name</th>
+													<th scope="col" class="th-sm">Name</th>
+													<th scope="col" class="th-sm">Phone</th>
+													<th scope="col" class="th-sm">Dealer Code</th>
+													<th scope="col" class="th-sm">Total Loyalty Point</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="table-info" th:each="scheme : ${topTen}">
+													<td scope="row" th:text="${scheme.salesPersonName}">Sale Person Name</td>
+													<td  scope="row" th:text="${scheme.name}">Name</td>
+													<td scope="row" th:text="${scheme.phone}">Phone</td>
+													<td scope="row" th:text="${scheme.username}">Dealer Code</td>
+													<td scope="row" th:text="${scheme.totalLoyalty}">Total Loyalty Point</td>
+												</tr>
+											</tbody>
+										</table>
+						</div>
+					</div>
+					</div>
+					</div>
+					
+					<hr>
+					
+					
+					
+							
+				
+					
+					
+					
+					
+					
+					
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card">
+						<div class="col-lg" th:object="${batterySchemeID}">
+								
+							
+						 </div>
+								<div class="table-responsive pt-3">
+								<h4 class="card-title" style="text-align:center;">Monthly offer slab</h4>
+									  	 <select class="md-lg-6 form-control selectpicker"  id="selectbatteryschemeid" onchange="omitid()">
+							      	  <option value = "">Select Battery Scheme Id You Want to check</option>
+							    	    <option th:each="bs : ${batterySchemeID}"
+							                th:value="${bs}"
+							                th:text="${bs}" ></option>
+								     </select>
+									<table class="table table-striped project-orders-table" id="datatabel">
+										<thead  class="thead-dark" >
+											<tr>
+						
+													<th scope="col" class="th-sm">Loyalty Point</th>
+													<th scope="col" class="th-sm">Battery Scheme Id</th>
+													<th scope="col" class="th-sm">Redeem Description</th>											
+													<th scope="col" class="th-sm">Offer Users</th>											
+													
+											</tr>
+										</thead>
+										<tbody id="tbody">
+											<tr class="table-info">
+													<td scope="row" id="lp" >Loyalty Point</td>
+													<td scope="row" id="bsi">Battery Scheme Id</td>
+													<td scope="row" id="of" >Offers</td>
+													<th scope="row" >Offer Users</th>	
+																							
+								
+											</tr>
+										</tbody>
+									</table>
+								</div>
+					
+					
+			
+					
+					
+			
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+			<footer class="footer" th:replace="fragments/footer :: footer"></footer>
+	</div>
+	
+	
+	<div id="slabfallsaleperson" class="modal"
+					style="margin-top: 200px;">
+					<div class="col-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h3 class="card-title" style="float: left;">Forget
+										Password</h3>
+									<span class="close">&times;</span>
+								</div>
+								<hr>
+								<br>
+									<table class="table table-striped project-orders-table" id="datatabelpopup">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col" class="th-sm">Sale Person Name</th>
+												<th scope="col" class="th-sm">Dealer Code</th>
+												<th scope="col" class="th-sm">Total Loyalty Point</th>
+											<tr>
+										</thead>
+										<tbody>
+											<tr class="table-info">
+												<td scope="row" >No Data</td>
+												<td scope="row" >No Data</td>
+												<td scope="row" >No Data</td>
+											</tr>
+										</tbody>
+									</table>
+								
+								<br>
+								<hr>
+								<button class="btn btn-light" onclick = "closeModel();">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+	
+	
+	
+	
+	
+	
+</body>
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+var modal = document.getElementById("scannerModel");
+
+var whichweek = ["1st Week","2nd Week","3rd Week","4th Week"];
+var colorOfArea = "";
+//#FF5F1D - > for livfast
+//#f2372f - > for livguard
+
+var session = /*[[${session}]]*/ "NoValue";
+console.log(session);
+if(session.database == "Livfast")
+	{
+		colorOfArea = "#FF5F1D";
+	}else if(session.database == "Livguard")
+		{
+			colorOfArea =  "#f2372f";
+		}
+	
+	
+//User Analysis Section
+var userAnalysis = /*[[${registeredUserAnalysis}]]*/ "NoValue";
+var userEntry_Date=[];
+var registeredUser=[]; 
+var date;
+var totuser = 0;
+	for(i=0;i<userAnalysis.length;i++)
+		{
+			date=userAnalysis[i].entry_date;
+			date = date.split('T')[0].toLocaleString('default', { month: 'short' });
+			userEntry_Date.push(date);
+			registeredUser.push(userAnalysis[i].userNumber);
+			totuser = totuser + userAnalysis[i].userNumber;
+		}
+	var limit = Math.max(registeredUser);
+
+	$(function()
+	{
+	Highcharts.chart("userAnalysis",
+		{
+			chart:{
+				type: 'area'
+			},
+			title:{
+				text:"Users"
+			},
+			xAxis:
+				{
+				categories: userEntry_Date,
+				crosshair: false
+				},
+			yAxis:
+				{
+				min:0,
+				max: totuser,
+					title:
+					{
+						text:'Users'
+					}
+				},
+			plotOptions:
+			{
+				column:
+				{
+					pointPadding: 0,
+					borderWidth:0
+				}
+			},
+			credits: {
+			    enabled: false
+			},
+			exporting: {
+			    enabled: false
+			},
+	    	series:
+			[{
+				name : "User Registered",
+				data : registeredUser,
+				color: colorOfArea
+			}] 
+		});
+	
+	});
+//End of UserAnalysis Section
+
+//Start of Scheme Analysis
+var schemeAnalysis = /*[[${schemeActiveAnalysis}]]*/ "NoValue";
+
+var totalSecondary = 0;
+var totalTertiary = 0;
+
+for(i=0;i<schemeAnalysis.length;i++)
+{
+	if(schemeAnalysis[i].schemeType == "Tertiary")
+		{
+			totalTertiary = totalTertiary + schemeAnalysis[i].numberOfScheme;
+		}
+	else if(schemeAnalysis[i].schemeType == "Secondary")
+		{
+			totalSecondary = totalSecondary + schemeAnalysis[i].numberOfScheme;
+		}
+}
+
+var total;
+	total = totalTertiary + totalSecondary;
+	
+var secondaryPer, TertiaryPer;
+	secondaryPer=((totalSecondary/total)*100);
+	TertiaryPer=((totalTertiary/total)*100);
+
+var text1 = TertiaryPer.toFixed(2);
+var text2 = secondaryPer.toFixed(2);
+
+document.getElementById("scondaryData").innerHTML = text2+"%";
+document.getElementById("tertiaryData").innerHTML = text1+"%";
+document.getElementById("secondaryData-Number").innerHTML = totalSecondary;
+document.getElementById("tertiaryData-Number").innerHTML = totalTertiary;
+
+/* End of Scheme Analysis */
+
+//Start of SchemeScanning
+var schemeScanning = /*[[${schemeScanning}]]*/ "NoValue";
+var scanningCal=[];
+var max = 0;
+var index;
+for(i=0;i<schemeScanning.length;i++)
+	{
+		if(((schemeScanning[i].totalSecLoyalty)+(schemeScanning[i].totalTerLoyalty)) > max)
+		{
+			max = ((schemeScanning[i].totalSecLoyalty)+(schemeScanning[i].totalTerLoyalty));
+		}
+	}
+
+for(i=0;i<schemeScanning.length;i++)
+{
+	if(((schemeScanning[i].totalSecLoyalty)+(schemeScanning[i].totalTerLoyalty)) == max)
+		{
+			document.getElementById("maxscanname").innerHTML = schemeScanning[i].name;
+			document.getElementById("maxscanemail").innerHTML = schemeScanning[i].email;
+			document.getElementById("maxscanphone").innerHTML = schemeScanning[i].phone;
+			document.getElementById("maxscanusername").innerHTML = schemeScanning[i].username;
+			if(schemeScanning[i].imageLink != null)
+				{
+					document.getElementById("maxscanphoto").src = schemeScanning[i].imageLink;
+				}
+		}
+}
+
+
+//End of max scanning
+
+
+//Serial Number Scanning
+var snAnalysis = /*[[${serialAnalysis}]]*/ "NoValue";
+var totalScanning = 0;
+var isWeeks = [];
+var month;
+var noofScans = [];
+var wee;
+var weekinnum;
+console.log(snAnalysis);
+ for(i=0;i<snAnalysis.length;i++)
+	{
+	 	weekinnum = snAnalysis[i].week;
+	 	wee = whichweek[weekinnum];
+		isWeeks.push(wee);
+		noofScans.push(snAnalysis[i].numberOfSerialNumber);
+		totalScanning = totalScanning + snAnalysis[i].numberOfSerialNumber;
+	}
+ var Header = "Total Serial Number Scanning: " + totalScanning;
+ console.log(isWeeks);
+ 
+	$(function(){
+			Highcharts.chart("serialnumberscanning",
+				{
+					chart:{
+						type: 'line'
+					},
+					title:{
+						text:Header
+					},
+					xAxis:
+						{
+						categories: isWeeks,
+						crosshair: false
+						},
+					yAxis:
+						{
+						min:0,
+						max: totalScanning,
+							title:
+							{
+								text:'Serial Numbers'
+							}
+						},
+					plotOptions:
+					{
+						column:
+						{
+							pointPadding: 0,
+							borderWidth:0
+						}
+					},
+					credits: {
+					    enabled: false
+					},
+					exporting: {
+					    enabled: false
+					},
+			    	series:
+					[{
+						name : "Serial Number Scannned",
+						data : noofScans,
+						color: colorOfArea
+						
+					}] 
+				});
+			
+			});
+//End of serial number scanning
+
+
+//Active Inactive User
+
+
+var useractAna = /*[[${actInactUser}]]*/ "NoValue";
+var months=[];
+var active=[];
+var inactive=[];
+var totact=0;
+var date =  new Date().getFullYear();
+for(i=0;i<useractAna.length;i++)
+	{
+			months.push(useractAna[i].month);
+			active.push(useractAna[i].active);
+			inactive.push(useractAna[i].inActive);
+			totact = totact + useractAna[i].active; 
+	}
+var Heading = "Total Active Users: "+totact
+var val = "Active User in Year "+date;
+document.getElementById("totact").innerHTML = totact;
+document.getElementById("totacthead").innerHTML = val;
+
+
+Highcharts.chart('activeinactive', {
+    chart: {
+        type: 'areaspline'
+    },
+    title: {
+        text: Heading
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'left',
+        verticalAlign: 'top',
+        x: 500,
+        y: -10,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor:
+            Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+    },
+    xAxis: {
+        categories: months,
+    },
+    yAxis: {
+    	min:0,
+		max: totact,
+        title: 
+        {
+            text: 'Users'
+        }
+    },
+    tooltip: {
+        shared: true,
+    },
+    credits: {
+	    enabled: false
+	},
+	exporting: {
+	    enabled: false
+	},
+    plotOptions: {
+        areaspline: {
+            fillOpacity: 0.5
+        }
+    },
+    series: [{
+        name: 'Active',
+        data: active,
+    }, {
+        name: 'In Active',
+        data: inactive,
+		color: colorOfArea
+    }]
+});
+      
+
+//End of Active In active
+
+
+//Slab Table
+var tabledata = /*[[${monthlySlabData}]]*/ "NoValue";
+var scannertotdata = /*[[${totalSchemeScan}]]*/ "NoValue";
+console.log("Scanner total data",scannertotdata);
+
+var searchId =0;
+var allData = [];
+var limit;
+function omitid()
+{
+	searchId = document.getElementById('selectbatteryschemeid').value;	
+	if(searchId == "")
+	{
+		 var rowCount = document.getElementById("datatabel").rows.length;
+	        for (var i = rowCount - 1; i > 0; i--) {
+	        	document.getElementById("datatabel").deleteRow(i);
+	        }
+		allData.push(tabledata);
+		for(i=0;i<tabledata.length;i++)
+		{
+			var tbodyRef = document.getElementById('datatabel').getElementsByTagName('tbody')[0];
+			// Insert a row at the end of table
+			var newRow = tbodyRef.insertRow();
+			// Insert a cell at the end of the row
+			var newCell1 = newRow.insertCell();
+			var newCell2 = newRow.insertCell();
+			var newCell3 = newRow.insertCell();
+			var newCell4 = newRow.insertCell();
+
+			
+			// Append a text node to the cell
+			var newText1 = document.createTextNode(tabledata[i].loyaltyPoint);
+			var newText2 = document.createTextNode(tabledata[i].batterySchemeId);
+			var newText3 = document.createTextNode(tabledata[i].redeemDesc);
+			var newText4 = document.createTextNode("Check Eligible List");
+			var link = document.createElement('button');
+			link.setAttribute("class","btn btn-primary btn-block btn-sm");
+			link.setAttribute("data-toggle","modal");
+			link.setAttribute("data-target","#myModal");
+			link.setAttribute("type","button")
+			link.setAttribute("id","dynabutton")
+			link.setAttribute('onclick', "modelShow("+tabledata[i].loyaltyPoint+")");
+			link.appendChild(newText4);
+			
+	
+
+			newCell1.appendChild(newText1);
+			newCell2.appendChild(newText2);
+			newCell3.appendChild(newText3);
+			newCell4.appendChild(link);
+
+			
+			limit = limit +1;
+			if(limit > 8)
+				{
+					break;
+				}
+
+		}
+	}else
+		{
+
+		 var rowCount = document.getElementById("datatabel").rows.length;
+	        for (var i = rowCount - 1; i > 0; i--) {
+	        	document.getElementById("datatabel").deleteRow(i);
+	        }
+		for(i=0;i<tabledata.length;i++)
+		{
+			if(tabledata[i].batterySchemeId == searchId)
+				{
+				var tbodyRef = document.getElementById('datatabel').getElementsByTagName('tbody')[0];
+				// Insert a row at the end of table
+				var newRow = tbodyRef.insertRow();
+				// Insert a cell at the end of the row
+				var newCell1 = newRow.insertCell();
+				var newCell2 = newRow.insertCell();
+				var newCell3 = newRow.insertCell();
+				var newCell4 = newRow.insertCell();
+				
+
+				// Append a text node to the cell
+				var newText1 = document.createTextNode(tabledata[i].loyaltyPoint);
+				var newText2 = document.createTextNode(tabledata[i].batterySchemeId);
+				var newText3 = document.createTextNode(tabledata[i].redeemDesc);
+				var newText4 = document.createTextNode("Check Eligible List");
+				var link = document.createElement('a');
+				link.setAttribute('href', "https://google.com");
+				link.appendChild(newText4);
+				
+				newCell1.appendChild(newText1);
+				newCell2.appendChild(newText2);
+				newCell3.appendChild(newText3);
+				newCell4.appendChild(link);
+				}
+		}
+
+		}
+}
+var scannertotdata = /*[[${totalSchemeScan}]]*/ "NoValue";
+
+
+
+//get the modal
+var modal = document.getElementById("slabfallsaleperson");
+
+//get the button
+var btn = document.getElementById("dynabutton");
+
+//Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+
+//When the user clicks the button, open the modal 
+var datapure = "No Data" ;
+var j =0;
+function modelShow(lp)
+{
+	 var rowCount = document.getElementById("datatabelpopup").rows.length;
+     for (var i = rowCount - 1; i > 0; i--) {
+     	document.getElementById("datatabelpopup").deleteRow(i);
+     }
+	modal.style.display = "block";
+	for(i=0;i<scannertotdata.length;i++)
+		{
+			console.log("Loyalty Point",scannertotdata[i].totalLoyalty);
+				if(lp <= scannertotdata[i].totalLoyalty)
+					{
+						console.log("Loyalty Point -> ",scannertotdata[i].totalLoyalty);				
+						var tbodyRef = document.getElementById('datatabelpopup').getElementsByTagName('tbody')[0];
+						// Insert a row at the end of table
+						var newRow = tbodyRef.insertRow();
+						// Insert a cell at the end of the row
+						var newCell1 = newRow.insertCell();
+						var newCell2 = newRow.insertCell();
+						var newCell3 = newRow.insertCell();
+						
+						// Append a text node to the cell
+						var newText1 = document.createTextNode(scannertotdata[i].salesPersonName);
+						var newText2 = document.createTextNode(scannertotdata[i].username);
+						var newText3 = document.createTextNode(scannertotdata[i].totalLoyalty);
+					
+				
+
+						newCell1.appendChild(newText1);
+						newCell2.appendChild(newText2);
+						newCell3.appendChild(newText3);
+					
+					}
+
+		}
+}
+
+
+//When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
+function closeModel()
+{
+	 modal.style.display = "none";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//End of slab table
+
+//Tert - Sec Start
+//Secondary
+var secScheme = /*[[${secSchemeCount}]]*/ "NoValue";
+
+var month = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var mnt;
+var countSec = [];
+var dateSec = [];
+var maxSec = 0;
+var sumSec = 0;
+for(i = 0;i<secScheme.length;i++)
+	{
+		date=secScheme[i].createdTime;
+		date = date.split('T')[0];
+		mnt = month[date.split('-')[1] - 1];
+		date = date.split('-')[2]+"/"+mnt;
+		dateSec.push(date);
+		countSec.push(secScheme[i].count);
+		console.log(secScheme[i].count);
+		if(maxSec < secScheme[i].count)
+			{
+				maxSec = secScheme[i].count;
+			}
+		sumSec = sumSec + secScheme[i].count;
+	}
+
+
+
+//Tertiary
+var terScheme = /*[[${tertSchemeCount}]]*/ "NoValue";
+var mnt;
+var countTer = [];
+var dateTer = [];
+var maxTer = 0;
+var sumTer = 0;
+for(i = 0;i<terScheme.length;i++)
+	{
+		date=terScheme[i].createdTime;
+		date = date.split('T')[0];
+		mnt = month[date.split('-')[1] - 1];
+		date = date.split('-')[2]+"/"+mnt;
+		dateTer.push(date);
+		countTer.push(terScheme[i].count);
+		if(maxTer < terScheme[i].count)
+			{
+			maxTer = terScheme[i].count;
+			}
+		sumTer = sumTer + terScheme[i].count;
+	}
+var titletext = "Total Scheme Available : "+(sumTer+sumSec);
+
+document.getElementById("tottertdata").innerHTML = titletext;
+
+function selectionChange()
+{
+				var selectre = document.getElementById("selectresultpart").value;	
+				if(selectre == "Selected")
+					{
+					Highcharts.chart('schemeStats', {
+					    chart: {
+					        type: 'column'
+					    },
+					    title: {
+					        text: ''
+					    },
+					    xAxis: {
+					        categories: dateTer
+					    },
+					    yAxis: {
+					        min: 0,
+					        title: {
+					            text: "Schemes"
+					        },
+					        stackLabels: {
+					            enabled: true,
+					            style: {
+					                fontWeight: 'bold',
+					                color: ( // theme
+					                    Highcharts.defaultOptions.title.style &&
+					                    Highcharts.defaultOptions.title.style.color
+					                ) || 'gray'
+					            }
+					        }
+					    },
+					    legend: {
+					        align: 'right',
+					        x: -30,
+					        verticalAlign: 'top',
+					        y: 25,
+					        floating: true,
+					        backgroundColor:
+					            Highcharts.defaultOptions.legend.backgroundColor || 'white',
+					        borderColor: '#CCC',
+					        borderWidth: 1,
+					        shadow: false
+					    },
+					    tooltip: {
+					        headerFormat: '<b>{point.x}</b><br/>',
+					        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+					    },
+					    plotOptions: {
+					        column: {
+					            stacking: 'normal',
+					            dataLabels: {
+					                enabled: true
+					            }
+					        }
+					    },
+					    credits: {
+						    enabled: false
+						},
+						exporting: {
+						    enabled: false
+						},
+					    series: [{
+					        name: 'Tertiary Scheme',
+					        data: countTer,
+							color: "#EB6F6C"
+					    }]
+					});
+					      
+					}
+				else if(selectre == "Tertiary")
+					{
+								Highcharts.chart('schemeStats', {
+								    chart: {
+								        type: 'column'
+								    },
+								    title: {
+								        text: ''
+								    },
+								    xAxis: {
+								        categories: dateTer
+								    },
+								    yAxis: {
+								        min: 0,
+								        title: {
+								            text: "Schemes"
+								        },
+								        stackLabels: {
+								            enabled: true,
+								            style: {
+								                fontWeight: 'bold',
+								                color: ( // theme
+								                    Highcharts.defaultOptions.title.style &&
+								                    Highcharts.defaultOptions.title.style.color
+								                ) || 'gray'
+								            }
+								        }
+								    },
+								    legend: {
+								        align: 'right',
+								        x: -30,
+								        verticalAlign: 'top',
+								        y: 25,
+								        floating: true,
+								        backgroundColor:
+								            Highcharts.defaultOptions.legend.backgroundColor || 'white',
+								        borderColor: '#CCC',
+								        borderWidth: 1,
+								        shadow: false
+								    },
+								    tooltip: {
+								        headerFormat: '<b>{point.x}</b><br/>',
+								        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+								    },
+								    credits: {
+									    enabled: false
+									},
+									exporting: {
+									    enabled: false
+									},
+								    plotOptions: {
+								        column: {
+								            stacking: 'normal',
+								            dataLabels: {
+								                enabled: true
+								            }
+								        }
+								    },
+								    series: [{
+								        name: 'Tertiary Scheme',
+								        data: countTer,
+										color: "#EB6F6C"
+								    }]
+								});
+								      
+								
+					}
+			else if(selectre == "Secondary")
+				{
+				Highcharts.chart('schemeStats', {
+				    chart: {
+				        type: 'column'
+				    },
+				    title: {
+				        text: ''
+				    },
+				    xAxis: {
+				        categories: dateSec
+				    },
+				    yAxis: {
+				        min: 0,
+				        title: {
+				            text: "Schemes"
+				        },
+				        stackLabels: {
+				            enabled: true,
+				            style: {
+				                fontWeight: 'bold',
+				                color: ( // theme
+				                    Highcharts.defaultOptions.title.style &&
+				                    Highcharts.defaultOptions.title.style.color
+				                ) || 'gray'
+				            }
+				        }
+				    },
+				    legend: {
+				        align: 'right',
+				        x: -30,
+				        verticalAlign: 'top',
+				        y: 25,
+				        floating: true,
+				        backgroundColor:
+				            Highcharts.defaultOptions.legend.backgroundColor || 'white',
+				        borderColor: '#CCC',
+				        borderWidth: 1,
+				        shadow: false
+				    },
+				    tooltip: {
+				        headerFormat: '<b>{point.x}</b><br/>',
+				        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+				    },
+				    plotOptions: {
+				        column: {
+				            stacking: 'normal',
+				            dataLabels: {
+				                enabled: true
+				            }
+				        }
+				    },
+				    credits: {
+					    enabled: false
+					},
+					exporting: {
+					    enabled: false
+					},
+				    series: [{
+				        name: 'Secondary Scheme',
+				        data: countSec,
+						color: "#FF5F1D"
+				    }]
+				});
+				}
+}
+
+//End of Tert- Sec
+
+//IBERICKUPS RECORD
+var totalRec = /*[[${totRecordIBUPSERICK}]]*/ "NoValue";
+var ibRec = /*[[${totRecordIB}]]*/ "NoValue";
+var upsRec = /*[[${totRecordUPS}]]*/ "NoValue";
+var rerickRec = /*[[${totRecordERICK}]]*/ "NoValue";
+
+document.getElementById("valueib").innerHTML = ibRec;
+document.getElementById("valueups").innerHTML = upsRec;
+document.getElementById("valueerick").innerHTML = rerickRec;
+
+
+var perIb = ((ibRec / totalRec)*100);
+var perUPS = ((upsRec / totalRec)*100);
+var perErick = ((rerickRec / totalRec)*100);
+
+var text1 = perIb.toFixed(2)+"%";
+var text2 = perUPS.toFixed(2)+"%";
+var text3 = perErick.toFixed(2)+"%";
+
+document.getElementById("ib").innerHTML = text1;
+document.getElementById("ups").innerHTML = text2;
+document.getElementById("erick").innerHTML = text3;
+
+//Make monochrome colors
+var pieColors = (function () {
+    var colors = [],
+        base = colorOfArea;
+
+    for (i = 0; i < 10; i += 1) {
+        // Start out with a darkened base color (negative brighten), and end
+        // up with a much brighter color
+        colors.push(Highcharts.color(base).brighten((i - 3) / 7).get());
+    }
+    return colors;
+}());
+
+// Build the chart
+Highcharts.chart('piechartwork', {
+    chart: {
+        plotBackgroundColor: false,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie',
+      	allowPointSelect: true,
+      	showInLegend: true
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            colors: pieColors,
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+                distance: -50,
+                filter: {
+                    property: 'percentage',
+                    operator: '>',
+                    value: 4
+                }
+            }
+        }
+    },
+    credits: {
+	    enabled: false
+	},
+	exporting: {
+	    enabled: false
+	},
+    series: [{
+        name: 'Registered',
+        data: [
+            { name: 'IB', y: ibRec },
+            { name: 'UPS', y: upsRec },
+            { name: 'ERickShaw', y: rerickRec }
+        ]
+    }]
+});
+
+//END IBERICKUPS RECORD
+
+ /*]]>*/
+</script>
+</html>
+
+

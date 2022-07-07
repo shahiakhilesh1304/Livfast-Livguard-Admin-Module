@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Built-By: Akhilesh
+Build-Jdk: 17.0.2
+Implementation-Title: LivguardScheme
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.livguard
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/LivguardScheme
+Main-Class: com.livguard.api.AppMain
+Created-By: Maven Integration for Eclipse
+

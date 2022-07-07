@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<body>
+	<div class="container-scroller">
+		<nav class="sidebar sidebar-offcanvas" id="sidebar"
+			th:replace="fragments/nav1 :: nav1"></nav>
+		<nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">
+			<div class="navbar-menu-wrapper navbar-nav-right d-flex">
+				<ul class="navbar-nav mr-lg-2">
+					<li class="nav-item ml-0">
+						<h4 class="mb-0">Dashboard</h4>
+					</li>
+					<li class="nav-item">
+						<div class="d-flex align-items-baseline">
+							<p class="mb-0">Home</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Main Dahboard</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Secondary</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Upload_Model</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<a onclick="exportSample()" class="mdi mdi-cloud-download mr-2"
+				data-toggle="tooltip" data-placement="left" data-html="true"
+				title="Download Sample"
+				style="float: right; color: rgb(255, 92, 28); font-size: 1.875em; margin-left: 3.5em; margin-top: 0.125em; font-size: 2.625em;">
+			</a>
+		</nav>
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar"
+				th:replace="fragments/menu :: menu"></nav>
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-lg-12 stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title" style="float: left;">Secondary
+										Model List</h4>
+									<button class="btn btn-primary mr-2" id="uploadButton"
+										style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);">Upload
+										Models</button>
+									<!-- Search Data -->
+									<!-- Search box -->
+									<form th:action="@{/searchSecondaryModel}" method="post">
+										<input type="search" id="search"
+											placeholder="Search Battery Model" name="bmodal"
+											class="form-control col-sm-3 mr-2"
+											style="float: right; border-color: border-bottom-left-radius;">
+										<button type="submit" id="searchbut" class="btn btn-primary"
+											style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);">
+											<i class="typcn typcn-zoom"></i>
+										</button>
+									</form>
+									<!-- End of Search -->
+									<div class="table-responsive pt-3">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Battery Model</th>
+													<th>Brand</th>
+													<th>Points</th>
+													<th>Range</th>
+													<th>Scheme</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="table-info"
+													th:each="secondary : ${secondaryList}">
+													<td th:text="${secondary.id}">ID</td>
+													<td th:text="${secondary.productName}">Battery Model</td>
+													<td th:text="${secondary.brandName}">Brand</td>
+													<td th:text="${secondary.loyaltyPoints}">Points</td>
+													<td th:text="${secondary.range}">Range</td>
+													<td th:text="${secondary.batterySchemeId}">Scheme</td>
+													<td>
+														<div class="template-demo d-flex flex-nowrap">
+															<input type="hidden"
+																th:id="@{|secondaryID_${secondary.id}|}"
+																th:value="*{secondary.id}" /> <input type="hidden"
+																th:id="@{|productName_${secondary.id}|}"
+																th:value="*{secondary.productName}" /> <input
+																type="hidden" th:id="@{|brandName_${secondary.id}|}"
+																th:value="*{secondary.brandName}" /> <input
+																type="hidden" th:id="@{|loyaltyPoints_${secondary.id}|}"
+																th:value="*{secondary.loyaltyPoints}" /> <input
+																type="hidden"
+																th:id="@{|batterySchemeId_${secondary.id}|}"
+																th:value="*{secondary.batterySchemeId}" /> <input
+																type="hidden" th:id="@{|range_${secondary.id}|}"
+																th:value="*{secondary.range}" /> <input type="hidden"
+																th:id="@{|productDesc_${secondary.id}|}"
+																th:value="*{secondary.productDesc}" />
+															<button type="button"
+																th:onclick="|editSecondary(${secondary.id})|"
+																class="btn btn-success btn-rounded btn-icon">
+																<i class="typcn typcn-edit"></i>
+															</button>
+															<button type="button"
+																th:onclick="|detailSecondary(${secondary.id})|"
+																class="btn btn-info btn-rounded btn-icon">
+																<i class="typcn typcn-th-list"></i>
+															</button>
+															<a th:href="'/deleteSecondaryModel/'+${secondary.id}"
+																style="padding: 12px;"
+																class="btn btn-danger btn-rounded btn-icon"> <i
+																class="typcn typcn-delete"></i>
+															</a>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<!-- Upload Secondary Scheme -->
+				<div id="uploadSecondaryModal" class="modal">
+					<div class="col-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h4 class="card-title" style="float: left;">Upload
+										secondary Model</h4>
+									<a th:onclick="|uploadClose()|" href="#" style="float: right;">x</a>
+								</div>
+								<p th:text="${msg}" th:if="${message ne null}"
+									class="alert alert-primary"></p>
+								<form class="forms-sample" method="post"
+									th:action="@{/uploadSecondaryModel}"
+									enctype="multipart/form-data">
+									<div class="form-group">
+										<label for="secondaryScheme">secondary Scheme</label> <select
+											class="form-control" id="secondaryScheme" name="schemeId"
+											required>
+											<option>Select secondary Scheme</option>
+											<option th:each="scheme : ${schemeList}"
+												th:value="${scheme.id}" th:utext="${scheme.schemeName}"></option>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>File upload</label>
+										<div class="input-group col-xs-12">
+											<input type="file" name="file"
+												class="form-control file-upload-info"
+												placeholder="Upload Model" required>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary mr-2">Upload</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Upload Secondary Scheme -->
+
+				<!-- edit Secondary Scheme -->
+				<div id="editSecondaryModal" class="modal">
+					<div class="col-md-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h4 class="card-title" style="float: left;">Edit secondary
+										Model</h4>
+									<a th:onclick="|editClose()|" href="#" style="float: right;">x</a>
+								</div>
+								<form class="forms-sample" action="#"
+									th:action="@{/editSecondaryModel}" th:object="${secondary}"
+									method="post">
+									<input type="hidden" id="schemeID1" name="id" />
+									<div class="form-group row">
+										<label for="productName1" class="col-sm-3 col-form-label">Battery
+											Model</label>
+										<div class="col-sm-9">
+
+											<input type="text" class="form-control" id="productName1"
+												name="productName" placeholder="Secondary Model" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="brandName1" class="col-sm-3 col-form-label">Brand
+											Name</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="brandName1"
+												name="brandName" placeholder="Brand Name" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="productDesc1" class="col-sm-3 col-form-label">Product
+											Description</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="productDesc1"
+												name="productDesc" placeholder="Product Description"
+												required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="loyaltyPoints1" class="col-sm-3 col-form-label">Loyalty
+											Point</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="loyaltyPoints1"
+												name="loyaltyPoints" placeholder="Loyalty Point" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="range1" class="col-sm-3 col-form-label">Range</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="range1"
+												name="range" placeholder="Range" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="batterySchemeId1" class="col-sm-3 col-form-label">Battery
+											Scheme ID</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="batterySchemeId1"
+												name="batterySchemeId" placeholder="Battery Scheme Id"
+												required />
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary mr-2">Submit</button>
+									<button class="btn btn-light" type="reset"
+										th:onclick="|editClose()|">Close</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Edit Secondary Scheme -->
+
+				<!-- Detail Secondary Scheme -->
+				<div id=detailSecondaryModal class="modal">
+					<div class="col-md-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h4 class="card-title" style="float: left;">Detail
+										Secondary Model</h4>
+									<a th:onclick="|detailClose()|" href="#" style="float: right;">x</a>
+								</div>
+
+								<div class="row">
+									<label for="productName2" class="col-sm-3 col-form-label">Battery
+										Model :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="productName2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="brandName2" class="col-sm-3 col-form-label">Brand
+										Name :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="brandName2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="productDesc2" class="col-sm-3 col-form-label">Product
+										Description :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="productDesc2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="loyaltyPoints2" class="col-sm-3 col-form-label">Loyalty
+										Point :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="loyaltyPoints2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="range2" class="col-sm-3 col-form-label">Range
+										:</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="range2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="batterySchemeId2" class="col-sm-3 col-form-label">Battery
+										Shceme ID:</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="batterySchemeId2"></p>
+									</div>
+								</div>
+								<button class="btn btn-light" type="reset"
+									style="background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);"
+									th:onclick="|detailClose()|">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Detail secondary Scheme -->
+
+				<footer class="footer" th:replace="fragments/footer :: footer"></footer>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+    //add Scheme
+	var modal = document.getElementById("uploadSecondaryModal");
+	var btn = document.getElementById("uploadButton");
+	var span = document.getElementsByClassName("uploadClose")[0];
+	btn.onclick = function() 
+	{
+	  	modal.style.display = "block";
+	}
+	
+	span.onclick = function() 
+	{
+	  	modal.style.display = "none";
+	}
+	
+	// edit Scheme
+	var modal1 = document.getElementById("editSecondaryModal");
+  	function editSecondary(id)
+  	{	
+  		//alert("edit");
+  		modal1 = document.getElementById("editSecondaryModal");
+  		document.getElementById("schemeID1").value = id;
+  		document.getElementById("productName1").value = document.getElementById("productName_"+id).value;
+  		document.getElementById("brandName1").value = document.getElementById("brandName_"+id).value;
+  		document.getElementById("productDesc1").value = document.getElementById("productDesc_"+id).value;
+  		document.getElementById("loyaltyPoints1").value = document.getElementById("loyaltyPoints_"+id).value;
+  		document.getElementById("batterySchemeId1").value = document.getElementById("batterySchemeId_"+id).value;
+  		document.getElementById("range1").value = document.getElementById("range_"+id).value;
+  		modal1.style.display = "block";  		
+  		//alert("edit-----------");
+  	}	 	
+  	
+  	//detail Scheme
+  	var modal2 = document.getElementById("detailSecondaryModal");
+  	function detailSecondary(id)
+  	{	
+  		//alert("detail == "+id);
+  		modal2 = document.getElementById("detailSecondaryModal");
+  		document.getElementById("productName2").innerHTML = document.getElementById("productName_"+id).value;
+  		document.getElementById("brandName2").innerHTML = document.getElementById("brandName_"+id).value;
+  		document.getElementById("productDesc2").innerHTML = document.getElementById("productDesc_"+id).value;
+  		document.getElementById("loyaltyPoints2").innerHTML = document.getElementById("loyaltyPoints_"+id).value;
+  		document.getElementById("batterySchemeId2").innerHTML = document.getElementById("batterySchemeId_"+id).value;
+  		document.getElementById("range2").innerHTML = document.getElementById("range_"+id).value;  		
+  		modal2.style.display = "block";
+  		//alert("detail==============");
+  	}
+	
+  	window.onclick = function(event) 
+	{
+	  	if (event.target == modal) 
+	  	{
+	    	modal.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal1) 
+	  	{
+	    	modal1.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal2) 
+	  	{
+	    	modal2.style.display = "none";
+	  	}
+	}
+	
+	function uploadClose()
+	{
+		modal.style.display = "none";	
+	}
+	
+	function editClose()
+	{
+		modal1.style.display = "none";	
+	}
+	
+	function detailClose()
+	{
+		modal2.style.display = "none";	
+	}
+	
+	
+	
+	
+	//export
+
+	function exportSample()
+		{    
+			 var csvFileData = [
+			   ['name1','brand1','range1','5'],
+			   ['name2','brand2','range2','4'],
+			   ['name3','brand3','range3','3'],
+			   ['name4','brand4','range4','2']
+		];
+			 var csv = 'product_name,brand_name,range,loyalty_points\n';
+		 
+
+			 
+			 csvFileData.forEach(function(row) {  
+	            csv += row.join(',');  
+	            csv += "\n";  
+	   		 });  
+		 
+			 
+		   var hiddenElement = document.createElement('a');  
+     	    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+			hiddenElement.target = '_blank';  
+		    
+			hiddenElement.download = 'sample_secondary_models.csv';
+		    hiddenElement.click();
+		}
+	
+  </script>
+</body>
+
+</html>

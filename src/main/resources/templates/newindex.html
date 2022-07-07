@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<body onload = "omitid(); selectionChange();">
+
+	<!-- First Div -->
+	<div class="container-scroller" id="bannerClose">
+	<!-- Nav Bar -->
+		<nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/nav1 :: nav1"></nav>
+			<nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">    
+			    <div class="navbar-menu-wrapper navbar-nav-right d-flex">
+			     	<ul class="navbar-nav mr-lg-2">
+			        	<li class="nav-item ml-0">
+			          		<h4 class="mb-0">Dashboard</h4>
+			        	</li>
+			        	<li class="nav-item">
+			          		<div class="d-flex align-items-baseline">
+			            		<p class="mb-0">Home</p>
+			            		<i class="typcn typcn-chevron-right"></i>
+			            		<p class="mb-0">Main Dashboard</p>
+			          		</div>
+			        	</li>
+			      	</ul>
+			    </div>
+			 </nav>
+		<!-- End of Nav Bar -->
+
+		<!-- start of dash board -->
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/menu :: menu"></nav>
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-xl-6 grid-margin stretch-card flex-column">
+							<h5 class="mb-2 text-titlecase mb-4">Status statistics</h5>
+								<div class="row">
+									<div class="card">
+										<figure class="highcharts-figure" >
+												  <div id="userAnalysis"></div>
+										</figure>	
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<!-- Last Div -->
+
+</body>
+<script th:inline="javascript">
+
+/*<![CDATA[*/
+// Global Declarations
+var modal = document.getElementById("scannerModel");
+
+var whichweek = ["1st Week","2nd Week","3rd Week","4th Week"];
+var colorOfArea = "";
+//#FF5F1D - > for livfast
+//#f2372f - > for livguard
+
+// ____________________________Session Check color setting(id="")_______________________________
+var session = /*[[${session}]]*/ "NoValue";
+console.log(session);
+if(session.database == "Livfast")
+	{
+		colorOfArea = "#FF5F1D";
+	}else if(session.database == "Livguard")
+	{
+		colorOfArea =  "#f2372f";
+	}
+
+
+// ____________________________User Analysis(id=userAnalysis)____________________________________
+
+var userAnalysis = /*[[${registeredUserAnalysis}]]*/ "NoValue";
+var userEntry_Date=[];
+var registeredUser=[]; 
+var date;
+var totuser = 0;
+	for(i=0;i<userAnalysis.length;i++)
+		{
+			date=userAnalysis[i].entry_date;
+			date = date.split('T')[0].toLocaleString('default', { month: 'short' });
+			userEntry_Date.push(date);
+			registeredUser.push(userAnalysis[i].userNumber);
+			totuser = totuser + userAnalysis[i].userNumber;
+		}
+	var limit = Math.max(registeredUser);
+
+	$(function(){Highcharts.chart("userAnalysis",{
+			chart:{
+				type: 'area'
+			},
+			title:{
+				text:"Users"
+			},
+			xAxis:
+				{
+				categories: userEntry_Date,
+				crosshair: false
+				},
+			yAxis:
+				{
+				min:0,
+				max: totuser,
+					title:
+					{
+						text:'Users'
+					}
+				},
+			plotOptions:
+			{
+				column:
+				{
+					pointPadding: 0,
+					borderWidth:0
+				}
+			},
+			credits: {
+			    enabled: false
+			},
+			exporting: {
+			    enabled: false
+			},
+	    	series:
+			[{
+				name : "User Registered",
+				data : registeredUser,
+				color: colorOfArea
+			}] 
+		});
+	
+	});
+//End of UserAnalysis Section
+
+
+
+ /*]]>*/
+
+</script>
+</html>

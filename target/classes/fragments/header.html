@@ -1,0 +1,83 @@
+<head th:fragment="header">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title></title>
+<link rel="stylesheet" th:href=@{vendors/typicons/typicons.css} />
+<link rel="stylesheet" th:href=@{vendors/css/vendor.bundle.base.css} />
+<link rel="stylesheet" th:href=@{vendors/mdi/css/materialdesignicons.min.css} />
+<link rel="stylesheet" th:href=@{css/vertical-layout-light/style.css} />
+<link rel="shortcut icon" th:href=@{images/favicon.png} />
+<link rel="stylesheet" th:href=@{vendors/select2/select2.min.css} />
+<link rel="stylesheet" th:href=@{vendors/select2-bootstrap-theme/select2-bootstrap.min.css} />
+<link rel="stylesheet" th:href=@{css/jquery-ui.css} />
+
+<script th:src=@{vendors/js/vendor.bundle.base.js}></script>
+<script th:src=@{vendors/chart.js/Chart.min.js}></script>
+<script th:src=@{js/off-canvas.js}></script>
+<script th:src=@{js/hoverable-collapse.js}></script>
+<script th:src=@{js/template.js}></script>
+<script th:src=@{js/settings.js}></script>
+<script th:src=@{js/todolist.js}></script>
+<script th:src=@{js/dashboard.js}></script>
+<script th:src=@{vendors/typeahead.js/typeahead.bundle.min.js}></script>
+<script th:src=@{vendors/select2/select2.min.js}></script>
+<script th:src=@{js/file-upload.js}></script>
+<script th:src=@{js/typeahead.js}></script>
+<script th:src=@{js/select2.js}></script>
+<script th:src=@{js/jquery-3.6.0.js}></script>
+<script th:src=@{js/jquery-ui.js}></script>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<!-- To import hicharts -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<!-- End of hicharts import -->
+
+
+
+<style>
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 100px; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+	background-color: #fefefe;
+	margin: auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+}
+
+/* The Close Button */
+.close {
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover, .close:focus {
+	color: #000;
+	text-decoration: none;
+	cursor: pointer;
+}
+</style>
+</head>

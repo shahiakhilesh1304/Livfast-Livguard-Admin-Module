@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>LG/LF Scheme</title>
+<link rel="stylesheet" th:href="@{/vendors/typicons/typicons.css}">
+<link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+<link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
+<link rel="shortcut icon" th:href="@{/images/favicon.png}" />
+<script th:src="@{/vendors/js/vendor.bundle.base.js}"
+	type="text/javascript"></script>
+<script th:src="@{/js/off-canvas.js}" type="text/javascript"></script>
+<script th:src="@{/js/hoverable-collapse.js}" type="text/javascript"></script>
+<script th:src="@{/js/template.js}" type="text/javascript"></script>
+<script th:src="@{/js/settings.js}" type="text/javascript"></script>
+<script th:src="@{/js/todolist.js}" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+	function changeScheme(color) {
+		var property = document.getElementById("log");
+		var username = document.getElementById("inputuser").value;
+		if (color == '#ff5c1c') {
+			document.getElementById("livfast").value = 1;
+			document.getElementById("livguard").value = 0;
+			/* document.getElementById("powertuff").value =0; */
+			property.style.backgroundColor = color;
+			property.style.borderColor = color;
+			//alert("color1");
+
+		}
+		if (color == "#000000") {
+			document.getElementById("livfast").value = 0;
+			document.getElementById("livguard").value = 1;
+			/* document.getElementById("powertuff").value =0; */
+			property.style.backgroundColor = color;
+			property.style.borderColor = color;
+			//alert("color2");
+		}
+	/* 	if(color == "#FF0000")
+		{
+			document.getElementById("livfast").value = 0;
+			document.getElementById("livguard").value = 0;
+			document.getElementById("powertuff").value =1;
+			property.style.backgroundColor = color;
+			property.style.borderColor = color;
+			//alert("color3");
+		} */
+	}
+
+	function setUserValue() {
+		var lf = document.getElementById("livfast").value;
+		var lg = document.getElementById("livguard").value;
+		/* var pt = document.getElementById("powertuff").value; */
+		console.log(lf,lg)
+		var username = document.getElementById("inputuser").value;
+		var db = "";
+		var cropper = "";
+		if (lf == 1 && lg == 0) {
+			db = "@Livfast";
+			cropper = username.concat(db);
+			document.getElementById("username").value = cropper;
+			//alert(document.getElementById("username").value);
+			
+		}
+		if (lf == 0 && lg == 1) {
+			db = "@Livguard";
+			cropper = username.concat(db);
+			document.getElementById("username").value = cropper;
+			//alert(document.getElementById("username").value);
+		}
+	/* 	if (lf == 0 && lg == 0 && pt == 1) {
+			db = "@powertuff";
+			cropper = username.concat(db);
+			document.getElementById("username").value = cropper;
+			//alert(document.getElementById("username").value);
+		} */
+	}
+</script>
+
+</head>
+<body onload="changeScheme('#ff5c1c');">
+
+	<div class="container-scroller">
+		<div class="container-fluid page-body-wrapper full-page-wrapper">
+			<div class="content-wrapper d-flex align-items-center auth px-0">
+				<div class="row w-100 mx-0"
+					style='background: url(images/new_image.gif) no-repeat center center fixed; background-size: cover; height: 100%; width: 100%; overflow: hidden;'>
+					<div class="col-lg-4 mx-auto" style="margin-top: 120px;">
+						<!-- <button class="btn btn-danger form-control" onclick="changeScheme('#FF0000');">Click To Login With Powertuff</button> -->
+						<div class="auth-form-light text-left py-5 px-4 px-sm-5">
+
+
+							<!-- LivFast Section -->
+							<div class="brand-logo" style="float: left;">
+								<a href="#" onclick="changeScheme('#ff5c1c');"><img
+									src="images/logo1.svg" alt="logo"></a>
+							</div>
+
+							<!-- LivGuard Section -->
+							<div class="brand-logo" style="float: right;">
+								<a href="#" onclick="changeScheme('#000000');"><img
+									src="images/logo2.webp" alt="logo"></a>
+							</div>
+
+
+
+
+
+							<p style="float: left; color: green;" th:text="${message}"></p>
+
+							<h4 style="float: right;">Hello! let's get started</h4>
+
+							<h6 class="font-weight-light" style="float: left;">Sign in
+								to continue.</h6>
+
+							<!-- <form class="pt-3" action="#" th:method="@{post}" th:action="@{/checkLogin}" th:object="${user}">-->
+							<form id="myForm" class="pt-3" method="POST"
+								th:action="@{/login}" action="">
+
+								<div class="form-group">
+									<input type="hidden" name="username" th:text="*{username}"
+										class="form-control form-control-lg" id="username"
+										autofocus="true" required>
+									<!-- <input type="email" class="form-control form-control-lg" th:field="*{email}"  id="exampleInputEmail1" placeholder="Email">-->
+									<input name="inputuser" id="inputuser" onblur="setUserValue();"
+										type="text" class="form-control form-control-lg"
+										placeholder="User Name" autofocus="true" required />
+
+								</div>
+								<input type="hidden" id="livfast" /> 
+								<input type="hidden" id="livguard" />
+								<!-- <input type="hidden" id="powertuff" /> -->
+									
+								<div class="form-group">
+									<!-- <input type="password" class="form-control form-control-lg" th:field="*{password}" id="exampleInputPassword1" placeholder="Password">-->
+									<input name="password" th:text="*{password}" id="password"
+										type="password" class="form-control form-control-lg"
+										onmousedown="this.type='text'"
+										onmouseup="this.type='password'"
+										onmousemove="this.type='password'" placeholder="Password"
+										autofocus="true" /> <span style="color: red;"
+										class="has-error" th:text="${error}"></span> <input
+										type="hidden" name="${_csrf.parameterName}"
+										value="${_csrf.token}" />
+								</div>
+								<div class="form-group">
+									<a class="open-modal txt2 mr-5" id="fpasskey"
+										onclick="modalShow();"> Forgot Password? </a>
+								</div>
+								<div class="mt-3">
+									<button
+										class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+										id="log" onclick="submit();" type="submit">SIGN IN</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+
+				<div id="forgetPasswordModel" class="modal"
+					style="margin-top: 200px;">
+					<div class="col-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h3 class="card-title" style="float: left;">Forget
+										Password</h3>
+									<a onclick="forgetClose()" href="#" style="float: right;">x</a>
+								</div>
+								<hr>
+								<br>
+								<centre>
+								<p align="justify"></p>
+								<h1>Kindly contact your Administrator to change Password</h1>
+								<p></p>
+								</centre>
+								<br>
+								<hr>
+								<button class="btn btn-light" onclick="forgetClose()">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+</body>
+<script type="text/javascript">
+	var modal = document.getElementById("forgetPasswordModel");
+
+	function modalShow() {
+		modal = document.getElementById("forgetPasswordModel");
+		modal.style.display = "block";
+	}
+
+	window.onclick = function(event) {
+		if (event.target == modal) {
+			modal.style.display = "none";
+		}
+	}
+
+	function forgetClose() {
+		modal.style.display = "none";
+	}
+</script>
+</html>

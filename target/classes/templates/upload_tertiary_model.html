@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<body>
+	<div class="container-scroller">
+		<nav class="sidebar sidebar-offcanvas" id="sidebar"
+			th:replace="fragments/nav1 :: nav1"></nav>
+		<nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">
+			<div class="navbar-menu-wrapper navbar-nav-right d-flex">
+				<ul class="navbar-nav mr-lg-2">
+					<li class="nav-item ml-0">
+						<h4 class="mb-0">Dashboard</h4>
+					</li>
+					<li class="nav-item">
+						<div class="d-flex align-items-baseline">
+							<p class="mb-0">Home</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Main Dahboard</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Tertiary</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Upload_Model</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<a onclick="exportSample()" class="mdi mdi-cloud-download mr-2"
+				data-toggle="tooltip" data-placement="left" data-html="true"
+				title="Download Sample"
+				style="float: right; color: rgb(255, 92, 28); font-size: 1.875em; margin-left: 3.5em; margin-top: 0.125em; font-size: 2.625em;">
+			</a>
+		</nav>
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar"
+				th:replace="fragments/menu :: menu"></nav>
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-lg-12 stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title" style="float: left;">Tertiary Model
+										List</h4>
+									<button class="btn btn-primary mr-2" id="uploadButton"
+										style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);">Upload
+										Models</button>
+									<!-- Search box -->
+									<form th:action="@{/searchTertiaryModel}" method="post">
+										<input type="search" id="search"
+											placeholder="Search Tertiary Model" name="bmodal"
+											class="form-control col-sm-3 mr-2" style="float: right;">
+										<button type="submit" id="searchbut" class="btn btn-primary"
+											style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);">
+											<i class="typcn typcn-zoom"></i>
+										</button>
+									</form>
+
+									<div class="table-responsive pt-3">
+										<table class="table table-bordered">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Battery Model</th>
+													<th>Vehicle Model</th>
+													<th>Warranty</th>
+													<th>Segment</th>
+													<th>Range</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="table-info" th:each="tertiary : ${tertiaryList}">
+													<td th:text="${tertiary.id}">Model ID</td>
+													<td th:text="${tertiary.batteryModel}">Battery Model</td>
+													<td th:text="${tertiary.vehicleModel}">Vehicle Model</td>
+													<td th:text="${tertiary.warrantyMonth}">Warranty</td>
+													<td th:text="${tertiary.segment}">Segment</td>
+													<td th:text="${tertiary.range}">Range</td>
+													<td>
+														<div class="template-demo d-flex flex-nowrap">
+															<input type="hidden"
+																th:id="@{|tertiaryID_${tertiary.id}|}"
+																th:value="*{tertiary.id}" /> <input type="hidden"
+																th:id="@{|batteryModel_${tertiary.id}|}"
+																th:value="*{tertiary.batteryModel}" /> <input
+																type="hidden" th:id="@{|vehicleModel_${tertiary.id}|}"
+																th:value="*{tertiary.vehicleModel}" /> <input
+																type="hidden" th:id="@{|warrantyMonth_${tertiary.id}|}"
+																th:value="*{tertiary.warrantyMonth}" /> <input
+																type="hidden" th:id="@{|segment_${tertiary.id}|}"
+																th:value="*{tertiary.segment}" /> <input type="hidden"
+																th:id="@{|withOtp_${tertiary.id}|}"
+																th:value="*{tertiary.points}" /> <input type="hidden"
+																th:id="@{|withOutOtp_${tertiary.id}|}"
+																th:value="*{tertiary.withoutOtpPoint}" /> <input
+																type="hidden"
+																th:id="@{|vehicleManufacturer_${tertiary.id}|}"
+																th:value="*{tertiary.vehicleManufacturer}" /> <input
+																type="hidden"
+																th:id="@{|createdTimestamp_${tertiary.id}|}"
+																th:value="*{tertiary.createdTimestamp}" /> <input
+																type="hidden" th:id="@{|fuel_${tertiary.id}|}"
+																th:value="*{tertiary.fuel}" /> <input type="hidden"
+																th:id="@{|capacity_${tertiary.id}|}"
+																th:value="*{tertiary.capacity}" /> <input type="hidden"
+																th:id="@{|livguardBrand_${tertiary.id}|}"
+																th:value="*{tertiary.livguardBrand}" /> <input
+																type="hidden" th:id="@{|range_${tertiary.id}|}"
+																th:value="*{tertiary.range}" /> <input type="hidden"
+																th:id="@{|state_${tertiary.id}|}"
+																th:value="*{tertiary.state}" /> <input type="hidden"
+																th:id="@{|schemeId_${tertiary.id}|}"
+																th:value="*{tertiary.schemeId}" />
+
+															<button type="button"
+																th:onclick="|editTertiary(${tertiary.id})|"
+																class="btn btn-success btn-rounded btn-icon">
+																<i class="typcn typcn-edit"></i>
+															</button>
+
+															<button type="button"
+																th:onclick="|detailTertiary(${tertiary.id})|"
+																class="btn btn-info btn-rounded btn-icon">
+																<i class="typcn typcn-th-list"></i>
+															</button>
+
+															<a th:href="'/deleteTertiaryModel/'+${tertiary.id}"
+																style="padding: 12px;"
+																class="btn btn-danger btn-rounded btn-icon"> <i
+																class="typcn typcn-delete"></i>
+															</a>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div></div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Upload Tertiary Scheme -->
+					<div id="uploadTertiaryModal" class="modal">
+						<div class="col-6" style="margin: auto;">
+							<div class="card" style="margin-bottom: 20px;">
+								<div class="card-body">
+									<div style="width: 100%; margin-bottom: 47px;">
+										<h4 class="card-title" style="float: left;">Upload
+											Tertiary Model</h4>
+										<a th:onclick="|uploadClose()|" href="#" style="float: right;">x</a>
+									</div>
+									<p th:text="${msg}" th:if="${message ne null}"
+										class="alert alert-primary"></p>
+									<form class="forms-sample" method="post"
+										th:action="@{/uploadTertiaryModel}"
+										enctype="multipart/form-data">
+										<div class="form-group">
+											<label for="tertiaryScheme">Tertiary Scheme</label> <select
+												class="form-control" id="tertiaryScheme" name="schemeId">
+												<option>Select Tertiary Scheme</option>
+												<option th:each="scheme : ${schemeList}"
+													th:value="${scheme.id}" th:utext="${scheme.schemeName}"></option>
+											</select>
+										</div>
+										<div class="form-group">
+											<label>File upload</label>
+											<div class="input-group col-xs-12">
+												<input type="file" name="file"
+													class="form-control file-upload-info"
+													placeholder="Upload Model">
+											</div>
+										</div>
+										<button type="submit" class="btn btn-primary mr-2">Upload</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Upload Tertiary Scheme -->
+
+					<!-- edit Tertiary Scheme -->
+					<div id="editTertiaryModal" class="modal">
+						<div class="col-md-6" style="margin: auto;">
+							<div class="card" style="margin-bottom: 20px;">
+								<div class="card-body">
+									<div style="width: 100%; margin-bottom: 47px;">
+										<h4 class="card-title" style="float: left;">Edit Tertiary
+											Model</h4>
+										<a th:onclick="|editClose()|" href="#" style="float: right;">x</a>
+									</div>
+									<form class="forms-sample" action="#"
+										th:action="@{/editTertiaryModel}" th:object="${tertiary}"
+										method="post">
+										<div class="form-group row">
+											<label for="batteryModel1" class="col-sm-3 col-form-label">Battery
+												Model</label>
+											<div class="col-sm-9">
+												<input type="hidden" id="tertiaryID1" name="id" /> <input
+													type="text" class="form-control" id="batteryModel1"
+													name="batteryModel" placeholder="Battery Model" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="vehicleModel1" class="col-sm-3 col-form-label">Vehicle
+												Model</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="vehicleModel1"
+													name="vehicleModel" placeholder="Vehicle Model" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="segment1" class="col-sm-3 col-form-label">Segment</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="segment1"
+													name="segment" placeholder="Segment" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="warrantyMonth1" class="col-sm-3 col-form-label">Warranty</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="warrantyMonth1"
+													name="warrantyMonth" placeholder="Warranty" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="withOtp1" class="col-sm-3 col-form-label">With
+												OTP Point</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="withOtp1"
+													name="points" placeholder="With OTP Point" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="withOutOtp1" class="col-sm-3 col-form-label">WithOut
+												OTP Point</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="withOutOtp1"
+													name="withoutOtpPoint" placeholder="WithOut OTP Point" />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="vehicleManufacturer1"
+												class="col-sm-3 col-form-label">Vehicle Manufacture</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control"
+													id="vehicleManufacturer1" name="vehicleManufacturer"
+													placeholder="Vehicle Manufacture" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="fuel1" class="col-sm-3 col-form-label">Fuel</label>
+											<div class="col-sm-9">
+
+												<input type="text" class="form-control" id="fuel1"
+													name="fuel" placeholder="Fuel" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="capacity1" class="col-sm-3 col-form-label">Capacity</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="capacity1"
+													name="capacity" placeholder="Capacity" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="livguardBrand1" class="col-sm-3 col-form-label">Brand</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="livguardBrand1"
+													name="livguardBrand" placeholder="Brand" required />
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="range1" class="col-sm-3 col-form-label">Range</label>
+											<div class="col-sm-9">
+												<input type="text" class="form-control" id="range1"
+													name="range" placeholder="Range" required />
+											</div>
+										</div>
+
+										<input type="hidden" id="editstate" name="state">
+
+										<div class="form-group row">
+											<label for="schemeId1" class="col-sm-3 col-form-label">Scheme
+												ID</label>
+											<div class="col-sm-9">
+												<input type="type" class="form-control" id="schemeId1"
+													name="schemeId" />
+											</div>
+										</div>
+										<input type="hidden" id="schemeId1" name="schemeId" />
+										<button type="submit" class="btn btn-primary mr-2">Submit</button>
+										<button class="btn btn-light" type="reset"
+											th:onclick="|editClose()|">Close</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Edit Tertiary Scheme -->
+
+					<!-- Detail Tertiary Scheme -->
+					<div id=detailTertiaryModal class="modal">
+						<div class="col-md-6" style="margin: auto;">
+							<div class="card" style="margin-bottom: 20px;">
+								<div class="card-body">
+									<div style="width: 100%; margin-bottom: 47px;">
+										<h4 class="card-title" style="float: left;">Detail
+											Tertiary Model</h4>
+										<a th:onclick="|detailClose()|" href="#" style="float: right;">x</a>
+									</div>
+
+									<div class="row">
+										<label for="batteryModel2" class="col-sm-3 col-form-label">Battery
+											Model :</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="batteryModel2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="vehicleModel2" class="col-sm-3 col-form-label">Vehicle
+											Model :</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="vehicleModel2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="segment2" class="col-sm-3 col-form-label">Segment
+											:</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="segment2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="warrantyMonth2" class="col-sm-3 col-form-label">Warranty
+											:</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="warrantyMonth2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="withOtp2" class="col-sm-3 col-form-label">With
+											OTP Point :</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="withOtp2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="withOutOtp2" class="col-sm-3 col-form-label">Without
+											OTP Point :</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="withOutOtp2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="vehicleManufacturer2"
+											class="col-sm-3 col-form-label">Vehicle Manufacture :</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="vehicleManufacturer2"></p>
+										</div>
+									</div>
+     								<div class="row">
+										<label for="fuel2" class="col-sm-3 col-form-label">Fuel
+											:</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="fuel2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="capacity2" class="col-sm-3 col-form-label">Capacity
+											:</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="capacity2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="livguardBrand2" class="col-sm-3 col-form-label">Brand
+											:</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="livguardBrand2"></p>
+										</div>
+									</div>
+									<div class="row">
+										<label for="range2" class="col-sm-3 col-form-label">Range
+											:</label>
+										<div class="col-sm-9">
+											<p style="margin-top: 15px;" id="range2"></p>
+										</div>
+									</div>
+									<button class="btn btn-light" type="reset"
+										style="background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);"
+										th:onclick="|detailClose()|">Close</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Detail Tertiary Scheme -->
+
+
+				</div>
+			</div>
+		</div>
+		<footer class="footer" th:replace="fragments/footer :: footer"></footer>
+	</div>
+	<script type="text/javascript">
+		//add Scheme
+		var modal = document.getElementById("uploadTertiaryModal");
+		var btn = document.getElementById("uploadButton");
+		var span = document.getElementsByClassName("uploadClose")[0];
+		btn.onclick = function() {
+			modal.style.display = "block";
+		}
+
+		span.onclick = function() {
+			modal.style.display = "none";
+		}
+
+		// edit Scheme
+		var modal1 = document.getElementById("editTertiaryModal");
+		function editTertiary(id) {
+			//alert("edit");
+			modal1 = document.getElementById("editTertiaryModal");
+			document.getElementById("tertiaryID1").value = document
+					.getElementById("tertiaryID_" + id).value;
+			document.getElementById("batteryModel1").value = document
+					.getElementById("batteryModel_" + id).value;
+			document.getElementById("vehicleModel1").value = document
+					.getElementById("vehicleModel_" + id).value;
+			document.getElementById("warrantyMonth1").value = document
+					.getElementById("warrantyMonth_" + id).value;
+			document.getElementById("segment1").value = document
+					.getElementById("segment_" + id).value;
+			document.getElementById("withOtp1").value = document
+					.getElementById("withOtp_" + id).value;
+			document.getElementById("withOutOtp1").value = document
+					.getElementById("withOutOtp_" + id).value;
+			document.getElementById("vehicleManufacturer1").value = document
+					.getElementById("vehicleManufacturer_" + id).value;
+			//document.getElementById("createdTimestamp1").value = document.getElementById("createdTimestamp_"+id).value;
+			document.getElementById("fuel1").value = document
+					.getElementById("fuel_" + id).value;
+			document.getElementById("capacity1").value = document
+					.getElementById("capacity_" + id).value;
+			document.getElementById("livguardBrand1").value = document
+					.getElementById("livguardBrand_" + id).value;
+			document.getElementById("range1").value = document
+					.getElementById("range_" + id).value;
+			//document.getElementById("state1").value = document.getElementById("state_"+id).value;
+			document.getElementById("schemeId1").value = document
+					.getElementById("schemeId_" + id).value;
+			document.getElementById("editstate").value = document
+					.getElementById("state_" + id).value;
+			modal1.style.display = "block";
+			//alert("edit-----------");
+		}
+
+		//detail Scheme
+		var modal2 = document.getElementById("detailTertiaryModal");
+		function detailTertiary(id) {
+			//alert("detail == "+id);
+			modal2 = document.getElementById("detailTertiaryModal");
+			document.getElementById("batteryModel2").innerHTML = document
+					.getElementById("batteryModel_" + id).value;
+			document.getElementById("vehicleModel2").innerHTML = document
+					.getElementById("vehicleModel_" + id).value;
+			document.getElementById("warrantyMonth2").innerHTML = document
+					.getElementById("warrantyMonth_" + id).value;
+			document.getElementById("segment2").innerHTML = document
+					.getElementById("segment_" + id).value;
+			document.getElementById("withOtp2").innerHTML = document
+					.getElementById("withOtp_" + id).value;
+			document.getElementById("withOutOtp2").innerHTML = document
+					.getElementById("withOutOtp_" + id).value;
+			document.getElementById("vehicleManufacturer2").innerHTML = document
+					.getElementById("vehicleManufacturer_" + id).value;
+			//document.getElementById("createdTimestamp2").innerHTML = document.getElementById("createdTimestamp_"+id).value;
+			document.getElementById("fuel2").innerHTML = document
+					.getElementById("fuel_" + id).value;
+			document.getElementById("capacity2").innerHTML = document
+					.getElementById("capacity_" + id).value;
+			document.getElementById("livguardBrand2").innerHTML = document
+					.getElementById("livguardBrand_" + id).value;
+			document.getElementById("range2").innerHTML = document
+					.getElementById("range_" + id).value;
+			//document.getElementById("state2").innerHTML = document.getElementById("state_"+id).value;
+			//document.getElementById("schemeId2").innerHTML = document.getElementById("schemeId_"+id).value;
+			modal2.style.display = "block";
+			//alert("detail==============");
+		}
+
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+
+			if (event.target == modal1) {
+				modal1.style.display = "none";
+			}
+
+			if (event.target == modal2) {
+				modal2.style.display = "none";
+			}
+		}
+
+		function uploadClose() {
+			modal.style.display = "none";
+		}
+
+		function editClose() {
+			modal1.style.display = "none";
+		}
+
+		function detailClose() {
+			modal2.style.display = "none";
+		}
+
+		//export
+
+		function exportSample() {
+			var csvFileData = [
+					[ '4W', 'ZX 40B20 R', 'TEST', '35', 'LGZX2ABR140B20',
+							'35+35', 'LIV', '100', '50' ],
+					[ '4W', 'ZX 40B20 R', 'TEST', '35', 'LGZX2ABR140B20',
+							'35+35', 'LIV', '100', '50' ],
+					[ '4W', 'ZX 40B20 R', 'TEST', '35', 'LGZX2ABR140B20',
+							'35+35', 'LIV', '100', '50' ],
+					[ '4W', 'ZX 40B20 R', 'TEST', '35', 'LGZX2ABR140B20',
+							'35+35', 'LIV', '100', '50' ] ];
+			var csv = 'segment,vehicle_model,fuel,capacity,battery_model,warranty_month,range,points,without_otp_point\n';
+
+			csvFileData.forEach(function(row) {
+				csv += row.join(',');
+				csv += "\n";
+			});
+
+			var hiddenElement = document.createElement('a');
+			hiddenElement.href = 'data:text/csv;charset=utf-8,'
+					+ encodeURI(csv);
+			hiddenElement.target = '_blank';
+
+			hiddenElement.download = 'sample_tertiary_models.csv';
+			hiddenElement.click();
+		}
+	</script>
+</body>
+
+</html>

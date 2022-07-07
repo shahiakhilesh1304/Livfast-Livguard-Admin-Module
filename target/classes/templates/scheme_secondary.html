@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<body>
+  <div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/nav1 :: nav1"></nav>
+    <nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">    
+	    <div class="navbar-menu-wrapper navbar-nav-right d-flex">
+	     	<ul class="navbar-nav mr-lg-2">
+	        	<li class="nav-item ml-0">
+	          		<h4 class="mb-0">Dashboard</h4>
+	        	</li>
+	        	<li class="nav-item">
+	          		<div class="d-flex align-items-baseline">
+	            		<p class="mb-0">Home</p>
+	            		<i class="typcn typcn-chevron-right"></i>
+	            		<p class="mb-0">Main Dahboard</p>
+		  				<i class="typcn typcn-chevron-right"></i>
+	            		<p class="mb-0">Secondary</p>
+		  				<i class="typcn typcn-chevron-right"></i>
+	            		<p class="mb-0">Scheme</p>
+	          		</div>
+	        	</li>
+	      	</ul>
+	    </div>
+	 </nav>
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/menu :: menu"></nav>
+      
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          <div class="row">        
+
+			<div class="col-lg-12 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title" style="float:left;">Secondary Scheme List</h4>	
+				  <button class="btn btn-primary mr-2" id="saveScheme" style="float:right;background-color: rgb(255, 92, 28);border-color: rgb(255, 92, 28);">Add Scheme</button>		
+                  <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Scheme ID</th>
+                          <th>Scheme Name</th>
+                          <th>Entry Date</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+						  <th>Primary Sale Date</th>
+						  <th>Action<input type="hidden" id="state" th:value="${state}"  /></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="table-info" th:each="scheme : ${schemeList}">
+                          <td th:text="${scheme.id}">Scheme ID </td>
+                          <td th:text="${scheme.schemeName}">Scheme Name </td>
+                          <td th:text="${scheme.createdTimestamp}">Entry Date </td>
+                          <td th:text="${scheme.startTimestamp}">Start Date </td>
+                          <td th:text="${scheme.endTimestamp}">End Date </td>
+						  <td th:text="${scheme.schemeScandate}">Primary Sale Date </td>
+						  <td>
+                            <div class="template-demo d-flex flex-nowrap">	
+                            <input type="hidden" th:id="@{|schemeID_${scheme.id}|}" th:value="*{scheme.id}" />	
+                            <input type="hidden" th:id="@{|schemeName_${scheme.id}|}" th:value="*{scheme.schemeName}" />
+                            <input type="hidden" th:id="@{|schemeDetail_${scheme.id}|}" th:value="*{scheme.schemeDetail}" />		
+							<input type="hidden" th:id="@{|startTimestamp_${scheme.id}|}" th:value="*{scheme.startTimestamp}" />	
+							<input type="hidden" th:id="@{|endTimestamp_${scheme.id}|}" th:value="*{scheme.endTimestamp}" />	
+							<input type="hidden" th:id="@{|schemeScandate_${scheme.id}|}" th:value="*{scheme.schemeScandate}" />
+							<input type="hidden" th:id="@{|schemeState_${scheme.id}|}" th:value="*{scheme.schemeState}" />
+							<input type="hidden" th:id="@{|schemeIB_${scheme.id}|}" th:value="*{scheme.ibUPS}" />
+							<input type="hidden" th:id="@{|schemeFW_${scheme.id}|}" th:value="*{scheme.fourW}" />
+							<input type="hidden" th:id="@{|schemeER_${scheme.id}|}" th:value="*{scheme.eRickShaw}" />
+								<button type="button" th:onclick="|editScheme(${scheme.id})|" class="btn btn-success btn-rounded btn-icon">
+									<i class="typcn typcn-edit"></i>
+								</button>
+								<button type="button" th:onclick="|detailScheme(${scheme.id})|" class="btn btn-info btn-rounded btn-icon">
+									<i class="typcn typcn-th-list"></i>
+								</button>	
+								<a th:href="'/deleteSecondaryScheme/'+${scheme.id}" style="padding: 12px;" class="btn btn-danger btn-rounded btn-icon">
+									<i class="typcn typcn-delete"></i>
+								</a>								
+							</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- add Scheme PopUp -->
+		<div id="saveSchemeModal" class="modal"> 
+        	<div class="col-md-6" style="margin:auto;">
+              	<div class="card" style="margin-bottom: 20px;">
+                <div class="card-body">
+                  <div style="width: 100%;margin-bottom: 47px;">
+					<h4 class="card-title" style="float:left;">Add Scheme</h4>
+					<a th:onclick="|addClose()|" href="#"  style="float:right;">x</a>
+				  </div>
+                  <form class="forms-sample" action="#" th:action="@{/saveSecondaryScheme}" th:object="${scheme}" method="post">
+                    <div class="form-group row">
+                      <label for="exampleInputName1" class="col-sm-3 col-form-label">Name</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputName1" onblur="setValue();" th:field="*{schemeName}" placeholder="Name" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleTextarea1" class="col-sm-3 col-form-label">Scheme Type</label>
+                      <div class="col-sm-9">
+                          <input th:type="text" class="form-control" readonly value="Secondary" id="exampleTextarea1" th:field="*{schemeDetail}" rows="4" required >
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="startDate" class="col-sm-3 col-form-label">Start Date</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="startDate" th:field="*{startTimestamp}" placeholder="Start Date" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="endDate" class="col-sm-3 col-form-label">End Date</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="endDate" th:field="*{endTimestamp}" placeholder="End Date" required>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="scanDate" class="col-sm-3 col-form-label">Primary Sale Date</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="scanDate" th:field="*{schemeScandate}" placeholder="Scanning Date" required>
+                      </div>
+                    </div>
+					<div class="form-group row">
+                      <label for="tags" class="col-sm-3 col-form-label">Add State</label>
+                      <div class="col-sm-9">
+                        <textarea class="form-control" id="tags" th:field="*{schemeState}" placeholder="State" required></textarea>
+                      </div>
+                    </div>	
+					<div class="form-group row">
+							  <div class="col-sm-3">
+								<label for="fourW1">
+								  <input type="checkbox" id="fourW1" th:field="*{fourW}" >
+								  4W
+								</label>
+							  </div>
+							  <div class="col-sm-3">
+								<label for="ibUPS1">
+								  <input type="checkbox" id="ibUPS1" th:field="*{ibUPS}" >
+								  IB UPS
+								</label>
+							  </div>
+							  <div class="col-sm-3">
+								<label for="eRickShaw1" >
+								  <input type="checkbox" id="eRickShaw1" th:field="*{eRickShaw}" >
+								  ErickShaw
+								</label>
+							  </div>
+						</div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-light"  th:onclick="|addClose()|" >Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+        	</div>
+        	<!-- add Scheme PopUP -->        	
+        	
+        	<!-- edit Scheme PopUp -->
+        	<div id="editSchemeModal" class="modal"> 
+	        	<div class="col-md-6" style="margin:auto;">
+	              	<div class="card" style="margin-bottom: 20px;">
+	                <div class="card-body">
+	                  <div style="width: 100%;margin-bottom: 47px;">
+						<h4 class="card-title" style="float:left;">Edit Scheme</h4>
+						<a th:onclick="|editClose()|" href="#"  style="float:right;">x</a>  
+					  </div>
+	                  <form class="forms-sample" action="#" th:action="@{/editSecondaryScheme}" th:object="${scheme}" method="post">
+	                    <div class="form-group row">
+	                      <label for="schemeName1" class="col-sm-3 col-form-label">Name</label>
+	                      <div class="col-sm-9">
+	                      <input type="hidden" id="schemeID1" th:field="*{id}" />
+	                        <input type="text" class="form-control" id="schemeName1" th:field="*{schemeName}" placeholder="Name" required>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="schemeDetail1" class="col-sm-3 col-form-label">Scheme Type</label>
+	                      <div class="col-sm-9">
+		                      <input class="form-control" id="schemeDetail1" th:field="*{schemeDetail}" readonly="readonly" required>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="startDate1" class="col-sm-3 col-form-label">Start Date</label>
+	                      <div class="col-sm-9">
+	                        <input type="text" class="form-control" id="startDate1" th:field="*{startTimestamp}" placeholder="Start Date" required>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="endDate1" class="col-sm-3 col-form-label">End Date</label>
+	                      <div class="col-sm-9">
+	                        <input type="text" class="form-control" id="endDate1" th:field="*{endTimestamp}" placeholder="End Date" required>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="scanDate1" class="col-sm-3 col-form-label">Primary Sale Date</label>
+	                      <div class="col-sm-9">
+	                        <input type="text" class="form-control" id="scanDate1" th:field="*{schemeScandate}" placeholder="Scanning Date" required>
+	                      </div>
+	                    </div>
+						<div class="form-group row">
+	                      <label for="tags1" class="col-sm-3 col-form-label">Add State</label>
+	                      <div class="col-sm-9">
+	                        <textarea class="form-control" id="tags1" th:field="*{schemeState}"  placeholder="State" required></textarea>
+	                      </div>
+	                    </div>	
+						<div class="form-group row">
+							  <div class="col-sm-3">
+								<label for="fourW1">
+								  <input type="checkbox" id="schemeFW1" th:field="*{fourW}" />
+								  4W
+								</label>
+							  </div>
+							  <div class="col-sm-3">
+								<label for="ibUPS1">
+								  <input type="checkbox" id="schemeIB1" th:field="*{ibUPS}" />
+								  IB UPS
+								</label>
+							  </div>
+							  <div class="col-sm-3">
+								<label for="eRickShaw1" >
+								  <input type="checkbox" id="schemeER1" th:field="*{eRickShaw}" />
+								  ErickShaw
+								</label>
+							  </div>
+						</div>
+	                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+	                    <button class="btn btn-light" th:onclick="|editClose()|">Close</button>
+	                  </form>
+	                </div>
+	              </div>
+	            </div>
+         	</div>
+          <!-- Edit Scheme PopUp -->
+          
+          <!-- Detail Scheme PopUp -->
+        	<div id="detailSchemeModal" class="modal"> 
+	        	<div class="col-md-6" style="margin:auto;">
+	              	<div class="card" style="margin-bottom: 20px;">
+	                <div class="card-body">
+	                  <div style="width: 100%;margin-bottom: 47px;">
+						<h4 class="card-title" style="float:left;">Detail Scheme</h4>
+						<a th:onclick="|detailClose()|" href="#"  style="float:right;">x</a>  
+					  </div>
+	                  
+	                    <div class="form-group row">
+	                      <label for="schemeName2" class="col-sm-3 col-form-label">Name :</label>
+	                      <div class="col-sm-9">
+	                      	<p id="schemeName2"></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="schemeDetail2" class="col-sm-3 col-form-label">Scheme Type :</label>
+	                      <div class="col-sm-9">
+	                      	<p id="schemeDetail2"></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="startDate2" class="col-sm-3 col-form-label">Start Date :</label>
+	                      <div class="col-sm-9">
+	                      	<p id="startDate2"></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="endDate2" class="col-sm-3 col-form-label">End Date :</label>
+	                      <div class="col-sm-9">
+	                        <p id="endDate2"></p>
+	                      </div>
+	                    </div>
+	                    <div class="form-group row">
+	                      <label for="scanDate2" class="col-sm-3 col-form-label">Primary Sale Date :</label>
+	                      <div class="col-sm-9">
+	                        <p id="scanDate2"></p>
+	                      </div>
+	                    </div>
+						<div class="form-group row">
+	                      <label for="tags" class="col-sm-3 col-form-label">State :</label>
+	                      <div class="col-sm-9">
+	                        <p id="schemeState2"></p>
+	                      </div>
+	                    </div>	
+						<div class="form-group row">
+							  <div class="col-sm-3">
+								<label for="fourW1">
+								  4W : <span style="color: green;" id="schemeFW2"></span>
+								</label>
+							  </div>
+							  <div class="col-sm-3">
+								<label for="ibUPS1">
+								  IB UPS : <span style="color: green;" id="schemeIB2"></span>
+								</label>
+							  </div>
+							  <div class="col-sm-3">
+								<label for="eRickShaw1" >
+								  ErickShaw : <span style="color: green;" id="schemeER2"></span>
+								</label>
+							  </div>
+						</div>
+	                    <button class="btn btn-light" th:onclick="|detailClose()|">Close</button>	                  
+	                </div>
+	              </div>
+	            </div>
+         	</div>
+          <!-- Detail Scheme PopUp -->
+              
+        <footer class="footer" th:replace="fragments/footer :: footer"></footer>
+      </div>
+    </div>
+  </div>
+  <script>
+  $(function() {
+	  var state = document.getElementById("state").value;
+	  var availableTags = state.split(",");	 
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+ 
+    $("#tags1").on("keydown", function(event) {
+        if (event.keyCode === $.ui.keyCode.TAB && $(this).autocomplete("instance").menu.active) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+          response( $.ui.autocomplete.filter(
+            availableTags, extractLast( request.term ) ) );
+        },
+        focus: function() {
+          return false;
+        },
+        select: function( event, ui ) {
+          var terms = split( this.value );
+          terms.pop();
+          terms.push( ui.item.value );
+          terms.push( "" );
+          this.value = terms.join( ", " );
+          return false;
+        }
+      });
+  });
+  
+  
+  $(function() {
+	  var state = document.getElementById("state").value;
+	  var availableTags = state.split(",");	
+	    function split( val ) {
+	      return val.split( /,\s*/ );
+	    }
+	    function extractLast( term ) {
+	      return split( term ).pop();
+	    }
+	 
+	    $("#tags").on("keydown", function(event) {
+	        if (event.keyCode === $.ui.keyCode.TAB && $(this).autocomplete("instance").menu.active) {
+	          event.preventDefault();
+	        }
+	      })
+	      .autocomplete({
+	        minLength: 0,
+	        source: function( request, response ) {
+	          response( $.ui.autocomplete.filter(
+	            availableTags, extractLast( request.term ) ) );
+	        },
+	        focus: function() {
+	          return false;
+	        },
+	        select: function( event, ui ) {
+	          var terms = split( this.value );
+	          terms.pop();
+	          terms.push( ui.item.value );
+	          terms.push( "" );
+	          this.value = terms.join( ", " );
+	          return false;
+	        }
+	      });
+	  });
+  
+  
+  
+ 
+  	// add Scheme DatePicker
+		$( function() {
+    var dateFormat = "mm/dd/yy",
+      from = $( "#startDate" )
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear:true,
+          numberOfMonths: 1
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#endDate" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        changeMonth: true,
+        changeYear:true,
+        numberOfMonths: 1
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;    }
+  } );
+  	
+  	$( function() {
+	    $("#scanDate").datepicker({
+	    	dateFormat: 'mm/dd/yy',
+	          changeMonth: true,
+	          changeYear:true,
+	          minDate:'-1Y'});
+	});
+  	
+  	
+  	
+ 	// edit Scheme DatePicker
+	$( function() {
+    var dateFormat = "mm/dd/yy",
+      from = $( "#startDate1" )
+        .datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          changeYear:true,
+          numberOfMonths: 1
+        })
+        .on( "change", function() {
+          to.datepicker( "option", "minDate", getDate( this ) );
+        }),
+      to = $( "#endDate1" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        changeYear:true,
+        numberOfMonths: 1
+      })
+      .on( "change", function() {
+        from.datepicker( "option", "maxDate", getDate( this ) );
+      });
+ 
+    function getDate( element ) {
+      var date;
+      try {
+        date = $.datepicker.parseDate( dateFormat, element.value );
+      } catch( error ) {
+        date = null;
+      }
+ 
+      return date;    }
+  } );  	
+  	
+  	$( function() {
+	    $("#scanDate1").datepicker({
+	    	dateFormat: 'mm/dd/yy',
+	          changeMonth: true,
+	          changeYear:true,
+	          minDate:'-1Y'});
+	});
+  	
+  	
+	// add Scheme
+  	var modal = document.getElementById("saveSchemeModal");
+	var btn = document.getElementById("saveScheme");
+	var span = document.getElementsByClassName("saveClose")[0];
+	btn.onclick = function() 
+	{
+	  	modal.style.display = "block";
+	}
+	
+	span.onclick = function() 
+	{
+	  	modal.style.display = "none";
+	}
+	
+	// edit Scheme
+	var modal1 = document.getElementById("editSchemeModal");
+  	function editScheme(id)
+  	{	
+  		//alert("edit");
+  		modal1 = document.getElementById("editSchemeModal");
+  		document.getElementById("schemeID1").value = document.getElementById("schemeID_"+id).value;
+  		document.getElementById("schemeName1").value = document.getElementById("schemeName_"+id).value;
+  		document.getElementById("schemeDetail1").value = document.getElementById("schemeDetail_"+id).value;
+  		document.getElementById("startDate1").value = document.getElementById("startTimestamp_"+id).value;
+  		document.getElementById("endDate1").value = document.getElementById("endTimestamp_"+id).value;
+  		document.getElementById("scanDate1").value = document.getElementById("schemeScandate_"+id).value;
+  		document.getElementById("tags1").value = document.getElementById("schemeState_"+id).value;
+  		var ib = document.getElementById("schemeIB_"+id).value;
+  		var fw = document.getElementById("schemeFW_"+id).value;
+  		var er = document.getElementById("schemeER_"+id).value;
+  		if(ib == "true")
+		{
+  			document.getElementById("schemeIB1").checked = true;	
+		}
+  		if(fw == "true")
+		{
+  			document.getElementById("schemeFW1").checked = true;	
+		}
+  		if(er == "true")
+		{
+  			document.getElementById("schemeER1").checked = true;	
+		}
+  		modal1.style.display = "block";  		
+  		//alert("edit-----------");
+  	}	
+  	
+  	function editClose()
+	{
+		modal1.style.display = "none";	
+	}
+  	
+  	function addClose()
+	{
+		modal.style.display = "none";	
+	}
+  	
+  	//detail Scheme
+  	var modal2 = document.getElementById("detailSchemeModal");
+  	function detailScheme(id)
+  	{	
+  		//alert("detail == "+id);
+  		modal2 = document.getElementById("detailSchemeModal");
+  		document.getElementById("schemeName2").innerHTML = document.getElementById("schemeName_"+id).value;
+  		document.getElementById("schemeDetail2").innerHTML = document.getElementById("schemeDetail_"+id).value;
+  		document.getElementById("startDate2").innerHTML = document.getElementById("startTimestamp_"+id).value;
+  		document.getElementById("endDate2").innerHTML = document.getElementById("endTimestamp_"+id).value;
+  		document.getElementById("scanDate2").innerHTML = document.getElementById("schemeScandate_"+id).value;
+  		document.getElementById("schemeState2").innerHTML = document.getElementById("schemeState_"+id).value;
+  		//document.getElementById("schemeIB2").value = document.getElementById("schemeIB_"+id).value;
+  		//document.getElementById("schemeFW2").value = document.getElementById("schemeFW_"+id).value;
+  		//document.getElementById("?:.,").innerHTML = document.getElementById("schemeER_"+id).value;
+  		
+  		var ib = document.getElementById("schemeIB_"+id).value;
+  		var fw = document.getElementById("schemeFW_"+id).value;
+  		var er = document.getElementById("schemeER_"+id).value;
+  		if(ib == "true")
+		{
+  			const element = document.getElementById("schemeIB2");
+  			element.className = "mdi mdi-check";
+  			//document.getElementById("schemeIB2").classList.add("mdi mdi-check");
+		}
+  		if(fw == "true")
+		{
+  			const element = document.getElementById("schemeFW2");
+  			element.className = "mdi mdi-check";
+  			//document.getElementById("schemeIB2").classList.add("mdi mdi-check");
+		}
+  		if(er == "true")
+		{
+  			const element = document.getElementById("schemeER2");
+  			element.className = "mdi mdi-check";
+  			//document.getElementById("schemeIB2").classList.add("mdi mdi-check");
+		}
+  		modal2.style.display = "block";
+  		//alert("detail==============");
+  	}
+	
+	function detailClose()
+	{
+		modal2.style.display = "none";		
+	}
+	
+	window.onclick = function(event) 
+	{
+	  	if (event.target == modal) 
+	  	{
+	    	modal.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal1) 
+	  	{
+	    	modal1.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal2) 
+	  	{
+	    	modal2.style.display = "none";
+	  	}
+	}	
+	
+	
+	function setValue()
+	{
+		//for add
+		document.getElementById("exampleTextarea1").value = "secondary scheme";
+	}
+  </script>
+</body>
+
+</html>

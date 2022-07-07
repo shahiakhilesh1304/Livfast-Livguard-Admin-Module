@@ -1,0 +1,89 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar" th:fragment="menu">
+	<ul class="nav">
+		<li class="nav-item">
+			<a class="nav-link" href="/dashboard">
+				<i class="typcn typcn-device-desktop menu-icon"></i> 
+				<span class="menu-title">Dashboard</span> 
+				<!--<div class="badge badge-danger">new</div>-->
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic"> 
+				<i class="typcn typcn-document-text menu-icon"></i> 
+				<span class="menu-title" style="font-size: small;">Tertiary Scheme</span> 
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="ui-basic">
+				<ul class="nav flex-column sub-menu">
+					<li class="nav-item"><a class="nav-link"
+						href="schemeTertiaryScheme" style="font-size: small;">Add Scheme</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="uploadTertiary" style="font-size: small;">Upload Tertiary Product</a></li>
+				</ul>
+			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+				<i class="typcn typcn-film menu-icon"></i> 
+				<span class="menu-title" style="font-size: small;">Secondary Scheme</span> 
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="form-elements">
+				<ul class="nav flex-column sub-menu">
+					<li class="nav-item"><a class="nav-link" href="schemeSecondaryScheme" style="font-size: small;">Add Scheme</a></li>
+					<li class="nav-item"><a class="nav-link" href="uploadSecondary" style="font-size: small;">Upload Secondary Product</a></li>
+				</ul>
+			</div>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="serialnumber"> 
+				<i class="typcn typcn-mortar-board menu-icon"></i>
+				<span class="menu-title" style="font-size: small;">Serial Upload</span>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="coupon"> 
+				<i class="typcn typcn-mortar-board menu-icon"></i> 
+				<span class="menu-title" style="font-size: small;">Coupon Upload</span>
+			</a>
+		</li>
+		<!-- <span th:text="${session.role}"></span> -->
+			<span th:if="${session.role == 'admin'}">
+				<li class="nav-item">
+					<a class="nav-link" href="user"> 
+						<i class="typcn typcn-mortar-board typcn-user"></i>
+						<span class="menu-title" style="font-size: small;">User</span>
+					</a>
+				</li>
+			</span>
+			<span th:unless="${session.role == 'admin'}">
+			</span>
+		<li class="nav-item">
+			<a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts"> 
+				<i class="typcn typcn-chart-pie-outline menu-icon"></i> 
+				<span class="menu-title" style="font-size: small;">Report</span> 
+				<i class="menu-arrow"></i>
+			</a>
+			<div class="collapse" id="charts">
+				<ul class="nav flex-column sub-menu">
+					<span th:if="${session.database == 'Livfast'}">
+					<li class="nav-item" >
+						<a class="nav-link" href="http://15.207.209.108:8101/home" target="_blank" style="font-size: small;">Fasterwins Panels</a>
+					</li>
+					<li class="nav-item" >
+						<a class="nav-link" href="http://15.207.209.108:8103/home" target="_blank" style="font-size: small;">Technician LivConnect</a>
+					</li>
+					</span>
+					<span th:unless="${session.database == 'Livfast'}">
+					<li class="nav-item">
+						<a class="nav-link" href="http://15.207.209.108:8100/home" target="_blank" style="font-size: small;">LivReward  Panels</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="http://15.207.209.108:8102/home" target="_blank" style="font-size: small;">Technician LivExpert</a>
+					</li>
+					</span>
+				</ul>
+			</div>
+		</li>
+	</ul>
+</nav>

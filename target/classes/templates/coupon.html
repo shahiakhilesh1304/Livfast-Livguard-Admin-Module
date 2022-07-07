@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<body>
+	<div class="container-scroller">
+		<nav class="sidebar sidebar-offcanvas" id="sidebar"
+			th:replace="fragments/nav1 :: nav1"></nav>
+		<nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">
+			<div class="navbar-menu-wrapper navbar-nav-right d-flex">
+				<ul class="navbar-nav mr-lg-2">
+					<li class="nav-item ml-0">
+						<h4 class="mb-0">Dashboard</h4>
+					</li>
+					<li class="nav-item">
+						<div class="d-flex align-items-baseline">
+							<p class="mb-0">Home</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Main Dahboard</p>
+							<i class="typcn typcn-chevron-right"></i>
+							<p class="mb-0">Coupon Upload</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			  <a onclick="exportSample()" class="mdi mdi-cloud-download mr-2" data-toggle="tooltip" data-placement="left" data-html="true" title="Download Sample" style="float: right;color: rgb(255, 92, 28); font-size:1.875em;margin-left: 3.5em;margin-top: 0.125em;font-size: 2.625em;">
+				</a>
+		</nav>
+		<div class="container-fluid page-body-wrapper">
+			<nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/menu :: menu"></nav>
+			<div class="main-panel">
+				<div class="content-wrapper">
+					<div class="row">
+						<div class="col-lg-12 stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<h4 class="card-title" style="float: left;">Coupon List</h4>
+							
+									
+										<button class="btn btn-primary mr-2" id="uploadButton"
+											style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);">Upload Coupon
+										</button>
+											&nbsp;
+									<!-- Search box -->
+										<form th:action="@{/searchCoupon}" method="post">
+							 		    	 <input type="search" id="search" placeholder="Search Coupon" name="uname" class="form-control col-sm-3 mr-2" style="float: right;margin-top: -1.700em;">						 
+ 										 	 <button type="submit" id="searchbut" class="btn btn-primary" style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);margin-top: -1.700em;">
+ 										 	 <i class="typcn typcn-zoom"></i>
+ 										 	 </button>
+ 										</form>
+ 								
+									<div class="table-responsive pt-3" >
+									
+										<table id="" class="table table-bordered table-striped table-sm-2">
+											<thead>
+												<tr>
+													<th class="th-sm">ID</th>
+													<th class="th-sm">Coupon</th>
+													<th class="th-sm">User Name</th>
+													<th class="th-sm">Scratch Date</th>
+													<th class="th-sm">Redeem Status</th>
+													<th class="th-sm">Status</th>
+													<th class="th-sm">Action</th>
+												</tr>
+											</thead>
+											<tbody id="tablecontent">
+												<tr class="table-info" th:each="coupon,count : ${couponList}">
+													<td th:text="${coupon.id}">ID</td>
+													<td th:text="${coupon.couponText}">Coupon</td>
+													<td th:text="${coupon.userName}">User Name</td>
+													<td th:text="${coupon.couponScratchDate}">Scratch Date													</td>
+													<td th:text="${coupon.redeemStatus}">Redeem Status</td>
+													<td th:text="${coupon.status}">Status</td>
+													<td>
+														
+														<div class="template-demo d-flex flex-nowrap">
+															<input type="hidden" th:id="@{|couponID_${coupon.id}|}"
+																th:value="*{coupon.id}" /> 
+															<input type="hidden"
+																th:id="@{|couponText_${coupon.id}|}"
+																th:value="*{coupon.couponText}" /> 
+															<input type="hidden"
+																th:id="@{|userName_${coupon.id}|}"
+																th:value="*{coupon.userName}" /> 
+															<input type="hidden"
+																th:id="@{|redeemStatus_${coupon.id}|}"
+																th:value="*{coupon.redeemStatus}" />
+														 	<input
+																type="hidden"
+																th:id="@{|couponScratchDate_${coupon.id}|}"
+																th:value="*{coupon.couponScratchDate}" /> 
+															<input
+																type="hidden" th:id="@{|createdTimestamp_${coupon.id}|}"
+																th:value="*{coupon.createdTimestamp}" /> 
+															<input
+																type="hidden" th:id="@{|userId_${coupon.id}|}"
+																th:value="*{coupon.userId}" /> 
+															<input type="hidden"
+																th:id="@{|status_${coupon.id}|}"
+																th:value="*{coupon.status}" />
+															<button type="button"
+																th:onclick="|editCoupon(${coupon.id})|"
+																class="btn btn-success btn-rounded btn-icon">
+																<i class="typcn typcn-edit"></i>
+															</button>
+															<button type="button"
+																th:onclick="|detailCoupon(${coupon.id})|"
+																class="btn btn-info btn-rounded btn-icon">
+																<i class="typcn typcn-th-list"></i>
+															</button>
+															<a th:href="'/deletecoupon/'+${coupon.id}"
+																style="padding: 12px;"
+																class="btn btn-danger btn-rounded btn-icon"> <i
+																class="typcn typcn-delete"></i>
+															</a>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Upload Coupon -->
+				<div id="uploadCoupon" class="modal">
+					<div class="col-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h4 class="card-title" style="float: left;">Upload Coupon</h4>
+									<a th:onclick="|uploadClose()|" href="#" style="float: right;">x</a>
+								</div>
+								<p th:text="${msg}" th:if="${message ne null}"
+									class="alert alert-primary"></p>
+								<form class="forms-sample" method="post"
+									th:action="@{/uploadcoupon}" enctype="multipart/form-data">
+									<div class="form-group">
+										<label>File upload</label>
+										<div class="input-group col-xs-12">
+											<input type="file" name="file"
+												class="form-control file-upload-info"
+												placeholder="Upload Model" required>
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary mr-2">Upload</button>
+									<button class="btn btn-light">Cancel</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Upload Coupon -->
+
+				<!-- Edit Coupon -->
+				<div id="editCoupon" class="modal">
+					<div class="col-md-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h4 class="card-title" style="float: left;">Edit Coupon</h4>
+									<a th:onclick="|editClose()|" href="#" style="float: right;">x</a>
+								</div>
+								<form class="forms-sample" action="#" th:action="@{/editcoupon}"
+									th:object="${coupon}" method="post">
+									<div class="form-group row">
+										<label for="couponText1" class="col-sm-3 col-form-label">Coupon
+											Text</label>
+										<div class="col-sm-9">
+											<input type="hidden" id="couponID1" th:field="*{id}" /> <input
+												type="text" class="form-control" id="couponText1"
+												th:field="*{couponText}" placeholder="Coupon Text" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="userName1" class="col-sm-3 col-form-label">User
+											Name</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="userName1"
+												th:field="*{userName}" placeholder="User Name" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="userId1" class="col-sm-3 col-form-label">User
+											ID</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="userId1"
+												th:field="*{userId}" placeholder="User ID" required />
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="redeemStatus1" class="col-sm-3 col-form-label">Redeem
+											Status</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" id="redeemStatus1"
+												th:field="*{redeemStatus}" placeholder="Redeem Status"
+												required />
+										</div>
+									</div>
+									<button type="submit" class="btn btn-primary mr-2">Submit</button>
+									<button class="btn btn-light" type="reset"
+										th:onclick="|editClose()|">Close</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Edit Coupon -->
+
+				<!-- Detail Coupon -->
+				<div id="detailCoupon" class="modal">
+					<div class="col-md-6" style="margin: auto;">
+						<div class="card" style="margin-bottom: 20px;">
+							<div class="card-body">
+								<div style="width: 100%; margin-bottom: 47px;">
+									<h4 class="card-title" style="float: left;">Detail Coupon</h4>
+									<a th:onclick="|detailClose()|" href="#" style="float: right;">x</a>
+								</div>
+
+								<div class="row">
+									<label for="couponText2" class="col-sm-3 col-form-label">Coupon
+										Text :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="couponText2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="userName2" class="col-sm-3 col-form-label">User
+										Name :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="userName2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="userId2" class="col-sm-3 col-form-label">User
+										ID :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="userId2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="redeemStatus2" class="col-sm-3 col-form-label">Redeem
+										Status :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="redeemStatus2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="couponScratchDate2" class="col-sm-3 col-form-label">Coupon
+										Scratch Date :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="couponScratchDate2"></p>
+									</div>
+								</div>
+								<div class="row">
+									<label for="createdTimestamp2" class="col-sm-3 col-form-label">Entry
+										Date :</label>
+									<div class="col-sm-9">
+										<p style="margin-top: 15px;" id="createdTimestamp2"></p>
+									</div>
+								</div>
+								<button class="btn btn-light" type="reset"
+									style="background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);"
+									th:onclick="|detailClose()|">Close</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Detail secondary Scheme -->
+
+
+
+
+
+			</div>
+			
+		</div>
+		<footer class="footer" th:replace="fragments/footer :: footer"></footer>
+	</div>
+
+
+
+
+	<script type="text/javascript">
+	
+	
+	
+
+
+ //add Scheme
+	var modal = document.getElementById("uploadCoupon");
+	var btn = document.getElementById("uploadButton");
+	var span = document.getElementsByClassName("uploadClose")[0];
+	btn.onclick = function() 
+	{
+	  	modal.style.display = "block";
+	}
+	
+	span.onclick = function() 
+	{
+	  	modal.style.display = "none";
+	}
+	
+	// edit Scheme
+	var modal1 = document.getElementById("editCoupon");
+  	function editCoupon(id)
+  	{	
+  		//alert("edit");
+  		modal1 = document.getElementById("editCoupon");
+  		document.getElementById("couponID1").value = document.getElementById("couponID_"+id).value;
+  		document.getElementById("couponText1").value = document.getElementById("couponText_"+id).value;
+  		document.getElementById("userName1").value = document.getElementById("userName_"+id).value;
+  		document.getElementById("userId1").value = document.getElementById("userId_"+id).value;
+  		document.getElementById("redeemStatus1").value = document.getElementById("redeemStatus_"+id).value;
+  		modal1.style.display = "block";  		
+  		//alert("edit-----------");
+  	}	 	
+  	
+  	//detail Scheme
+  	var modal2 = document.getElementById("detailCoupon");
+  	function detailCoupon(id)
+  	{	
+  		//alert("detail == "+id);
+  		modal2 = document.getElementById("detailCoupon");
+  		document.getElementById("couponText2").innerHTML = document.getElementById("couponText_"+id).value;
+  		document.getElementById("userName2").innerHTML = document.getElementById("userName_"+id).value;
+  		document.getElementById("userId2").innerHTML = document.getElementById("userId_"+id).value;
+  		document.getElementById("redeemStatus2").innerHTML = document.getElementById("redeemStatus_"+id).value;
+  		document.getElementById("couponScratchDate2").innerHTML = document.getElementById("couponScratchDate_"+id).value;
+  		document.getElementById("createdTimestamp2").innerHTML = document.getElementById("createdTimestamp_"+id).value;  		
+  		modal2.style.display = "block";
+  		//alert("detail==============");
+  	}
+	
+  	
+  	var modal3 = document.getElementById("searchCoupon");
+  	function searchCoupon(id)
+  	{	
+  		//alert("detail == "+id);
+  		modal3 = document.getElementById("searchCoupon");
+  		document.getElementById("searchedcoupon").value = id;
+  		document.getElementById("searchedcoupon").innerHTML = document.getElementById("couponText_"+id).value;
+  		document.getElementById("searcheduserName").innerHTML = document.getElementById("userName_"+id).value;
+  		document.getElementById("searcheduserId").innerHTML = document.getElementById("userId_"+id).value;
+  		document.getElementById("searchedredeemStatus").innerHTML = document.getElementById("redeemStatus_"+id).value;
+  		document.getElementById("searchedcouponScratchDate").innerHTML = document.getElementById("couponScratchDate_"+id).value;
+  		document.getElementById("searchedcreatedTimestamp").innerHTML = document.getElementById("createdTimestamp_"+id).value;  		
+  		modal3.style.display = "block";
+  		//alert("detail==============");
+  	}
+	
+  	window.onclick = function(event) 
+	{
+	  	if (event.target == modal) 
+	  	{
+	    	modal.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal1) 
+	  	{
+	    	modal1.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal2) 
+	  	{
+	    	modal2.style.display = "none";
+	  	}
+	  	if (event.target == modal3) 
+	  	{
+	    	modal3.style.display = "none";
+	  	}
+	}
+	
+	function uploadClose()
+	{
+		modal.style.display = "none";	
+	}
+	
+	function editClose()
+	{
+		modal1.style.display = "none";	
+	}
+	
+	function detailClose()
+	{
+		modal2.style.display = "none";	
+	}
+	
+	function searchClose()
+	{
+		modal3.style.display = "none";	
+	}
+	
+
+	
+	
+	
+  	//export
+
+  	function exportSample()
+		{    
+			 var csvFileData = [
+			   ['BAT047565','11736','new coupon'],
+			   ['BAT047565','11736','new coupon'],
+			   ['BAT047565','11736','new coupon'],
+			   ['BAT047565','11736','new coupon']
+		];
+			 var csv = 'username,user_id,coupon_text\n';
+		 
+
+			 
+			 csvFileData.forEach(function(row) {  
+	            csv += row.join(',');  
+	            csv += "\n";  
+	   		 });  
+		 
+			 
+		   var hiddenElement = document.createElement('a');  
+     	    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+			hiddenElement.target = '_blank';  
+		    
+			hiddenElement.download = 'sample_coupon.csv';
+		    hiddenElement.click();
+		}
+  	
+  	
+  </script>
+</body>
+
+</html>

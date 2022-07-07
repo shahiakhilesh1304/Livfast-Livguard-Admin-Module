@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:th="http://www.thymeleaf.org" 
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/header :: header"></head>
+<body>
+  <div class="container-scroller">
+    <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/nav1 :: nav1"></nav>
+    <nav class="navbar-breadcrumb col-xl-12 col-12 d-flex flex-row p-0">    
+		    <div class="navbar-menu-wrapper navbar-nav-right d-flex">
+		     	<ul class="navbar-nav mr-lg-2">
+		        	<li class="nav-item ml-0">
+		          		<h4 class="mb-0">Dashboard</h4>
+		        	</li>
+		        	<li class="nav-item">
+		          		<div class="d-flex align-items-baseline">
+		            		<p class="mb-0">Home</p>
+		            		<i class="typcn typcn-chevron-right"></i>
+		            		<p class="mb-0">Main Dahboard</p>
+			  				<i class="typcn typcn-chevron-right"></i>
+		            		<p class="mb-0">Serial_Number_Upload</p>
+		          		</div>
+		        	</li>
+		      	</ul>
+		     
+		    </div>
+		    		 <a onclick="exportSample()" class="mdi mdi-cloud-download mr-2" data-toggle="tooltip" data-placement="left" data-html="true" title="Download Sample" style="float: right;color: rgb(255, 92, 28); font-size:1.875em;margin-left: 3.5em;margin-top: 0.125em;font-size: 2.625em;">
+				</a>
+		    
+		 </nav>
+    <div class="container-fluid page-body-wrapper">
+      <nav class="sidebar sidebar-offcanvas" id="sidebar" th:replace="fragments/menu :: menu"></nav>
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          <div class="row"> 
+   			<div class="col-lg-12 stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title" style="float:left;">Serial Number List</h4>	
+				  <button class="btn btn-primary mr-2" id="uploadButton" style="float:right;background-color: rgb(255, 92, 28);border-color: rgb(255, 92, 28);">Upload Serial No.</button>		
+				 <!-- Search box -->
+										<form th:action="@{/searchSerialNumber}" method="post">
+							 		    	 <input type="search" id="search" placeholder="Search Serial Number" name="sno" class="form-control col-sm-3 mr-2" style="float: right;">						 
+ 										 	 <button type="submit" id="searchbut" class="btn btn-primary" style="float: right; background-color: rgb(255, 92, 28); border-color: rgb(255, 92, 28);">
+ 										 	 <i class="typcn typcn-zoom"></i>
+ 										 	 </button>
+ 										</form>
+ 							
+				  <div class="table-responsive pt-3">
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Serial Number</th>
+                          <th>Date</th>
+                          <th>Status</th>
+						  <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                         <tr class="table-info" th:each="serial : ${serialList}">
+                          <td th:text="${serial.id}">ID </td>
+                          <td th:text="${serial.serialNumber}">Serial Number </td>
+                          <td th:text="${serial.entryDate}">Date </td>
+                          <td th:text="${serial.status}">Status </td>
+						  <td>
+                            <div class="template-demo d-flex flex-nowrap">	
+	                            <input type="hidden" th:id="@{|serialID_${serial.id}|}" th:value="*{serial.id}" />	
+	                            <input type="hidden" th:id="@{|serialNumber_${serial.id}|}" th:value="*{serial.serialNumber}" />
+	                            <input type="hidden" th:id="@{|status_${serial.id}|}" th:value="*{serial.status}" />						
+								<button type="button" th:onclick="|editSerial(${serial.id})|" class="btn btn-success btn-rounded btn-icon">
+									<i class="typcn typcn-edit"></i>
+								</button>
+								<button type="button" th:onclick="|detailSerial(${serial.id})|" class="btn btn-info btn-rounded btn-icon">
+									<i class="typcn typcn-th-list"></i>
+								</button>	
+								<a th:href="'/deleteSerialNumber/'+${serial.id}" style="padding: 12px;" class="btn btn-danger btn-rounded btn-icon">
+									<i class="typcn typcn-delete"></i>
+								</a>							
+							</div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  	<!-- SAMPLE DATA -->
+									<div>
+										<table hidden="hidden" id="samplefile" class="samplefile" tag="samplefile">
+											<tr>
+												<th>SerialNumber</th>
+											</tr>
+											<tr>
+												<td>AXW654765RT</td>
+											</tr>
+											<tr>
+												<td>AXW654765RL</td>
+											</tr>
+											<tr>										
+												<td>AXW654765RS</td>
+											</tr>
+											<tr>
+												<td>AXW654765RE</td>
+											</tr>
+											<tr>										
+												<td>AXW654765RM</td>
+											</tr>
+											<tr>
+												<td>AXW654765RN</td>
+											</tr>				
+											<tr>
+												<td>AXW654765RO</td>
+											</tr>
+											<tr>										
+												<td>AXW654765RV</td>
+											</tr>
+											<tr>
+												<td>AXW654765RB</td>
+											</tr>		
+										</table>
+									</div>
+					 <!-- End Sample Data -->
+	                </div>
+              </div>
+            </div>			
+          </div>
+        </div>
+        
+        <!-- Upload Serial Number -->
+        <div id="uploadSerial" class="modal"> 
+        	<div class="col-6" style="margin:auto;">
+              <div class="card" style="margin-bottom: 20px;">
+                <div class="card-body">
+                  <div style="width: 100%;margin-bottom: 47px;">
+					<h4 class="card-title" style="float:left;">Upload Serial Number</h4>
+					<a th:onclick="|uploadClose()|" href="#"  style="float:right;">x</a>
+				  </div>
+				   <p th:text="${msg}" th:if="${message ne null}" class="alert alert-primary"></p>
+                  <form class="forms-sample" method="post" th:action="@{/uploadSerialNumber}" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label>File Upload</label>
+                      <div class="input-group col-xs-12">
+                        <input type="file" name="file" class="form-control file-upload-info" placeholder="Serial Number" required>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Upload</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            </div>
+        <!-- Upload Serial Number -->     	
+        	
+        	<!-- Edit Serial Number -->
+        	<div id="editSerial" class="modal"> 
+	        	<div class="col-md-6" style="margin:auto;">
+	              	<div class="card" style="margin-bottom: 20px;">
+	                <div class="card-body">
+	                  <div style="width: 100%;margin-bottom: 47px;">
+						<h4 class="card-title" style="float:left;">Edit secondary Model</h4>
+						<a th:onclick="|editClose()|" href="#"  style="float:right;">x</a>  
+					  </div>
+	                  <form class="forms-sample" action="#" th:action="@{/editSerialNumber}" th:object="${serial}" method="post">
+	                    <div class="form-group row">
+	                      <label for="serialNumber1" class="col-sm-3 col-form-label">Serial Number</label>
+	                      <div class="col-sm-9">
+	                      	<input type="hidden" id="serialID1" name="id" />
+	                      	<input type="hidden" value="active" name="status" />
+	                        <input type="text" class="form-control" id="serialNumber1" name="serialNumber" placeholder="Serial Number" required/>
+	                      </div>
+	                    </div>	                              	                    
+	                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+	                    <button class="btn btn-light" type="reset" th:onclick="|editClose()|">Close</button>
+	                  </form>
+	                </div>
+	              </div>
+	            </div>
+         	</div>
+          <!-- Edit Serial Number-->
+          
+          <!-- Detail Secondary Scheme -->
+        	<div id="detailSerial" class="modal"> 
+	        	<div class="col-md-6" style="margin:auto;">
+	              	<div class="card" style="margin-bottom: 20px;">
+	                <div class="card-body">
+	                  <div style="width: 100%;margin-bottom: 47px;">
+						<h4 class="card-title" style="float:left;">Detail Serial Number</h4>
+						<a th:onclick="|detailClose()|" href="#"  style="float:right;">x</a>  
+					  </div>
+	                  
+	                    <div class="row">
+	                      <label for="serialNumber2" class="col-sm-3 col-form-label">Serial Number :</label>
+	                      <div class="col-sm-9">
+	                      	<p style="margin-top: 15px;" id="serialNumber2"></p>
+	                      </div>
+	                    </div>	                    	
+	                    <button class="btn btn-light" type="reset" style="background-color: rgb(255, 92, 28);border-color: rgb(255, 92, 28);" th:onclick="|detailClose()|">Close</button>	                  
+	                </div>
+	              </div>
+	            </div>
+         	</div>
+          <!-- Detail secondary Scheme -->
+        
+        <footer class="footer" th:replace="fragments/footer :: footer"></footer>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    //add Scheme
+	var modal = document.getElementById("uploadSerial");
+	var btn = document.getElementById("uploadButton");
+	var span = document.getElementsByClassName("uploadClose")[0];
+	btn.onclick = function() 
+	{
+	  	modal.style.display = "block";
+	}
+	
+	span.onclick = function() 
+	{
+	  	modal.style.display = "none";
+	}
+	
+	// edit Scheme
+	var modal1 = document.getElementById("editSerial");
+  	function editSerial(id)
+  	{	
+  		//alert("edit");
+  		modal1 = document.getElementById("editSerial");
+  		document.getElementById("serialID1").value = document.getElementById("serialID_"+id).value;
+  		document.getElementById("serialNumber1").value = document.getElementById("serialNumber_"+id).value;
+  		modal1.style.display = "block";  		
+  		//alert("edit-----------");
+  	}	 	
+  	
+  	//detail Scheme
+  	var modal2 = document.getElementById("detailSerial");
+  	function detailSerial(id)
+  	{	
+  		//alert("detail == "+id);
+  		modal2 = document.getElementById("detailSerial");
+  		document.getElementById("serialNumber2").innerHTML = document.getElementById("serialNumber_"+id).value; 		
+  		modal2.style.display = "block";
+  		//alert("detail==============");
+  	}
+	
+  	window.onclick = function(event) 
+	{
+	  	if (event.target == modal) 
+	  	{
+	    	modal.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal1) 
+	  	{
+	    	modal1.style.display = "none";
+	  	}
+	  	
+	  	if (event.target == modal2) 
+	  	{
+	    	modal2.style.display = "none";
+	  	}
+	}
+	
+	function uploadClose()
+	{
+		modal.style.display = "none";	
+	}
+	
+	function editClose()
+	{
+		modal1.style.display = "none";	
+	}
+	
+	function detailClose()
+	{
+		modal2.style.display = "none";	
+	}
+	
+	
+	
+	//export
+ 	 function exportSample()
+		{    
+			 var csvFileData = [
+			   ['abc'],
+			   ['def'],
+			   ['ghi'],
+			   ['jkl']
+			];
+			 var csv = 'SerialNumber\n';
+		 
+
+			 
+			 csvFileData.forEach(function(row) {  
+	            csv += row.join(',');  
+	            csv += "\n";  
+	   		 });  
+		 
+			 
+		   var hiddenElement = document.createElement('a');  
+     	    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+			hiddenElement.target = '_blank';  
+		    
+			hiddenElement.download = 'sample_serialnumber.csv';
+		    hiddenElement.click();
+	
+		}
+ 	
+ 	
+  </script>
+</body>
+
+</html>
