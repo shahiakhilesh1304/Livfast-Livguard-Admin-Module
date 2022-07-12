@@ -140,21 +140,21 @@ public class TertiaryController {
 			
 	}
 
-	@RequestMapping("/deleteTertiaryModel/{id}")
-	public String deleteTertiaryModel(@PathVariable(name = "id") int id,HttpSession session) 
-	{
-		if(session.getAttribute("database").equals("Livfast"))
-		{	
-			
-			this.tertiaryLFService.deleteTertiaryScheme(id);
-			return "redirect:/uploadTertiary";
-		}else if(session.getAttribute("database").equals("Livguard"))
-		{
-			this.tertiaryService.deleteTertiaryScheme(id);
-			return "redirect:/uploadTertiary";			
-		}
-		return "error";
-	}
+//	@RequestMapping("/deleteTertiaryModel/{id}")
+//	public String deleteTertiaryModel(@PathVariable(name = "id") int id,HttpSession session) 
+//	{
+//		if(session.getAttribute("database").equals("Livfast"))
+//		{	
+//			
+//			this.tertiaryLFService.deleteTertiaryScheme(id);
+//			return "redirect:/uploadTertiary";
+//		}else if(session.getAttribute("database").equals("Livguard"))
+//		{
+//			this.tertiaryService.deleteTertiaryScheme(id);
+//			return "redirect:/uploadTertiary";			
+//		}
+//		return "error";
+//	}
 	
 	
 	@RequestMapping(value = "/searchTertiaryModel", method = RequestMethod.POST)

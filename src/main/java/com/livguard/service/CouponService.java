@@ -90,11 +90,25 @@ public class CouponService
 		return null;
 	}
 	
-	public String deleteCoupon(int id)
+	public String deactivateCoupon(int id)
 	{
 		try
 		{
-			this.couponRepository.deleteById(id);
+			Coupon coupon = this.couponRepository.findById(id);
+			if(coupon != null)
+			{
+				String status = coupon.getStatus().toString();
+				if(status.equals("active"))
+				{
+					coupon.setStatus(Status.inactive);
+					this.couponRepository.save(coupon);
+
+				}else if(status.equals("inactive"))
+				{
+					coupon.setStatus(Status.active);
+					this.couponRepository.save(coupon);
+				}
+			}
 		}
 		catch (Exception e) 
 		{

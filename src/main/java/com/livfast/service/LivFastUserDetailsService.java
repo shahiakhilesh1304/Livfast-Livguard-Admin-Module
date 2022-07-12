@@ -123,11 +123,25 @@ public class LivFastUserDetailsService
 		return "Failed";
 	}
 	
-	public String deleteUser(int id)
+	public String deactivateUser(int empcode)
 	{
 		try
 		{			
-			this.userRepository.deleteById(id);
+			Optional<LivFastUser> user = this.userRepository.findById(empcode);
+			if(user.get() != null)
+			{
+				LivFastUser u = user.get();
+				String status = u.getStatus().toString();
+				if(status.equals("active"))
+				{
+					u.setStatus(Status.inactive);
+					this.userRepository.save(u);
+				}else if(status.equals("inactive"))
+				{
+					u.setStatus(Status.active);
+					this.userRepository.save(u);
+				}
+			}
 			return "Success";		
 		}
 		catch (Exception e) 

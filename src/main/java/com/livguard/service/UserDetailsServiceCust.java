@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.livfast.model.LivFastUser;
 import com.livguard.model.Status;
 import com.livguard.model.User;
 import com.livguard.repository.UserRepository;
@@ -127,11 +129,25 @@ public class UserDetailsServiceCust
 		return "Failed";
 	}
 	
-	public String deleteUser(int id)
+	public String deactivateUser(int empcode)
 	{
 		try
 		{			
-			this.userRepository.deleteById(id);
+			Optional<User> user = this.userRepository.findById(empcode);
+			if(user.get() != null)
+			{
+				User u = user.get();
+				String status = u.getStatus().toString();
+				if(status.equals("active"))
+				{
+					u.setStatus(Status.inactive);
+					this.userRepository.save(u);
+				}else if(status.equals("inactive"))
+				{
+					u.setStatus(Status.active);
+					this.userRepository.save(u);
+				}
+			}
 			return "Success";		
 		}
 		catch (Exception e) 

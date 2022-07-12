@@ -93,19 +93,24 @@
 																th:value="*{user.msisdn}" />
 
 															<!--  Button for Edit-->
-															<button type="button" th:onclick="|editUser(${user.id})|"
-																class="btn btn-success btn-rounded btn-icon">
-																<i class="typcn typcn-edit"></i>
-															</button>
-
+															<div style="margin-right: 3px;">
+																<button type="button" th:onclick="|editUser(${user.id})|"
+																	class="btn btn-success btn-rounded btn-icon">
+																	<i class="typcn typcn-edit"></i>
+																</button>
+															
 															<!-- Button for details -->
-															<button type="button"
-																th:onclick="|detailUser(${user.id})|"
-																class="btn btn-info btn-rounded btn-icon">
-																<i class="typcn typcn-th-list"></i>
-															</button>
+															
+																<button type="button"
+																	th:onclick="|detailUser(${user.id})|"
+																	class="btn btn-info btn-rounded btn-icon">
+																	<i class="typcn typcn-th-list"></i>
+																</button>
+															</div>
 
 															<!-- Button for delete -->
+															<div>
+															<span th:if="${user.status == T(com.livguard.model.Status).active}">
 															<a th:if="${session.empcode == user.empCode}" 
 																style="padding: 12px; opacity: 0.5; cursor: not-allowed;"
 																class="btn btn-danger btn-rounded btn-icon"> <i
@@ -114,11 +119,29 @@
 														
 													
 															<a th:unless="${session.empcode == user.empCode}" 
-																th:href="'deleteUser/'+${user.id}"
+																th:href="'deactivateUser/'+${user.id}"
 																style="padding: 12px;"
-																class="btn btn-danger btn-rounded btn-icon"> <i
-																class="typcn typcn-delete"></i>
+																class="btn btn-danger btn-rounded btn-icon"> 
+															<i class="typcn typcn-delete"></i>
 															</a>
+															</span>
+															
+															<span th:unless="${user.status == T(com.livguard.model.Status).active}">
+															<a th:if="${session.empcode == user.empCode}" 
+																style="padding: 12px; opacity: 0.5; cursor: not-allowed;"
+																class="btn btn-success btn-rounded btn-icon"> <i
+																class="typcn typcn-tick" ></i>
+															</a>
+														
+													
+															<a th:unless="${session.empcode == user.empCode}" 
+																th:href="'deactivateUser/'+${user.id}"
+																style="padding: 12px;"
+																class="btn btn-success btn-rounded btn-icon"> 
+															<i class="typcn typcn-tick"></i>
+															</a>
+															</span>
+															</div>
 															
 														</div>
 													</td>

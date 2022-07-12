@@ -149,21 +149,21 @@ public class SecondaryController
 		return "error";
 	}
 
-	@RequestMapping("/deleteSecondaryModel/{id}")
-	public String deleteSecondaryModel(@PathVariable(name = "id") int id,HttpSession session) 
-	{
-		if(session.getAttribute("database").equals("Livfast"))
-		{
-			this.secondaryLFService.deleteSecondaryScheme(id);
-			return "redirect:/uploadSecondary";
-		}else if(session.getAttribute("database").equals("Livguard"))
-		{
-			this.secondaryService.deleteSecondaryScheme(id);
-			return "redirect:/uploadSecondary";			
-		}
-		return "error";
-
-	}
+//	@RequestMapping("/deleteSecondaryModel/{id}")
+//	public String deleteSecondaryModel(@PathVariable(name = "id") int id,HttpSession session) 
+//	{
+//		if(session.getAttribute("database").equals("Livfast"))
+//		{
+//			this.secondaryLFService.deleteSecondaryScheme(id);
+//			return "redirect:/uploadSecondary";
+//		}else if(session.getAttribute("database").equals("Livguard"))
+//		{
+//			this.secondaryService.deleteSecondaryScheme(id);
+//			return "redirect:/uploadSecondary";			
+//		}
+//		return "error";
+//
+//	}
 	
 	
 	@RequestMapping(value = "/searchSecondaryModel", method = RequestMethod.POST)

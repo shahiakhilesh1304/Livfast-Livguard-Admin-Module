@@ -140,19 +140,18 @@ public class UserController
 	}
 	
 	
-	@RequestMapping(value = "deleteUser/{empCode}", method = RequestMethod.GET)
-	public String deleteUsers(@ModelAttribute("empCode") int empCode, HttpSession session)
+	@RequestMapping(value = "deactivateUser/{empCode}", method = RequestMethod.GET)
+	public String deactivateUsers(@ModelAttribute("empCode") int empCode, HttpSession session)
 	{
 		   
-        System.out.println("Session Value Controller: "+session.getAttribute("database"));
+       
         if(session.getAttribute("database").equals("Livfast"))
 		{
-//	        System.out.println("Data Deleted.........");
-			this.userLFService.deleteUser(empCode);
+			this.userLFService.deactivateUser(empCode);
 			return "redirect:/user";
 		}else if(session.getAttribute("database").equals("Livguard"))
 		{
-			this.userService.deleteUser(empCode);
+			this.userService.deactivateUser(empCode);
 			return "redirect:/user";
 		}
         return "error";

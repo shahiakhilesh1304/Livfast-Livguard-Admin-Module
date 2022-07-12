@@ -66,9 +66,9 @@
 													<th>ID</th>
 													<th>Battery Model</th>
 													<th>Vehicle Model</th>
-													<th>Warranty</th>
+													<th>Points</th>
 													<th>Segment</th>
-													<th>Range</th>
+													<th>Without OTP Points</th>
 													<th>Action</th>
 												</tr>
 											</thead>
@@ -77,42 +77,56 @@
 													<td th:text="${tertiary.id}">Model ID</td>
 													<td th:text="${tertiary.batteryModel}">Battery Model</td>
 													<td th:text="${tertiary.vehicleModel}">Vehicle Model</td>
-													<td th:text="${tertiary.warrantyMonth}">Warranty</td>
+													<td th:text="${tertiary.points}">Points</td>
 													<td th:text="${tertiary.segment}">Segment</td>
-													<td th:text="${tertiary.range}">Range</td>
+													<td th:text="${tertiary.withoutOtpPoint}">Without OTP Points</td>
 													<td>
 														<div class="template-demo d-flex flex-nowrap">
 															<input type="hidden"
 																th:id="@{|tertiaryID_${tertiary.id}|}"
-																th:value="*{tertiary.id}" /> <input type="hidden"
+																th:value="*{tertiary.id}" /> 
+															<input type="hidden"
 																th:id="@{|batteryModel_${tertiary.id}|}"
-																th:value="*{tertiary.batteryModel}" /> <input
+																th:value="*{tertiary.batteryModel}" /> 
+															<input
 																type="hidden" th:id="@{|vehicleModel_${tertiary.id}|}"
-																th:value="*{tertiary.vehicleModel}" /> <input
+																th:value="*{tertiary.vehicleModel}" /> 
+															<input
 																type="hidden" th:id="@{|warrantyMonth_${tertiary.id}|}"
-																th:value="*{tertiary.warrantyMonth}" /> <input
+																th:value="*{tertiary.warrantyMonth}" /> 
+															<input
 																type="hidden" th:id="@{|segment_${tertiary.id}|}"
-																th:value="*{tertiary.segment}" /> <input type="hidden"
+																th:value="*{tertiary.segment}" /> 
+															<input type="hidden"
 																th:id="@{|withOtp_${tertiary.id}|}"
-																th:value="*{tertiary.points}" /> <input type="hidden"
+																th:value="*{tertiary.points}" /> 
+															<input type="hidden"
 																th:id="@{|withOutOtp_${tertiary.id}|}"
-																th:value="*{tertiary.withoutOtpPoint}" /> <input
+																th:value="*{tertiary.withoutOtpPoint}" /> 
+															<input
 																type="hidden"
 																th:id="@{|vehicleManufacturer_${tertiary.id}|}"
-																th:value="*{tertiary.vehicleManufacturer}" /> <input
+																th:value="*{tertiary.vehicleManufacturer}" /> 
+															<input
 																type="hidden"
 																th:id="@{|createdTimestamp_${tertiary.id}|}"
-																th:value="*{tertiary.createdTimestamp}" /> <input
+																th:value="*{tertiary.createdTimestamp}" /> 
+															<input
 																type="hidden" th:id="@{|fuel_${tertiary.id}|}"
-																th:value="*{tertiary.fuel}" /> <input type="hidden"
+																th:value="*{tertiary.fuel}" /> 
+															<input type="hidden"
 																th:id="@{|capacity_${tertiary.id}|}"
-																th:value="*{tertiary.capacity}" /> <input type="hidden"
+																th:value="*{tertiary.capacity}" /> 
+															<input type="hidden"
 																th:id="@{|livguardBrand_${tertiary.id}|}"
-																th:value="*{tertiary.livguardBrand}" /> <input
+																th:value="*{tertiary.livguardBrand}" /> 
+															<input
 																type="hidden" th:id="@{|range_${tertiary.id}|}"
-																th:value="*{tertiary.range}" /> <input type="hidden"
+																th:value="*{tertiary.range}" /> 
+															<input type="hidden"
 																th:id="@{|state_${tertiary.id}|}"
-																th:value="*{tertiary.state}" /> <input type="hidden"
+																th:value="*{tertiary.state}" /> 
+															<input type="hidden"
 																th:id="@{|schemeId_${tertiary.id}|}"
 																th:value="*{tertiary.schemeId}" />
 
@@ -128,11 +142,11 @@
 																<i class="typcn typcn-th-list"></i>
 															</button>
 
-															<a th:href="'/deleteTertiaryModel/'+${tertiary.id}"
+															<!-- <a th:href="'/deleteTertiaryModel/'+${tertiary.id}"
 																style="padding: 12px;"
 																class="btn btn-danger btn-rounded btn-icon"> <i
 																class="typcn typcn-delete"></i>
-															</a>
+															</a> -->
 														</div>
 													</td>
 												</tr>

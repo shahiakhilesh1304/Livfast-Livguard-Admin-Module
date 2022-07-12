@@ -111,16 +111,16 @@ public class SerialNumberController
 		return "error";
 	}
 
-	@RequestMapping("/deleteSerialNumber/{id}")
-	public String deleteSerialNumber(@PathVariable(name = "id") int id,HttpSession session) 
+	@RequestMapping("/deactivateSerialNumber/{id}")
+	public String deactivateSerialNumber(@PathVariable(name = "id") int id,HttpSession session) 
 	{
 		if(session.getAttribute("database").equals("Livfast"))
 		{	
-			this.serialLFService.deleteSerialNumber(id);
+			this.serialLFService.deactivateSerialNumber(id);
 			return "redirect:/serialnumber";
 		}else if(session.getAttribute("database").equals("Livguard"))
 		{
-			this.serialService.deleteSerialNumber(id);
+			this.serialService.deactivateSerialNumber(id);
 			return "redirect:/serialnumber";			
 		}
 		return "error";

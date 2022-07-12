@@ -82,7 +82,6 @@ private static final Logger log = LoggerFactory.getLogger(SchemeController.class
 			log.info("Save Tertiary Scheme");
 		    
 		    LivFastSchemeRequest schemeLFRequest = new LivFastSchemeRequest();
-		//	schemeLFRequest.setId(scheme.getId());
 			schemeLFRequest.setSchemeName(scheme.getSchemeName());
 			schemeLFRequest.setConversionRatio(scheme.getConversionRatio());
 			schemeLFRequest.setCreatedTimestamp(scheme.getCreatedTimestamp());
@@ -140,25 +139,22 @@ private static final Logger log = LoggerFactory.getLogger(SchemeController.class
 		return "error";
 	}
 	
-	@RequestMapping("/deleteTertiaryScheme/{id}")
-	public String deleteProduct(@PathVariable(name = "id") int id,HttpSession session) 
-	{
-		if(session.getAttribute("database").equals("Livfast"))
-		{
-			log.info("Delete Tertiary Scheme");
-			String schemeType = "Tertiary";
-			this.schemeLFService.deleteScheme(id,schemeType);
-			return "redirect:/schemeTertiaryScheme";		
-		}else if(session.getAttribute("database").equals("Livguard"))
-		{
-			log.info("Delete Tertiary Scheme");
-			String schemeType = "Tertiary";
-			this.schemeService.deleteScheme(id,schemeType);
-			return "redirect:/schemeTertiaryScheme";					
-		}
-		return "error";
-	}
-	
+//	@RequestMapping("/deleteTertiaryScheme/{id}")
+//	public String deleteProduct(@PathVariable(name = "id") int id,HttpSession session) 
+//	{
+//		if(session.getAttribute("database").equals("Livfast"))
+//		{
+//			log.info("Delete Tertiary Scheme");
+//			this.schemeLFService.deleteScheme(id);
+//			return "redirect:/schemeTertiaryScheme";		
+//		}else if(session.getAttribute("database").equals("Livguard"))
+//		{
+//			log.info("Delete Tertiary Scheme");
+//			this.schemeService.deleteScheme(id);
+//			return "redirect:/schemeTertiaryScheme";					
+//		}
+//		return "error";
+//	}
 	
 	
 	
@@ -273,23 +269,23 @@ private static final Logger log = LoggerFactory.getLogger(SchemeController.class
 		return "error";	
 	}
 	
-	@RequestMapping("/deleteSecondaryScheme/{id}")
-	public String deleteSecondaryScheme(@PathVariable(name = "id") int id,HttpSession session) 
-	{
-		if(session.getAttribute("database").equals("Livfast"))
-		{		
-			log.info("Delete Secondary Scheme");
-			String schemeType = "Secondary";
-			this.schemeLFService.deleteScheme(id,schemeType);
-			return "redirect:/schemeSecondaryScheme";		
-		}else if(session.getAttribute("database").equals("Livguard"))
-		{
-			log.info("Delete Secondary Scheme");
-			String schemeType = "Secondary";
-			this.schemeService.deleteScheme(id,schemeType);
-			return "redirect:/schemeSecondaryScheme";		
-			
-		}
-		return "error";
-	}
+//	@RequestMapping("/deleteSecondaryScheme/{id}")
+//	public String deleteSecondaryScheme(@PathVariable(name = "id") int id,HttpSession session) 
+//	{
+//		if(session.getAttribute("database").equals("Livfast"))
+//		{		
+//			log.info("Delete Secondary Scheme");
+//			String schemeType = "Secondary";
+//			this.schemeLFService.deleteScheme(id,schemeType);
+//			return "redirect:/schemeSecondaryScheme";		
+//		}else if(session.getAttribute("database").equals("Livguard"))
+//		{
+//			log.info("Delete Secondary Scheme");
+//			String schemeType = "Secondary";
+//			this.schemeService.deleteScheme(id,schemeType);
+//			return "redirect:/schemeSecondaryScheme";		
+//			
+//		}
+//		return "error";
+//	}
 }

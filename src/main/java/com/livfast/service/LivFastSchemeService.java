@@ -472,25 +472,25 @@ public class LivFastSchemeService
 		return "Failed";
 	}
 	
-	public String deleteScheme(int schemeID,String schemeType)
-	{
-		try
-		{			
-			if(schemeType.equals("Secondary"))
-			{
-				this.schemeRepository.deleteById(schemeID);
-				this.stateWiseSecondary.updateState(schemeID);
-			}else if(schemeType.equals("Tertiary"))
-			{
-				this.schemeRepository.deleteById(schemeID);
-				this.stateWiseTertiary.updateState(schemeID);
-			}
-			return "Success";		
-		}
-		catch (Exception e) 
-		{
-			log.error("Exception in Delete Scheme ServiceImpl = {}",e);
-		}
-		return "Failed";
-	}	
+//	public String deleteScheme(int schemeID,String schemeType)
+//	{
+//		try
+//		{			
+//			if(schemeType.equals("Secondary"))
+//			{
+//				this.schemeRepository.deleteById(schemeID);
+//				this.stateWiseSecondary.updateState(schemeID);
+//			}else if(schemeType.equals("Tertiary"))
+//			{
+//				this.schemeRepository.deleteById(schemeID);
+//				this.stateWiseTertiary.updateState(schemeID);
+//			}
+//			return "Success";		
+//		}
+//		catch (Exception e) 
+//		{
+//			log.error("Exception in Delete Scheme ServiceImpl = {}",e);
+//		}
+//		return "Failed";
+//	}	
 }

@@ -117,16 +117,16 @@ private static final Logger log = LoggerFactory.getLogger(CouponController.class
 		return "error";
 	}
 
-	@RequestMapping("/deletecoupon/{id}")
-	public String deleteCoupon(@PathVariable(name = "id") int id, HttpSession session) 
+	@RequestMapping("/deactivatecoupon/{id}")
+	public String deactivateCoupon(@PathVariable(name = "id") int id, HttpSession session) 
 	{
 		if(session.getAttribute("database").equals("Livfast"))
 		{
-			this.couponLFService.deleteCoupon(id);
+			this.couponLFService.deactivateCoupon(id);
 			return "redirect:/coupon";
 		}else if(session.getAttribute("database").equals("Livguard"))
 		{
-			this.couponService.deleteCoupon(id);
+			this.couponService.deactivateCoupon(id);
 			return "redirect:/coupon";	
 		}
 		return "error";

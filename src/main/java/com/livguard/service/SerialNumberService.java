@@ -73,11 +73,24 @@ public class SerialNumberService
 		return "Failed";
 	}
 	
-	public String deleteSerialNumber(int id)
+	public String deactivateSerialNumber(int id)
 	{
 		try
 		{
-			this.serialNumberRepository.deleteById(id);
+			SerialNumber sno = this.serialNumberRepository.findById(id);
+			if(sno != null)
+			{
+				String status = sno.getStatus().toString();
+				if(status.equals("active"))
+				{
+					sno.setStatus(Status.inactive);
+					this.serialNumberRepository.save(sno);
+				}else if(status.equals("inactive"))
+				{
+					sno.setStatus(Status.active);
+					this.serialNumberRepository.save(sno);
+				}
+			}
 			return "Success";
 		}
 		catch (Exception e) 

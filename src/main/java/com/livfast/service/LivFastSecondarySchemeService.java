@@ -89,11 +89,11 @@ public class LivFastSecondarySchemeService
 		return null;
 	}//9711034541
 	
-	public String deleteSecondaryScheme(int id)
+	public String deactivateSecondaryScheme(int id)
 	{
 		try
 		{
-			this.secondarySchemeRepository.deleteById(id);
+			LivFastSecondaryScheme secScheme = this.secondarySchemeRepository.getOne(id);
 			return "Success";
 		}
 		catch (Exception e) 

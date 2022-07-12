@@ -76,9 +76,21 @@
 								<button type="button" th:onclick="|detailSerial(${serial.id})|" class="btn btn-info btn-rounded btn-icon">
 									<i class="typcn typcn-th-list"></i>
 								</button>	
-								<a th:href="'/deleteSerialNumber/'+${serial.id}" style="padding: 12px;" class="btn btn-danger btn-rounded btn-icon">
+								
+								
+								
+								<a th:if="${serial.status == T(com.livguard.model.Status).active}" 
+									th:href="'/deactivateSerialNumber/'+${serial.id}" style="padding: 12px;" 
+									class="btn btn-danger btn-rounded btn-icon">
 									<i class="typcn typcn-delete"></i>
-								</a>							
+								</a>		
+								
+								<a th:unless="${serial.status == T(com.livguard.model.Status).active}" 
+									th:href="'/deactivateSerialNumber/'+${serial.id}" style="padding: 12px;" 
+									class="btn btn-success btn-rounded btn-icon">
+									<i class="typcn typcn-tick"></i>
+								</a>	
+													
 							</div>
                           </td>
                         </tr>

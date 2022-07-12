@@ -79,9 +79,9 @@
 								<button type="button" th:onclick="|detailScheme(${scheme.id})|" class="btn btn-info btn-rounded btn-icon">
 									<i class="typcn typcn-th-list"></i>
 								</button>	
-								<a th:href="'/deleteSecondaryScheme/'+${scheme.id}" style="padding: 12px;" class="btn btn-danger btn-rounded btn-icon">
+								<!-- <a th:href="'/deleteSecondaryScheme/'+${scheme.id}" style="padding: 12px;" class="btn btn-danger btn-rounded btn-icon">
 									<i class="typcn typcn-delete"></i>
-								</a>								
+								</a> -->								
 							</div>
                           </td>
                         </tr>
@@ -432,9 +432,10 @@
   	$( function() {
 	    $("#scanDate").datepicker({
 	    	dateFormat: 'mm/dd/yy',
-	          changeMonth: true,
-	          changeYear:true,
-	          minDate:'-1Y'});
+	    	minDate:'-1Y',
+	    	maxDate: new Date(new Date().getFullYear(),new Date().getMonth()+1,+0),
+	    	changeYear:true,
+	    	changeMonth:true});
 	});
   	
   	
@@ -476,9 +477,10 @@
   	$( function() {
 	    $("#scanDate1").datepicker({
 	    	dateFormat: 'mm/dd/yy',
-	          changeMonth: true,
-	          changeYear:true,
-	          minDate:'-1Y'});
+	    	minDate:'-1Y',
+	    	maxDate: new Date(new Date().getFullYear(),new Date().getMonth()+1,+0),
+	    	changeYear:true,
+	    	changeMonth:true});
 	});
   	
   	

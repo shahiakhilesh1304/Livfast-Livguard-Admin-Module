@@ -74,11 +74,24 @@ public class LivfastSerialNumberService
 		return "Failed";
 	}
 	
-	public String deleteSerialNumber(int id)
+	public String deactivateSerialNumber(int id)
 	{
 		try
 		{
-			this.livfastSerialNumberRepository.deleteById(id);
+			LivfastSerialNumber scheme = this.livfastSerialNumberRepository.findById(id);
+			if(scheme != null)
+			{
+				String status = scheme.getStatus().toString();
+				if(status.equals("active"))
+				{
+				scheme.setStatus(Status.inactive);
+				this.livfastSerialNumberRepository.save(scheme);
+				}else if(status.equals("inactive"))
+				{
+					scheme.setStatus(Status.active);
+					this.livfastSerialNumberRepository.save(scheme);
+				}
+			}
 			return "Success";
 		}
 		catch (Exception e) 
